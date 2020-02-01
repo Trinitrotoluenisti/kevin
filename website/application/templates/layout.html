@@ -5,8 +5,6 @@
     </head>
 
     <body>
-        {% for n in messaggio %}
-         Il messaggio di jinja è {{ n }}
-        {% endfor %}
+        {{ content | safe }}
     </body>
 </html>

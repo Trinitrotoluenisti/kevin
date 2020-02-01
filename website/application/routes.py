@@ -4,8 +4,7 @@ from flask import render_template
 
 @app.route('/')
 def index():
-    return render_template('layout.html', messaggio=['ciao', 'ciao2'])
+    with open('application/templates/content1.html') as f:
+        content = f.read()
 
-@app.errorhandler(404)
-def err404(_):
-    return render_template('layout.html'),404
+    return render_template('layout.html', content=content)
