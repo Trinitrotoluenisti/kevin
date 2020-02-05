@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
     <head>
         <title>Kevin | {% block title %}{% endblock %}</title>
         <!--  STYLE  -->
@@ -14,4 +15,19 @@
             {% endblock %}
         </div>
     </body>
+=======
+	<head>
+		<title>Kevin | {% block title %}{% endblock %}</title>
+		<!--  STYLE  -->
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/dark.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/style.css') }}">
+		<!--  META  -->
+		<!--  JS  -->
+	</head>
+	<body class="body">
+		<!--  [] blocco []  -->
+		<div id="content">{% block content %}{% endblock %}</div>
+		<!--  [] fine blocco[]  -->
+	</body>
+>>>>>>> 8b3d9a007f6cbdf70c5504eefa3c818c3b7464c6
 </html>
