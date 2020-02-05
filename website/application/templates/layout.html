@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Kevin | {{ path }}</title>
+        <title>Kevin | {% block title %}{% endblock %}</title>
         <!--  STYLE  -->
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/dark.css') }}">
         <!--  META  -->
@@ -10,8 +10,7 @@
     <body>
         <p>ciao primo test</p>
         <!--  [] blocco []  -->
-
-
+        <div id="content">{% block content %}{% endblock %}</div>
         <!--  [] fine blocco[]  -->
     </body>
 </html>
