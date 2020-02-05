@@ -1,3 +1,3 @@
 # Kevin
 
-Kevin, il blog più figo:tm: del vecchio uest.
+Kevin, il forum più figo:tm: del vecchio uest.

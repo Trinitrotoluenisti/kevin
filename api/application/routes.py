@@ -1,6 +1,8 @@
 from . import app
 
+from flask import jsonify
+
 
 @app.route('/')
 def index():
-    return "ciao"
+    return jsonify({'msg': 'working'})
