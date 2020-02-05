@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Kevin | {% block title %}{% endblock %}</title>
+        <title>Kevin | {% block title %}{% endblock %}</title>
+        
 		<!--  STYLE  -->
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/dark.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/style.css') }}">
-		<!--  META  -->
-		<!--  JS  -->
+        <!--  META  -->
+        
+        <!--  JS  -->
+        
 	</head>
 	<body class="body">
-		<!--  [] blocco []  -->
+
+		<!--  blocco  -->
 		<div id="content">{% block content %}{% endblock %}</div>
-		<!--  [] fine blocco[]  -->
+        <!--  fine blocco  -->
+        
 	</body>
 </html>
