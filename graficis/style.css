@@ -1,0 +1,23 @@
+/*color-hex.com/color-palette/87720*/
+
+body {		
+	background-color: #f9fcff;
+	font-family: arial;
+}
+
+#pippo {
+	background-color: #0499cf;
+	width: 50%;
+}
+#poppo {
+	background-color: #cc4100;
+	width: 50%;
+}
+#pappo {
+	background-color: #fc6000;
+	width: 50%;
+}
+.texto {
+	color: white;
+	width: 50%;
+{
