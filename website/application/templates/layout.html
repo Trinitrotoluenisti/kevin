@@ -4,14 +4,29 @@
         <title>Kevin | {% block title %}{% endblock %}</title>
         
 		<!--  STYLE  -->
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/dark.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/style.css') }}">
+
         <!--  META  -->
-        
-        <!--  JS  -->
-        
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <meta name="language" content="IT" />
+        <meta name="author" content="Andreanelli Bartocetti Parri Mariotti" />
+        <meta name="owner" content="Andreanelli Bartocetti Parri Mariotti" />
+        <meta name="reply-to" content="" />
+        <meta name="description" content="forum kevin" />
+		<meta name="keywords" content="kevin forum contenuti" />
+		
+        <!--  JS  -->       
 	</head>
 	<body class="body">
+		<div class="top-menu-wrapper">
+			<menu class="top-menu">
+				<div class="top-menu-dx">
+				</div>
+				<div class="top-menu-sx">
+					<a class="top-menu-kevin" href="/">Kevin</a>
+				</div>
+			</menu>
+		</div>
 
 		<!--  blocco  -->
 		<div id="content">{% block content %}{% endblock %}</div>
