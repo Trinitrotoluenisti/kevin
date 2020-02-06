@@ -2,3 +2,6 @@ env
 .vscode
 **pycache**
 *.sublime-*
+api/application/database.db
+**.DS_Store
+**.pyc

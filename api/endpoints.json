@@ -1,0 +1,34 @@
+[
+    {
+        "id": "#0.1",
+        "path": "/login",
+        "method": "POST",
+        "desc": "Make the login process with the given credentials",
+        "headers": [],
+        "body": {
+            "username": "<string>",
+            "password": "<string>"
+        },
+        "responses": [
+            {
+                "scode": 200,
+                "values": {
+                    "msg": "Ok",
+                    "token": "<string>"
+                }
+            },
+            {
+                "scode": 400,
+                "values": {
+                    "msg": "Missing parameter(s)"
+                }
+            },
+            {
+                "scode": 400,
+                "values": {
+                    "msg": "Wrong username or password"
+                }
+            }
+        ]
+    }
+]
