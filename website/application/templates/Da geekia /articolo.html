@@ -1,0 +1,197 @@
+{% extends 'layout.html' %}
+
+{% block classpost %}
+<div class="posts">
+{% endblock %}
+
+{% block modulo %}
+<title>Geekia | {{ article.titolo }}</title>
+<div class="button button1">
+    <h3 onclick="window.scrollTo(0,document.body.scrollHeight);"><i class="fad fa-reply"></i> Reply</h3>
+</div>
+
+<div class="single-post-title">
+    <h3>{{ article.titolo }}</h3>
+</div>
+<script>
+    function arrayRemove(arr, value) {
+        return arr.filter(function(ele){
+            return ele != value;
+        });
+    }
+    var listofshowed = [];
+    var quillshowup = function(end, what) {
+        var id_quill_space = "quill_space_" + end;
+        if(listofshowed.includes(end)){
+            document.getElementById(id_quill_space).innerHTML = "<form method='post' style='display: none;'><input name='what' type='text' style='display:none;' value='" + what + "' /><input name='locationpage' type='text' style='display:none;' value='" + window.location.pathname.substring(10, window.location.pathname.length) + "' /><textarea class='add-comment' style='width: 99%;' name='comment' placeholder='Scrivere qui il commento' type='text'></textarea><button type='submit' class='button button1'>Submit Comment</button></form>";
+            listofshowed = arrayRemove(listofshowed, end);
+        }
+        else {
+            listofshowed.push(end);
+            document.getElementById(id_quill_space).innerHTML = "<form method='post' style='display: block;'><input name='what' type='text' style='display:none;' value='" + what + "' /><input name='locationpage' type='text' style='display:none;' value='" + window.location.pathname.substring(10, window.location.pathname.length) + "' /><textarea class='add-comment' style='width: 99%;' name='comment' placeholder='Scrivere qui il commento' type='text'></textarea><button type='submit' class='button button1'>Submit Comment</button></form>";
+        }
+    }
+</script>
+<hr>
+<div class="post-visualizer-grid vertical-divider-post">
+    <div class="post-visualizer-element" style="overflow: scroll;">
+        <div>{{ article.testo|safe }}<div id="quill_space_root"></div></div>
+        <div class="comments">
+            {% for commento in article.commenti %}
+            <hr>
+            <div class="comment tab1">
+                <h4>{{ commento.testo }}
+                – <a href="/utente/{{ commento.autore['id'] }}">{{ commento.autore.nome }}</a> | <span style="color: grey;">{{ commento.data }}</span></h4>
+            </div>
+            {% endfor %}
+            <hr>
+        </div>
+        
+    </div>
+    <div class="post-visualizer-element post-credits">
+        <h3>di <a href="/utente/{{ article.autore['id'] }}">{{ article.autore.nome }}</a> | {{ article.data }}</h3>
+        <p class="add-a-comment" onclick='quillshowup("root", "art")'>add a comment</p>
+    </div>
+</div>
+    {% for risposta in article.risposte %}
+    <hr>
+    <div class="post-visualizer-grid vertical-divider-post">
+    <!--<div class="post-answer">-->
+        <div class="post-visualizer-element" style="overflow: scroll;">
+            <div>{{ risposta.testo|safe }}</div>
+            <div class="comments">
+                {% for commento in risposta.commenti %}
+                <hr>
+                <div class="comment tab1">
+                    <h4>{{ commento.testo }}</h4>
+                    <h4>di <a href="/utente/{{ commento.autore['id'] }}">{{ commento.autore.nome }}</a> | {{ commento.data }}</h4>
+                </div>
+                {% endfor %}
+                <hr>
+            </div>
+        </div>
+        <div class="post-visualizer-element post-credits">
+            <h3>di <a href="/utente/{{ risposta.autore['id'] }}">{{ risposta.autore.nome }}</a> | {{ risposta.data }}</h3>
+            <p class="add-a-comment" onclick="quillshowup('{{ loop.index }}', '{{ risposta.id }}')">add a comment</p>
+        </div>
+        <div id="quill_space_{{ loop.index }}"></div>
+    </div>
+    {% endfor %}
+
+    <h2 style="padding-left: 10vw; padding-top: 3vh;">Write here your answer</h2>
+    <hr>
+    <form method='post' id="formid" style="display: block; padding-left: 10vw; padding-right: 10vw;">
+        <table id="categories-dinamic-selector" style="width: 65% !important; border: none !important;">
+            <tr>
+                <div class="form-group"><td>
+                    <div id="toolbar"></div>
+                    <div id='editor'></div>
+                     <textarea name="text" style="display:none" id="testo"></textarea></td>
+                     <input id="input-del-quill-risposte-nascosto" name='locationpage' type='text' style='display:none;' value='path'></input>
+                </div>
+                <script>
+                    var toolbarOptions = [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['blockquote', 'code-block'],
+                        [{ 'header': 1 }, { 'header': 2 }],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                        [{ 'script': 'sub' }, { 'script': 'super' }],
+                        [{ 'indent': '-1' }, { 'indent': '+1' }],
+                        [{ 'direction': 'rtl' }],
+                        [{ 'size': ['small', false, 'large', 'huge'] }],
+                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                        [{ 'color': [] }, { 'background': [] }],
+                        [{ 'font': [] }],
+                        [{ 'align': [] }],
+                        ['clean'],
+                        ['link', 'image', 'video']
+                    ];
+    
+                    var quill = new Quill('#editor', {
+                        modules: {
+                            toolbar: toolbarOptions
+                        },
+                        placeholder: 'Write here your answer',
+                        theme: 'snow'
+                    });
+                    $("#formid").on("submit",function(){
+                        $("#testo").val($("#editor").html());
+                    });
+                    quill.on('text-change', function(delta, oldDelta, source) {
+                        var delta = JSON.stringify(quill.getContents());
+                    });
+                    $(window).on('load', function() {
+                        $('#input-del-quill-risposte-nascosto').attr('value', window.location.pathname.substring(10, window.location.pathname.length));
+                    });
+                </script>
+            </td>
+        </tr>
+    </table>
+    <button type='submit' class='button button1'>Submit Answer</button>
+</form>
+<style>
+    .ql-editor {
+        min-height: 100px;
+    }
+</style>
+
+{% endblock %}
+
+
+<!--*************************************************PERSONAL WIDGETS************************************************* -->
+
+{% block personalwidgets %}
+
+<div class="widgets" id="widgets">
+			<div class="wrapper">
+				<div class="chn-overview-widget">
+					<div style="height: 36px; width: 290px; background-color: {{channel.stile.colore_tema}}; color: white; font-weight: bold !important; text-align: left !important;">
+						<p>DETAILS</p>
+					</div>
+					<p>Home</p>
+					<!-- HO MODIFICATO QUI PER DISTINGUERE LA SESSIONE -->
+					<p>Benvenuto in {{channel.nome}}.</p>
+					{% if channel in globalRute['canali'] %}
+						<span onclick="post('/followCanali', {name: '{{channel.id}}'});"><button class="button button1" style="width: 98% !important;">Unsubscribe</button></span>
+					{% else %}
+						<span onclick="post('/followCanali', {name: '{{channel.id}}'});"><button class="button button1" style="width: 98% !important;">Subscribe</button></span>
+					{% endif %}
+				</div>
+				
+				<!--***********************WIDGET PERSONALI**************************-->
+				{% if channel.stile.widget.html != 'Null' %}
+					<div>{{ channel.stile.widget.html|safe }}</div>
+				{% endif %}
+				<!--*********************FINE WIDGET PERSONALI***********************-->
+				
+				<div class="copyright">
+					<table class="copyright-table">
+						<tr>
+							<td>About</td>
+							{% if 'nome' in session %}
+                                <td><a href="/logout">Logout</a></td>
+                            {% else %}
+                                <td>
+                                <a onclick="document.getElementById('LoginBtn').click();"
+                                >Login</a
+                                >
+                                </td>
+                            {% endif %}
+							<td>Blog</td>
+						</tr>
+						<tr>
+							<td>Chi Siamo</td>
+							<td a href="/help">Help</td>
+							<td>Home</td>
+						</tr>
+					</table>
+					<h4>Content Policy| Privacy Policy </h4>
+					<h4>User Agreement| Mod Policy </h4>
+					<h4>© 2018 CriticalException, Inc. All rights reserved</h4>
+				</div>
+			</div>
+			</div>
+
+{% endblock %}
+
+<!--*************************************************FINE PERSONAL WIDGETS********************************************* -->

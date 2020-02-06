@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block classpost %}
+<div class="posts">
+{% endblock %}
+
+{% block modulo %}
+<title>Geekia | Admin</title>
+
+<ul>
+  {% for i in subs %}
+    <li>{{i.nome}}</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

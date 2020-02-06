@@ -1,0 +1,7 @@
+Questo file è un file totalmente inutile.
+O forse ha un utilita!
+
+Per creare una nuova cartella basta spostare questo file nella path che si
+desidera creare e committare.
+
+Grazie e Arrivederci!

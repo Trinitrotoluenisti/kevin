@@ -1,0 +1,227 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <link
+      href="https://fonts.googleapis.com/css?family=Vollkorn&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style/404.css') }}"
+    />
+  </head>
+  <body>
+    <div class="error_page">
+      <p id="msg">
+        Oh, no! We couldn't find what you were looking for! Choose who to
+        <span id="red">fire</span>!
+      </p>
+      <br /><br />
+      <div class="staff">
+        <div class="developer" onclick="fire('0')" working>
+          <img
+            src=""
+          />
+          <span class="name">Tommaso</span>
+          <span class="username">@TommyAnd</span>
+        </div>
+        <div class="developer" onclick="fire('1')" working>
+          <img
+            src=""
+          />
+          <span class="name">Caesar_2</span>
+          <span class="username">@caesar_2</span>
+        </div>
+        <div class="developer" onclick="fire('2')" working>
+          <img src="" />
+          <span class="name">Bartoccio</span>
+          <span class="username">@ancelò</span>
+        </div>
+        <div class="developer" onclick="altfire('3')" working>
+          <img
+            src=""
+          />
+          <span class="name">Gianluca</span>
+          <span class="username">@gianluparri03</span>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    $(document).ready(function() {
+      removeElement("widgets");
+    });
+
+    fired = false;
+
+    function fire(id) {
+      if (!fired) {
+        fired = true;
+
+        // Stop the animation
+        $(".developer").removeAttr("working");
+
+        // Remove the message
+        $("#msg").css("opacity", "0");
+
+        // Fire the chosen one
+        $(".developer")
+          .eq(id)
+          .attr("id", "fired");
+
+        // Make him disappear
+        $("#fired").css("opacity", "0");
+        setTimeout(function() {
+          $("#fired").remove();
+        }, 850);
+
+        // Change the message
+        setTimeout(function() {
+          document.getElementById("msg").innerHTML =
+            'Do you <span id="red">feel</span> better now?';
+        }, 500);
+
+        // Show it
+        setTimeout(function() {
+          $("#msg").css("opacity", "1");
+        }, 2000);
+
+        // Make all developers disappear
+        setTimeout(function() {
+          $(".developer").css("opacity", "0");
+        }, 3000);
+      }
+    }
+
+    function altfire(id) {
+      if (!fired) {
+        fired = true;
+
+        // Stop the animation
+        $(".developer").removeAttr("working");
+
+        // Change the message
+        setTimeout(function() {
+          $("#msg").css("opacity", "0");
+        }, 100);
+        setTimeout(function() {
+          document.getElementById("msg").innerHTML =
+            '<span id="red">NO U</span>';
+        }, 350);
+        setTimeout(function() {
+          $("#msg").css("opacity", "1");
+        }, 360);
+
+        // Make all disappear
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .attr("id", "fired");
+        }, 950);
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .css("opacity", "0");
+        }, 1000);
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .remove();
+        }, 2000);
+
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .attr("id", "fired");
+        }, 2000);
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .css("opacity", "0");
+        }, 2500);
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .remove();
+        }, 3500);
+
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .attr("id", "fired");
+        }, 3500);
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .css("opacity", "0");
+        }, 4000);
+        setTimeout(function() {
+          $(".developer")
+            .eq(0)
+            .remove();
+        }, 5000);
+
+        // Change the message
+        setTimeout(function() {
+          $("#msg").css("opacity", "0");
+        }, 5050);
+
+        setTimeout(function() {
+          document.getElementById("msg").innerHTML =
+            '<span id="red">MUAHAHAHAHAHAHAHA</span>';
+          $("#msg").css("opacity", "1");
+        }, 5300);
+
+        // Change the message
+        setTimeout(function() {
+          $("#msg").css("opacity", "0");
+        }, 6300);
+
+        setTimeout(function() {
+          document.getElementById("msg").innerHTML =
+            'I am in <span id="red">your</span>pc, now...';
+          $("#msg").css("opacity", "1");
+        }, 6550);
+
+        // Change some backgrounds
+        setTimeout(function() {
+          $("#main-nav-down").css("background-color", "blue");
+        }, 6950);
+
+        setTimeout(function() {
+          $(".grid-container").css("background-color", "green");
+        }, 7350);
+
+        setTimeout(function() {
+          $("#social").css("background-color", "brown");
+        }, 7750);
+
+        setTimeout(function() {
+          $("#main-nav-upper").css("background-color", "black");
+        }, 8150);
+
+        setTimeout(function() {
+          $("#search-box-input").css("background-color", "yellow");
+        }, 8550);
+
+        setTimeout(function() {
+          $(".allsite").css("background-color", "violet");
+        }, 8950);
+
+        setTimeout(function() {
+          $(".posts").css("background-color", "orange");
+        }, 9350);
+
+        setTimeout(function() {
+          window.alert("lol");
+        }, 9750);
+
+        setTimeout(function() {
+          window.alert("Now tell me, who's fired?");
+        }, 10000);
+      }
+    }
+  </script>
+  {% endblock %}
+</div>

@@ -1,0 +1,93 @@
+.grid-container {
+  display: block;
+  grid-template-columns: auto;
+
+  margin-right: 20px;
+  padding-top: 3px;
+}
+
+.error_page {
+  margin-top: 3vw;
+  margin-left: 5vw;
+  margin-right: 4vw;
+}
+
+#msg {
+  padding-right: 60px;
+
+  transition: opacity 0.2s ease-in-out;
+
+  font-size: 2vw !important;
+  font-family: "Vollkorn", serif;
+  color: #424242;
+}
+
+#red {
+  color: #f44336;
+  font-weight: 900;
+  font-size: 3vw !important;
+}
+
+.staff {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  transition: flex 5s ease;
+}
+
+.developer {
+  margin-left: 5vw;
+  margin-right: 5vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.developer img {
+  width: 12vw;
+  height: auto;
+
+  margin-bottom: 2vh;
+
+  border-radius: 15vw;
+  border: 0.3vw solid #bdbdbd;
+}
+
+.developer[working]:hover img {
+  border-color: #f44336;
+}
+
+.developer .name {
+  font-size: 2vw !important;
+  font-family: "Vollkorn", serif;
+  color: #424242;
+}
+
+.developer[working]:hover .name {
+  color: #d32f2f;
+}
+
+.developer .username {
+  font-size: 1vw !important;
+  font-family: "Vollkorn", serif;
+  color: #757575;
+}
+
+.developer[working]:hover .username {
+  color: #e53935;
+}
+
+#fired img {
+  border-color: #f44336;
+}
+#fired .name {
+  color: #d32f2f;
+}
+#fired .username {
+  color: #e53935;
+}

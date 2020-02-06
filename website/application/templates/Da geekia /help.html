@@ -1,0 +1,293 @@
+{% extends 'layout.html' %}
+{% block classpost %}
+<div class="posts">
+{% endblock %}
+{% block modulo %}
+
+<link
+rel="stylesheet"
+type="text/css"
+media="screen"
+href="{{ url_for('static', filename='style/help.css') }}"
+/>
+
+<title>Geekia | Help</title>
+
+
+
+<div class="animated-help-page-background">
+    <h1 class="animated-help-page-title visually-hidden">Geekia Help</h1>
+  </div>
+
+<div class="page-wrapper wrapper ">
+        <div class="content-header">
+          
+        </div>
+                          
+      <div data-drupal-messages-fallback="" class="hidden"></div>
+            
+
+<div id="block-reddit-helpdesk-theme-pagetitle" data-block-plugin-id="page_title_block" class="page-title--block">
+  
+    
+
+
+<style>
+  .posts {
+    padding: 0;
+  }
+  .animated-help-page-background {
+    animation: gradientBG 15s ease infinite;
+    color: #fff;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    width: 100%;
+    height: 15vh;
+  }
+
+  @keyframes gradientBG {
+	  0% {
+	  	background-position: 0% 50%;
+	  }
+	  50% {
+	  	background-position: 100% 50%;
+	  }
+	  100% {
+	  	background-position: 0% 50%;
+	  }
+  }
+
+  .animated-help-page-title {
+    width: 100%;
+	  position: absolute;
+	  top: 35%;
+	  text-align: center;
+  }
+</style>
+
+  </div>
+
+  <div class="primary-grid">  
+      
+    
+  <div class="block topic-list">
+  <h2 class="block-title">
+    <img src="#" alt="" class="topic-list--icon"><span class="topic-list--title-text">Post &AMP; comments</span>
+  </h2>
+  <div class="block-content">
+    <nav class="topic-list--list">
+      <ul>
+                      
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('pec1')))" class="link-list--link">
+                How do I post something?
+            </a></li>
+              
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('pec2')))" class="link-list--link">
+                How can I comment?
+            </a></li>
+              
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('pec3')))" class="link-list--link">
+                How can I see my posts/comments?
+            </a></li>
+              
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                
+            </a></li>
+<li class="link-list--item view-more"><a href="" onclick="window.scroll(0, findPos(document.getElementById('pec')))" class="view-more--link">View More</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>   
+
+
+  <div class="block topic-list">
+  <h2 class="block-title">
+    <img src="#" alt="" class="topic-list--icon"><span class="topic-list--title-text">Rules &AMP; reports</span>
+  </h2>
+  <div class="block-content">
+    <nav class="topic-list--list">
+      <ul>
+                      
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('rer1')))" class="link-list--link">
+                How can I report some posts or accounts?
+            </a></li>
+              
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('rer2')))" class="link-list--link">
+                What could I do wrong for getting banned?
+            </a></li>
+              
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('rer3')))" class="link-list--link">
+                What can I post intead?
+            </a></li>
+              
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                
+            </a></li>
+                  <li class="link-list--item view-more"><a href="" onclick="window.scroll(0, findPos(document.getElementById('rer')))" class="view-more--link">View-more</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>  
+
+
+  <div class="block topic-list">
+  <h2 class="block-title">
+    <img src="#" alt="" class="topic-list--icon"><span class="topic-list--title-text">Using Geekia</span>
+  </h2>
+  <div class="block-content">
+    <nav class="topic-list--list">
+      <ul>
+                      
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('ug1')))"  class="link-list--link">
+                How can I convert to the Darkside?
+            </a></li>
+              
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('ug2')))" class="link-list--link">
+                How can I set my cats photos as profile picture?</a></li>
+              
+<li class="link-list--item"><a onclick="window.scroll(0, findPos(document.getElementById('ug3')))" class="link-list--link">
+                How can I subscribe to the Minecraft thread?
+            </a></li>
+              
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                
+            </a></li>
+                  <li class="link-list--item view-more"><a href="" onclick="window.scroll(0, findPos(document.getElementById('ug')))" class="view-more--link">View more</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>  
+
+
+<!--  <div class="block topic-list">
+  <h2 class="block-title">
+    <img src="" alt="" class="topic-list--icon"><span class="topic-list--title-text">Advertising</span>
+  </h2>
+  <div class="block-content">
+    <nav class="topic-list--list">
+      <ul>
+                      
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                1
+            </a></li>
+              
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                2
+            </a></li>
+              
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                3
+            </a></li>
+                  <li class="link-list--item view-more"><a href="#" class="view-more--link">View more</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>-->
+
+
+  <div class="block topic-list">
+  <h2 class="block-title">
+    <img src="#" alt="" class="topic-list--icon"><span class="topic-list--title-text">About staff</span>
+  </h2>
+  <div class="block-content">
+    <nav class="topic-list--list">
+      <ul>
+                      
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                Founder
+            </a></li>
+              
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                Monderator
+            </a></li>
+              
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                Manager
+            </a></li>
+              
+<li class="link-list--item"><a onclick="" href="#" class="link-list--link">
+                User
+            </a></li>
+                  <li class="link-list--item view-more"><a href="#" class="view-more--link">candidati per lo staff</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+</div>
+<div class="risposte-wrapper">
+    <br>
+    <div class="post-e-comments" id="pec">
+        <h1>Post &AMP; comments</h1>
+        <div id="pec1" class="text-n">
+            <h2>How do I post something?</h2>
+            <br>
+            <p>To post you can press the button 'Create Post' on the right side of many pages of the site, or, if you have problems doing so, you can go to the link '/add'</p>
+        </div>
+        <div id="pec2" class="text-n">
+            <h2>How can I comment?</h2>
+            <br>
+            <p>It depends on the language</p>
+        </div>
+        <div id="pec3" class="text-n">
+            <h2>How can I see my posts/comments?</h2>
+            <br>
+            <p>You just have to click your name, in the left of the manu</p> 
+        </div>
+    </div>
+    <br>
+    <div class="rule-e-report" id="rer">
+        <h1>Rules & reports</h1>
+            <div id="rer1" class="text-n">
+                <h2>How can I report some posts or accounts?</h2>
+                <br>
+                <p>Say sike right now.</p>
+            </div>
+            <div id="rer2" class="text-n">
+                <h2>What could I do wrong for getting banned?</h2>
+                <br>
+                <p>You could have posted your feet photos, for example...</p>
+            </div>
+            <div id="rer3" class="text-n">
+                <h2>What can I post instead?</h2> 
+                <br>
+                <p>A good meme is ok</p>  
+            </div>
+    </div>
+    <br>
+    <div class="using-geekia" id="ug">
+        <h1>Using Geekia</h1>
+            <div id="ug1" class="text-n">
+                <h2>How can I convert to the Darkside?</h2>
+                <br>
+                <p>Make up in black, i guess...</p>
+            </div>
+            <div id="ug2" class="text-n">
+                <h2>How can I set my cats photos as profile picture?</h2>
+                <br>
+                <p>By clicking on your name, in the left of the menu</p>
+            </div>
+            <div id="ug3" class="text-n">
+                <h2>How can I subscribe to the Minecraft thread?</h2> 
+                <br>
+                <p>I don't know</p>  
+            </div>
+    </div>
+      <br>
+      <div class="block link-to-support">
+        Not finding what you're looking for? <a href="#">Contact Support</a>
+      </div> 
+</div>
+</div>
+<script>
+//Finds y value of given object
+function findPos(obj) {
+    var curtop = 0;
+    if (obj.offsetParent) {
+        do {
+            curtop += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+    return [curtop];
+    }
+}
+</script>
+{% endblock %}
