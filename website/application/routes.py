@@ -40,3 +40,8 @@ def page_not_found(e):
 
 
 
+@app.route('/tom')
+def tommy():
+    return render_template('geekia.html')
+
+
