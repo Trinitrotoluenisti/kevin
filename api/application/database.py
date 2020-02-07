@@ -21,7 +21,7 @@ class User(db.Model):
     username = db.Column("username", db.String, unique=True, nullable=False)
     email = db.Column("email", db.String, unique=True, nullable=False)
     password = db.Column("password", db.String, nullable=False)
-    perms = db.Column("perms", db.Integer, nullable=False)
+    perms = db.Column("perms", db.Integer)
 
     @staticmethod
     def list():
@@ -29,7 +29,7 @@ class User(db.Model):
         Return the list of users
         """
 
-        return Controller.query.all()
+        return User.query.all()
 
     @staticmethod
     def check(username, password):

@@ -1,6 +1,14 @@
+# Python
 env
-.vscode
 **pycache**
-*.sublime-*
-api/application/database.db
 **.pyc
+
+# Nelli's Macbook
+**.DS_Store
+
+# IDEs
+.vscode
+*.sublime-*
+
+# Other
+**.db

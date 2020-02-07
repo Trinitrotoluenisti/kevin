@@ -6,6 +6,10 @@ from flask_restful import Resource
 from flask_jwt_extended import create_access_token
 
 
+class Ping(Resource):
+    def get(self):
+        return {"msg": "Working"}
+
 class Login(Resource):
     def post(self):
         # fetch parameters
@@ -13,16 +17,17 @@ class Login(Resource):
             username = request.form['username']
             password = request.form['password']
         except KeyError:
-            return {"message": "Missing parameter(s)"}, 400
+            return {"msg": "Missing parameter(s)"}, 400
 
         # check credentials
         try:
             user = User.check(username, password)
         except ValueError:
-            return {"message": "Wrong username or password"}, 400
+            return {"msg": "Wrong username or password"}, 400
 
         # return the token
-        return {"message": "ok", "token": create_access_token(identity=user.username)}
+        return {"msg": "Ok", "token": create_access_token(identity=user.username)}
 
 
+api.add_resource(Ping, '/', '/ping')
 api.add_resource(Login, '/login')
