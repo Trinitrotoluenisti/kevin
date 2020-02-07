@@ -83,11 +83,11 @@ html {
 
 .menu {
 	position: fixed;
-	top: 0%;	
+	top: 1%;	
 	left: 0px;
 }
 
-/* Buttons in navbar */
+/* buttons in navbar */
 
 .button {
 	float: left;
@@ -106,9 +106,10 @@ html {
 
 .button a:hover {
 	background-color: #34bdeb;
+	border-radius: 5px;
 }
 
-/* Dropdown */
+/* dropdown */
 
 .dropdown {	
 	float: left;
@@ -122,6 +123,7 @@ html {
 	color: white;
 	padding: 14px 16px;
 	background-color: #0499cf;
+	border-radius: 5px;
 }
 
 .dropdown:hover .ddbutton {
@@ -131,8 +133,9 @@ html {
 .dropdown-content {
 	display: none;
 	position: fixed;
-	background-color: #e1f5ec;
+	background-color: #f9f9f9;
 	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	z-index: 1;
 }
 
@@ -143,17 +146,19 @@ html {
 	text-decoration: none;
 	display: block;
 	text-align: left;
+	border-radius: 5px;
 }
 
 .dropdown-content a:hover {
 	background-color: #b0ddc8;
+	border-radius: 5px;
 }
 
 .dropdown:hover .dropdown-content {
 	display: block;
 }
 
-/* Footer */
+/* footer */
 
 .footer {
 	position: fixed;
