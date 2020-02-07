@@ -12,11 +12,13 @@ def login():
     if request.method == "GET":
         return render_template('login.html')
     else:
-        username= request.form["user"]
-        password= request.form["pass"]
-        print(post(server+"/login", data={"username": username, "password": password}))
-        return jsonify([username, password])
-    
+        username = request.form["user"]
+        password = request.form["pass"]
+        r = post(server+"/login", data={"username": username, "password": password})
+        if r.status_code==200: 
+            return render_template('/home.html', alert="logged in")
+        else: 
+            return render_template('/home.html', alert=r.json()["message"])
 
 #pagine utenti loggati
 
