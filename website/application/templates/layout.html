@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
+
         <title>Kevin | {% block title %}{% endblock %}</title>
         
 		<!--  STYLE  -->
@@ -19,20 +21,38 @@
 		
         <!--  JS  -->       
 	</head>
-	<body class="body">
-		<div class="top-menu-wrapper">
-			<menu class="top-menu">
-				<div class="top-menu-dx">
-				</div>
-				<div class="top-menu-sx">
-					<a class="top-menu-kevin" href="/">Kevin</a>
-				</div>
-			</menu>
-		</div>
 
-		<!--  blocco  -->
+	<body class="body">
+
+		<!--  Navbar  --> 
+		<nav class="menu">
+			<ul class="navbar">
+				<li class="button"><a href="#">Home</a></li>
+				<li class="button"><a href="#">News</a></li>
+				<li class="button"><a href="#">Contact</a></li>
+				<li class="button"><a href="#">About</a></li>
+				<div class="dropdown">
+					<button class="ddbutton">Dropdown &#9660;</button>
+					<div class="dropdown-content">
+						<a href="#">Link 1</a>
+						<a href="#">Link 2</a>
+						<a href="#">Link 3</a>
+					</div>
+				</div>
+			</ul>
+		</nav>	
+
+		<!--  Blocco  -->
 		<div id="content">{% block content %}{% endblock %}</div>
-        <!--  fine blocco  -->
+        <!--  Fine blocco  -->
         
 	</body>
+
+	<footer>
+		<nav class="footer">
+			<div class="footer">
+				<p class="ftext">&ensp;Insert text and buttons here &#128540;</p>
+			</div>
+		</nav>	
+	</footer>
 </html>
