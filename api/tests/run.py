@@ -3,7 +3,7 @@ import unittest
 
 
 # Import application
-path.append(path[0][:-5]) # it's ugly. i know.
+path.append(path[0][:-5]) # it's ugly. I know.
 from application import app, db, User
 
 
@@ -21,34 +21,59 @@ class Test(unittest.TestCase):
         # Recreate database
         db.drop_all()
         db.create_all()
+
+        # add a testing user into the database
+        self.testing_user = {'username': 'username', 'email': 'email', 'password': 'password'}
+        db.session.add(User(**self.testing_user))
+        db.session.commit()
     
+    def route(self, path, method, expected_sc, response, data=None):
+        """
+        Test a route.
+
+        path:        the route's path
+        method:      GET or POST
+        expected_sc: the expected status code
+        response:    the expected response
+        data:        the form data
+
+        NB: if there are unexpected fields in the
+        response, no error is raised
+        """
+
+        # Make request
+        if method.lower() == 'get':
+            r = self.app.get(path)
+        elif method.lower() == 'post':
+            r = self.app.post(path, data=data)
+        else:
+            raise ValueError("Undefined method")
+        
+        # Check status code
+        self.assertEqual(r.status_code, expected_sc)
+
+        # Check response
+        for key in response:
+            self.assertEqual(r.json[key], response[key])
+
     def test_ping(self):
-        r = self.app.get('/')
-        self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.json, {"msg": "Working"})
+        self.route('/', 'GET', 200, {"msg": "Working"})
 
     def test_login(self):
-        user = {'username': 'username', 'email': 'email', 'password': 'password'}
-
-        # add the user into the db
-        db.session.add(User(**user))
-        db.session.commit()
-
         # with right parameters
-        r = self.app.post('/login', data=user)
-        self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.json['msg'], "Ok")
+        self.route('/login', 'POST', 200, {"msg": "Ok"}, data=self.testing_user)
 
         # without parameters
-        r = self.app.post('/login')
-        self.assertEqual(r.status_code, 400)
-        self.assertEqual(r.json, {"msg": "Missing parameter(s)"})
+        response = {"msg": "Missing parameter(s)"}
+        self.route('/login', 'POST', 400, response)
+        self.route('/login', 'POST', 400, response, data={'username': self.testing_user['username']})
+        self.route('/login', 'POST', 400, response, data={'password': self.testing_user['password']})
 
         # with wrong credentials
-        user['username'] = 'new_username'
-        r = self.app.post('/login', data=user)
-        self.assertEqual(r.status_code, 400)
-        self.assertEqual(r.json, {"msg": "Wrong username or password"})
+        response = {"msg": "Wrong username or password"}
+        self.route('/login', 'POST', 400, response, data={'username': self.testing_user['username'], 'password': ''})
+        self.route('/login', 'POST', 400, response, data={'username': '', 'password': self.testing_user['password']})
+
 
 if __name__ == "__main__":
     unittest.main()
