@@ -21,6 +21,7 @@ class User(db.Model):
     username = db.Column("username", db.String, unique=True, nullable=False)
     email = db.Column("email", db.String, unique=True, nullable=False)
     password = db.Column("password", db.String, nullable=False)
+    perms = db.Column("perms", db.Integer, nullable=False)
 
     @staticmethod
     def list():
@@ -69,7 +70,8 @@ class User(db.Model):
                 "id": self.id,
                 "username": self.username,
                 "email": self.email,
-                "password": self.password
+                "password": self.password,
+                "perms": self.perms
                 }
 
 # Create the database
