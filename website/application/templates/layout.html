@@ -3,23 +3,25 @@
 
 	<head>
 
-        <title>Kevin | {% block title %}{% endblock %}</title>
-        
+		<title>Kevin | {% block title %}{% endblock %}</title>
+
 		<!--  STYLE  -->
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/layout.css') }}">
 			<!-- da mettere pagina per pagina -->
 			{% block css %}{% endblock %}
 
-        <!--  META  -->
-        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-        <meta name="language" content="IT" />
-        <meta name="author" content="Andreanelli Bartocetti Parri Mariotti" />
-        <meta name="owner" content="Andreanelli Bartocetti Parri Mariotti" />
-        <meta name="reply-to" content="" />
-        <meta name="description" content="forum kevin" />
+		<!--  META  -->
+		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+		<meta name="language" content="IT" />
+		<meta name="author" content="Andreanelli Bartocetti Parri Mariotti" />
+		<meta name="owner" content="Andreanelli Bartocetti Parri Mariotti" />
+		<meta name="reply-to" content="" />
+ 		<meta name="description" content="forum kevin" />
 		<meta name="keywords" content="kevin forum contenuti" />
+		<meta name="viewport" content="width=device-width">
 		
-        <!--  JS  -->       
+		<!--  JS  --> 
+
 	</head>
 
 	<body class="body">
@@ -32,7 +34,7 @@
 				<li class="button"><a href="#">Contact</a></li>
 				<li class="button"><a href="#">About</a></li>
 				<div class="dropdown">
-					<button class="ddbutton">Dropdown &#9660;</button>
+					<button class="ddbutton">Dropdown</button>
 					<div class="dropdown-content">
 						<a href="#">Link 1</a>
 						<a href="#">Link 2</a>
@@ -44,8 +46,8 @@
 
 		<!--  Blocco  -->
 		<div id="content">{% block content %}{% endblock %}</div>
-        <!--  Fine blocco  -->
-        
+		<!--  Fine blocco  -->
+
 	</body>
 
 	<footer>

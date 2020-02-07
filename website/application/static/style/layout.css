@@ -14,7 +14,6 @@ html {
 	margin-top: -6px;
 	overflow: hidden;
 	background-color: #0499cf;
-	border-radius: 0px 0px 8px 8px;
 }
 
 .menu {
@@ -42,7 +41,6 @@ html {
 
 .button a:hover {
 	background-color: #34bdeb;
-	border-radius: 5px;
 }
 
 /* Dropdown */
@@ -59,7 +57,6 @@ html {
 	color: white;
 	padding: 14px 16px;
 	background-color: #0499cf;
-	border-radius: 5px;
 }
 
 .dropdown:hover .ddbutton {
