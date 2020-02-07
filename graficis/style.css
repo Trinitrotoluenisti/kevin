@@ -74,11 +74,18 @@ html {
 .navbar {
 	position: fixed;
 	list-style-type: none;
-	padding: 0; 
+	padding: 0px;
+	width: 100%;
 	margin-top: -6px;
 	overflow: hidden;
 	background-color: #0499cf;
-	border-radius: 8px; 
+	border-radius: 0px 0px 8px 8px;
+}
+
+.menu {
+	position: fixed;
+	top: 0%;	
+	left: 0px;
 }
 
 /* buttons in navbar */
