@@ -1,6 +1,6 @@
 html {		
 	background-color: #f9fcff;
-	font-family: arial;
+	font-family: 'Roboto', sans-serif;
 	padding-bottom: 20vh;
 }
 
@@ -9,11 +9,12 @@ html {
 .navbar {
 	position: fixed;
 	list-style-type: none;
-	padding: 0px;
+	padding: 7px;
 	width: 100%;
 	margin-top: -6px;
 	overflow: hidden;
 	background-color: #0499cf;
+	font-size: 20px;
 }
 
 .menu {
@@ -60,6 +61,7 @@ html {
 	padding: 14px 16px;
 	background-color: #0499cf;
 	border-radius: 5px;
+	font-size: 20px;
 }
 
 .dropdown:hover .ddbutton {
@@ -158,4 +160,5 @@ html {
 	color: black;
 	background-color: #e7c73f;
 	border-radius: 5px;
+	cursor: pointer;
 }
