@@ -162,14 +162,42 @@ html {
 
 .footer {
 	position: fixed;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
-	background-color: #e38d30;
+	list-style-type: none;
+	padding: 0px;
 	width: 100%;
+	overflow: hidden;
+	background-color: #0499cf;
+}
+
+.menufooter {
+	position: fixed;
+	left: 0px;
+	margin-bottom: 50%;
 }
 
 .ftext {
 	color: white;
 	font-weight: bold; 
+}
+
+/* buttons in navbar */
+
+.fbutton {
+	float: left;
+	background-color: #e38d30;
+	color: white;
+	border: none;
+}
+
+.fbutton a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+.fbutton a:hover {
+	background-color: #e7c73f;
+	border-radius: 5px;
 }
