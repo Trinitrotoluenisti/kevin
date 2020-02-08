@@ -107,6 +107,7 @@ html {
 .button a:hover {
 	background-color: #34bdeb;
 	border-radius: 5px;
+	font-weight: bold;
 }
 
 /* dropdown */
@@ -128,6 +129,7 @@ html {
 
 .dropdown:hover .ddbutton {
 	background-color: #34bdeb;
+	font-weight: bold;
 }
 
 .dropdown-content {
@@ -152,6 +154,7 @@ html {
 .dropdown-content a:hover {
 	background-color: #b0ddc8;
 	border-radius: 5px;
+	font-weight: bold;
 }
 
 .dropdown:hover .dropdown-content {
@@ -199,6 +202,25 @@ html {
 }
 
 .fbutton a:hover {
+	background-color: #e7c73f;
+	border-radius: 5px;
+	color: black;
+	font-weight: bold;
+}
+
+/* Arrow Icon */
+
+.fa-arrow-alt-circle-up {
+	position: fixed;
+	bottom: 0;
+	right: 1%;
+	padding: 8.5px;
+	font-size: 30px;
+	color: white;
+}
+
+.fa-arrow-alt-circle-up:hover {
+	color: black;
 	background-color: #e7c73f;
 	border-radius: 5px;
 }
