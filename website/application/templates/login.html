@@ -2,11 +2,20 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
+<p>ciao</p>
+{% if token %}
+    <script>
+        //TODO: Impostare un redirect fatto bene 
 
-<form method="POST" target="/login">
-    <input type="text" name="user" id="user" required>
-    <input type="password" id="pass" name="pass" required>
-    <button>Submit</button>
-</form>
+        sessionStorage.setItem("token", "{{ token }}");
+        window.location.href = "/";
+    </script>
+{% else %}
+    <form method="POST" target="/login">
+        <input type="text" name="user" id="user" required>
+        <input type="password" id="pass" name="pass" required>
+        <button>Submit</button>
+    </form>
+{% endif %}
 
 {% endblock %}

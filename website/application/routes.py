@@ -16,7 +16,7 @@ def login():
         password = request.form["pass"]
         r = post(server+"/login", data={"username": username, "password": password})
         if r.status_code==200: 
-            return render_template('/home.html', alert="logged in")
+            return render_template('/login.html', token=r.json()["token"])
         else: 
             return render_template('/home.html', alert=r.json()["message"])
 
