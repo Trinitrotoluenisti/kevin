@@ -15,8 +15,25 @@ html {
 	display: flex;
 	justify-content: center;
  	align-items: center;
-	width: 35%;
+	min-height: 300px;
+	align-self: center;
+}
+
+.form {
 	background-color: #34bdeb;
-	height: auto;
-	align-items: flex-start;
+	border-radius: 5px;	
+}
+
+.eflex {
+	width: 60%;
+	border-radius: 5px;
+	margin: 20px;
+	min-height: 30px;
+}
+
+.button {font-size: 17px;}
+
+.button:hover {
+	font-weight: bold;
+	cursor: pointer;
 }
