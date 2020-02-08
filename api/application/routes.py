@@ -1,9 +1,12 @@
-from . import api
+from . import api, db
 from .database import User
 
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token
+from sqlalchemy.exc import IntegrityError
+
+from re import search
 
 
 class Ping(Resource):
@@ -14,8 +17,8 @@ class Login(Resource):
     def post(self):
         # fetch parameters
         try:
-            username = request.form['username']
-            password = request.form['password']
+            username = str(request.form['username'])
+            password = str(request.form['password'])
         except KeyError:
             return {"msg": "Missing parameter(s)"}, 400
 
@@ -28,6 +31,37 @@ class Login(Resource):
         # return the token
         return {"msg": "Ok", "token": create_access_token(identity=user.username)}
 
+class SignUp(Resource):
+    def post(self):
+        # fetch parameters
+        try:
+            username = str(request.form['username'])
+            email = str(request.form['email'])
+            password = str(request.form['password'])
+        except KeyError:
+            return {"msg": "Missing parameter(s)"}, 400
+
+        # check parameters lenght
+        if not len(username) > 4 or not len(password) > 4:
+            return {"msg": "username and/or password too short"}, 400
+
+        # check if email is an email
+        elif not search(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$', email):
+            return {"msg": "Invalid email"}, 400
+
+        # Try add it in the database
+        try:
+            User(username=username, email=email, password=password).save()
+
+        # If it's already present in the db
+        except IntegrityError:
+            db.session.rollback()
+            return {"msg": "Already registered"}, 400
+
+        # if nothing goes wrong, return the token
+        return {"msg": "Ok", "token": create_access_token(identity=username)}
+
 
 api.add_resource(Ping, '/', '/ping')
 api.add_resource(Login, '/login')
+api.add_resource(SignUp, '/signup')

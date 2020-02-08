@@ -1,10 +1,5 @@
-from sys import path
-import unittest
-
-
-# Import application
-path.append(path[0][:-5]) # it's ugly. I know.
 from application import app, db, User
+import unittest
 
 
 class Test(unittest.TestCase):
@@ -23,9 +18,8 @@ class Test(unittest.TestCase):
         db.create_all()
 
         # add a testing user into the database
-        self.testing_user = {'username': 'username', 'email': 'email', 'password': 'password'}
-        db.session.add(User(**self.testing_user))
-        db.session.commit()
+        self.testing_user = {'username': 'username', 'email': 'email@email.it', 'password': 'password'}
+        User(**self.testing_user).save()
     
     def route(self, path, method, expected_sc, response, data=None):
         """
@@ -48,7 +42,7 @@ class Test(unittest.TestCase):
             r = self.app.post(path, data=data)
         else:
             raise ValueError("Undefined method")
-        
+
         # Check status code
         self.assertEqual(r.status_code, expected_sc)
 
@@ -73,6 +67,32 @@ class Test(unittest.TestCase):
         response = {"msg": "Wrong username or password"}
         self.route('/login', 'POST', 400, response, data={'username': self.testing_user['username'], 'password': ''})
         self.route('/login', 'POST', 400, response, data={'username': '', 'password': self.testing_user['password']})
+
+    def test_signup(self):
+        # without parameters
+        response = {"msg": "Missing parameter(s)"}
+        self.route('/signup', 'POST', 400, response)
+        self.route('/signup', 'POST', 400, response, data={'username': self.testing_user['username']})
+
+        # too long parameters
+        response = {"msg": "username and/or password too short"}
+        self.route('/signup', 'POST', 400, response, data={'username': '', 'email': '', 'password': ''})
+        self.route('/signup', 'POST', 400, response, data={'username': 'a', 'email': 'zhou@zhou.it', 'password': 'a'})
+
+        # invalid email
+        response = {"msg": "Invalid email"}
+        self.route('/signup', 'POST', 400, response, data={'username': 'qiang', 'email': 'zhou.it', 'password': 'lamiapassword'})
+
+        # already registered
+        response = {"msg": "Already registered"}
+        self.route('/signup', 'POST', 400, response, data=self.testing_user)
+
+        # try with a new user
+        user = {'username': 'noobmaster69', 'email': 'lol@gmail.com', 'password': 'password123'}
+        self.route('/signup', 'POST', 200, {"msg": "Ok"}, data=user)
+
+        # login now works with that user
+        self.route('/login', 'POST', 200, {"msg": "Ok"}, data=user)
 
 
 if __name__ == "__main__":

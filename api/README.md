@@ -17,5 +17,5 @@ $ py run.py
 ### Running tests
 
 ```bash
-$ python3 tests/run.py
+$ python3 test.py
 ```

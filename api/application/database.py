@@ -23,6 +23,14 @@ class User(db.Model):
     password = db.Column("password", db.String, nullable=False)
     perms = db.Column("perms", db.Integer)
 
+    def save(self):
+        """
+        Save the user in the database
+        """
+
+        db.session.add(self)
+        db.session.commit()
+
     @staticmethod
     def list():
         """
