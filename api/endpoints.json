@@ -30,5 +30,51 @@
                 }
             }
         ]
+    },
+
+    {
+        "id": "#0.2",
+        "path": "/signup",
+        "method": "POST",
+        "desc": "Create a new user and add it into the database",
+        "headers": [],
+        "body": {
+            "username": "<string>",
+            "email": "<string>",
+            "password": "<string>"
+        },
+        "responses": [
+            {
+                "scode": 200,
+                "values": {
+                    "msg": "Ok",
+                    "token": "<string>"
+                }
+            },
+            {
+                "scode": 400,
+                "values": {
+                    "msg": "Missing parameter(s)"
+                }
+            },
+            {
+                "scode": 400,
+                "values": {
+                    "msg": "username and/or password too short"
+                }
+            },
+            {
+                "scode": 400,
+                "values": {
+                    "msg": "Invalid email"
+                }
+            },
+            {
+                "scode": 400,
+                "values": {
+                    "msg": "Already registered"
+                }
+            }
+        ]
     }
 ]
