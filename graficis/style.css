@@ -160,19 +160,20 @@ html {
 
 /* footer */
 
-.footer {
-	position: fixed;
-	list-style-type: none;
-	padding: 0px;
-	width: 100%;
-	overflow: hidden;
-	background-color: #0499cf;
-}
-
 .menufooter {
 	position: fixed;
 	left: 0px;
-	margin-bottom: 50%;
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	padding: 0;
+	bottom: -16px;
+	width: 100%;
+	background-color: #e38d30;
+	list-style-type: none;
+	overflow: hidden;
 }
 
 .ftext {
