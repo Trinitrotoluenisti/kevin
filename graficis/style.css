@@ -1,72 +1,7 @@
 html {		
 	background-color: #f9fcff;
-	font-family: arial;
+	font-family: 'Roboto', sans-serif;
 	padding-bottom: 20vh;
-}
-
-/*color-hex.com/color-palette/87720*/
-
-#color1 {
-	background-color: #0499cf;
-	width: 50%;
-	height: 35px;
-}
-#color2 {
-	background-color: #cc4100;
-	width: 50%;
-	height: 35px;
-}
-#color3 {
-	background-color: #fc6000;
-	width: 50%;
-	height: 35px;
-}
-#color4 {
-	background-color: #f9fcff;
-	width: 50%;
-	height: 35px;
-}
-
-/*https://www.color-hex.com/color-palette/87508*/
-
-#color5 {
-	background-color: #77ddce;
-	width: 50%;
-	height: 35px;
-}
-#color6 {
-	background-color: #b0ddc8;
-	width: 50%;
-	height: 35px;
-}
-#color7 {
-	background-color: #a7313c;
-	width: 50%;
-	height: 35px;
-}
-#color8 {
-	background-color: #e38d30;
-	width: 50%;
-	height: 35px;
-}
-#color9 {
-	background-color: #e7c73f;
-	width: 50%;
-	height: 35px;
-}
-#color10 {
-	background-color: #34aeeb;
-	width: 50%;
-	height: 35px;
-}
-#color11 {
-	background-color: #34bdeb;
-	width: 50%;
-	height: 35px;
-}
-.texto {
-	color: white;
-	width: 50%;
 }
 
 /* Navbar */
@@ -74,11 +9,12 @@ html {
 .navbar {
 	position: fixed;
 	list-style-type: none;
-	padding: 0px;
+	padding: 7px;
 	width: 100%;
 	margin-top: -6px;
 	overflow: hidden;
 	background-color: #0499cf;
+	font-size: 20px;
 }
 
 .menu {
@@ -125,6 +61,7 @@ html {
 	padding: 14px 16px;
 	background-color: #0499cf;
 	border-radius: 5px;
+	font-size: 20px;
 }
 
 .dropdown:hover .ddbutton {
@@ -139,6 +76,7 @@ html {
 	min-width: 160px;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	z-index: 1;
+	border-radius: 5px;
 }
 
 .dropdown-content a {
@@ -223,4 +161,70 @@ html {
 	color: black;
 	background-color: #e7c73f;
 	border-radius: 5px;
+	cursor: pointer;
+}
+
+/*color-hex.com/color-palette/87720*/
+
+#color1 {
+	background-color: #0499cf;
+	width: 50%;
+	height: 35px;
+}
+#color2 {
+	background-color: #cc4100;
+	width: 50%;
+	height: 35px;
+}
+#color3 {
+	background-color: #fc6000;
+	width: 50%;
+	height: 35px;
+}
+#color4 {
+	background-color: #f9fcff;
+	width: 50%;
+	height: 35px;
+}
+
+/*https://www.color-hex.com/color-palette/87508*/
+
+#color5 {
+	background-color: #77ddce;
+	width: 50%;
+	height: 35px;
+}
+#color6 {
+	background-color: #b0ddc8;
+	width: 50%;
+	height: 35px;
+}
+#color7 {
+	background-color: #a7313c;
+	width: 50%;
+	height: 35px;
+}
+#color8 {
+	background-color: #e38d30;
+	width: 50%;
+	height: 35px;
+}
+#color9 {
+	background-color: #e7c73f;
+	width: 50%;
+	height: 35px;
+}
+#color10 {
+	background-color: #34aeeb;
+	width: 50%;
+	height: 35px;
+}
+#color11 {
+	background-color: #34bdeb;
+	width: 50%;
+	height: 35px;
+}
+.texto {
+	color: white;
+	width: 50%;
 }
