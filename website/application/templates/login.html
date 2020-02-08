@@ -2,16 +2,15 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<p>ciao</p>
+<p style="display: none;">a</p>
+
 {% if token %}
     <script>
-        //TODO: Impostare un redirect fatto bene 
-
         sessionStorage.setItem("token", "{{ token }}");
         window.location.href = "/";
     </script>
 {% else %}
-    <form method="POST" target="/login">
+    <form method="POST" action="/login">
         <input type="text" name="user" id="user" placeholder="Username" required>
         <input type="password" id="pass" name="pass" placeholder="password" required>
         <button>Submit</button>

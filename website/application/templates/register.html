@@ -6,16 +6,15 @@
 {% endblock %}
 
 {% block content %}
-<p>ciao</p>
+<p style="display: none;">a</p>
+
 {% if token %}
     <script>
-        //TODO: Impostare un redirect fatto bene 
-
-        //sessionStorage.setItem("token", "{{ token }}");
-        //window.location.href = "/";
+        sessionStorage.setItem("token", "{{ token }}");
+        window.location.href = "/";
     </script>
 {% else %}
-    <form method="POST" target="/register" name="modulo" onsubmit="return testpass(this)">
+    <form method="POST" action="/register" name="modulo" onsubmit="return testpass(this)">
         <input type="text" name="user" id="user" placeholder="Username" required>
         <input type="email" id="mail" name="mail" placeholder="Email" required>
         <input type="password" id="pass" name="pass" placeholder="Password" required>
