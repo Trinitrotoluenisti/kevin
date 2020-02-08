@@ -62,6 +62,7 @@ html {
 	background-color: #0499cf;
 	border-radius: 5px;
 	font-size: 20px;
+	cursor: pointer;
 }
 
 .dropdown:hover .ddbutton {

@@ -1,0 +1,22 @@
+html {		
+	background-color: #f9fcff;
+	font-family: 'Roboto', sans-serif;
+	padding-bottom: 20vh;
+	text-align: center;
+}
+	
+#title {
+	color: #016b91;
+	font-size: 60px;
+	font-weight: bold;
+}
+
+.flex {
+	display: flex;
+	justify-content: center;
+ 	align-items: center;
+	width: 35%;
+	background-color: #34bdeb;
+	height: auto;
+	align-items: flex-start;
+}
