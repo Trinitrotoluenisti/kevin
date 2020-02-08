@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}SignUp{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<p>ciao</p>
+{% if token %}
+    <script>
+        //TODO: Impostare un redirect fatto bene 
+
+        //sessionStorage.setItem("token", "{{ token }}");
+        //window.location.href = "/";
+    </script>
+{% else %}
+    <form method="POST" target="/register" name="modulo" onsubmit="return testpass(this)">
+        <input type="text" name="user" id="user" placeholder="Username" required>
+        <input type="email" id="mail" name="mail" placeholder="Email" required>
+        <input type="password" id="pass" name="pass" placeholder="Password" required>
+        <input type="password" id="passconfirm" name="passconfirm" placeholder="Password cofirm" required>
+        <button value="Invia">Submit</button>
+    </form>
+{% endif %}
+
+{% endblock %}

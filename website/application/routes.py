@@ -20,6 +20,19 @@ def login():
         else: 
             return render_template('/home.html', alert=r.json()["message"])
 
+@app.route('/signup', methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        return render_template('register.html')
+    else:
+        username = request.form["user"]
+        password = request.form["pass"]
+        r = post(server+"/login", data={"username": username, "password": password})
+        if r.status_code==200: 
+            return render_template('/register.html', token=r.json()["token"])
+        else: 
+            return render_template('/home.html', alert=r.json()["message"])
+
 #pagine utenti loggati
 
 @app.route('/settings')
@@ -38,7 +51,7 @@ def admin():
 def page_not_found(e):
     return "wewaglio se so fregati la pagina", 404
 
-
+#roba tommy
 
 @app.route('/tom')
 def tommy():
