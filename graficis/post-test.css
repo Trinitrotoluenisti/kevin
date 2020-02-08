@@ -1,0 +1,22 @@
+div {
+	max-width: 100%;
+	background-color: gainsboro;
+	border-radius: 8px;
+	padding: 20px;
+	margin: 30px;
+	text-align: justify;
+}
+
+span {
+	line-height: 1.4;
+	font-size: 20px;
+}
+
+#title {
+	color: red;
+	font-family: Arial;
+}
+
+#body {
+	font-family: Arial;
+}
