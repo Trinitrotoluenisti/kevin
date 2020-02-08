@@ -95,16 +95,45 @@ html {
 
 /* footer */
 
+.menufooter {
+	position: fixed;
+	left: 0px;
+}
+
 .footer {
 	position: fixed;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
-	background-color: #e38d30;
+	left: 0;
+	padding: 0;
+	bottom: -16px;
 	width: 100%;
+	background-color: #e38d30;
+	list-style-type: none;
+	overflow: hidden;
 }
 
 .ftext {
 	color: white;
 	font-weight: bold; 
+}
+
+/* buttons in navbar */
+
+.fbutton {
+	float: left;
+	background-color: #e38d30;
+	color: white;
+	border: none;
+}
+
+.fbutton a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+.fbutton a:hover {
+	background-color: #e7c73f;
+	border-radius: 5px;
 }
