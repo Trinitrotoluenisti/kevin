@@ -5,7 +5,7 @@ from requests import get, post
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', nav=True, footer=True)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -54,4 +54,4 @@ def signup():
 
 @app.errorhandler(404)
 def error_404(e):
-    return render_template('/404.html'), 404
+    return render_template('/404.html', nav=True, footer=True), 404

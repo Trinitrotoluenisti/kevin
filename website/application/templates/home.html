@@ -1,18 +1,15 @@
 {% extends "layout.html" %}
-
 {% block title %}Home{% endblock %}
 
 
 {% block css %}
-<link type="text/css" href="{{ url_for('static', filename='style/home.css') }}">
+	<link type="text/css" href="{{ url_for('static', filename='style/home.css') }}">
 {% endblock %}
 
 {% block content %}
-
     {% if alert %}
         <script>
             window.alert("{{ alert }}");
         </script>
     {% endif %}
-
 {% endblock %}

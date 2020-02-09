@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
-
 		<title>Kevin | {% block title %}{% endblock %}</title>
 
 		<!--  STYLE  -->
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/layout.css') }}">
 		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-			<!-- da mettere pagina per pagina -->
-			{% block css %}{% endblock %}
+		{% block css %}{% endblock %}
 
 		<!--  META  -->
 		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
@@ -26,41 +23,40 @@
 		{% block js %}{% endblock %}
 	</head>
 
-	<body class="body">
-
-		<!--  Navbar  --> 
-		<nav class="menu">
-			<ul class="navbar">
-				<li class="button"><a href="#">Home</a></li>
-				<li class="button"><a href="#">News</a></li>
-				<li class="button"><a href="#">Contact</a></li>
-				<li class="button"><a href="#">About</a></li>
-				<div class="dropdown">
-					<button class="ddbutton">Dropdown</button>
-					<div class="dropdown-content">
-						<a href="#">Link 1</a>
-						<a href="#">Link 2</a>
-						<a href="#">Link 3</a>
+	<body>
+		{% if nav %}
+			<nav class="menu">
+				<ul class="navbar">
+					<li class="button"><a href="#">Home</a></li>
+					<li class="button"><a href="#">News</a></li>
+					<li class="button"><a href="#">Contact</a></li>
+					<li class="button"><a href="#">About</a></li>
+					<div class="dropdown">
+						<button class="ddbutton">Dropdown</button>
+						<div class="dropdown-content">
+							<a href="#">Link 1</a>
+							<a href="#">Link 2</a>
+							<a href="#">Link 3</a>
+						</div>
 					</div>
-				</div>
-			</ul>
-		</nav>	
+				</ul>
+			</nav>
+		{% endif %}
 
-		<!--  Blocco  -->
 		<div id="content">{% block content %}{% endblock %}</div>
-		<!--  Fine blocco  -->
 
+		{% if footer %}
+			<footer>
+				<nav class="menufooter">
+					<ul class="footer">
+						<li class="fbutton"><a href="#">Home</a></li>
+						<li class="fbutton"><a href="#">News</a></li>
+						<li class="fbutton"><a href="#">Contact</a></li>
+						<li class="fbutton"><a href="#">About</a></li>
+					</ul>
+					<i class="far fa-arrow-alt-circle-up"></i>
+				</nav>
+			</footer>
+		{% endif %}
 	</body>
-
-	<footer>
-		<nav class="menufooter">
-			<ul class="footer">
-				<li class="fbutton"><a href="#">Home</a></li>
-				<li class="fbutton"><a href="#">News</a></li>
-				<li class="fbutton"><a href="#">Contact</a></li>
-				<li class="fbutton"><a href="#">About</a></li>
-			</ul>
-			<i class="far fa-arrow-alt-circle-up"></i>
-		</nav>
-	</footer>
 </html>

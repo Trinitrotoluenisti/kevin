@@ -2,33 +2,30 @@
 {% block title %}SignUp{% endblock %}
 
 {% block content %}
-<p style="display: none;">a</p>
+    {% if token %}
+        <script>
+            sessionStorage.setItem("token", "{{ token }}");
+            window.location.href = "/";
+        </script>
+    {% else %}
+        <form method="POST" action="/register" name="main" onsubmit="return testpass(this)">
+            <input type="text" name="username" id="username" placeholder="Username" required>
+            <input type="email" name="email" id="email" placeholder="Email" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="password" name="cpassword" id="cpassword" placeholder="Confim Password" required>
+            <button value="Invia">Submit</button>
+        </form>
 
-{% if token %}
-    <script>
-        sessionStorage.setItem("token", "{{ token }}");
-        window.location.href = "/";
-    </script>
-{% else %}
-    <form method="POST" action="/register" name="main" onsubmit="return testpass(this)">
-        <input type="text" name="username" id="username" placeholder="Username" required>
-        <input type="email" name="email" id="email" placeholder="Email" required>
-        <input type="password" name="password" id="password" placeholder="Password" required>
-        <input type="password" name="cpassword" id="cpassword" placeholder="Confim Password" required>
-        <button value="Invia">Submit</button>
-    </form>
-
-    <script>
-        function testpass(main){
-            if (main.password.value != main.cpassword.value) {
-                alert("Password aren't matching!")
-                main.pass.focus()
-                main.pass.select()
-                return false
+        <script>
+            function testpass(main){
+                if (main.password.value != main.cpassword.value) {
+                    alert("Password aren't matching!")
+                    main.pass.focus()
+                    main.pass.select()
+                    return false
+                }
+                return true
             }
-            return true
-        }
-    </script>
-{% endif %}
-
+        </script>
+    {% endif %}
 {% endblock %}
