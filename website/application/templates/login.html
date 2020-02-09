@@ -1,4 +1,3 @@
-{% extends "layout.html" %}
 {% block title %}Login{% endblock %}
 
 {% block css %}
@@ -13,12 +12,18 @@
         sessionStorage.setItem("token", "{{ token }}");
         window.location.href = "/";
     </script>
+
 {% else %}
-    <form method="POST" action="/login">
-        <input type="text" name="username" id="username" placeholder="Username" required>
-        <input type="password" name="password" id="password" placeholder="password" required>
-        <button>Submit</button>
-    </form>
+    <span id="title">Kevin | Login</span>
+            <div class="flex">
+                <form class="form" method="POST" action="/login">
+                    <input type="text" name="username" placeholder="Username" required class="eflex">
+                    <input type="password" name="password" placeholder="Password" required class="eflex">
+                    <br><br>
+                    <button class="button">Login!</button>
+                    <br><br>
+                </form>
+            </div>
 {% endif %}
 
 {% endblock %}

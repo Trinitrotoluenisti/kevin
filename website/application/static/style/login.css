@@ -1,0 +1,42 @@
+html {		
+	background-color: #f9fcff;
+	font-family: 'Roboto', sans-serif;
+	padding-bottom: 20vh;
+	text-align: center;
+}
+	
+#title {
+	color: #016b91;
+	font-size: 60px;
+	font-weight: bold;
+}
+
+.flex {
+	display: flex;
+	justify-content: center;
+ 	align-items: center;
+ 	height: 400px;
+	align-self: center;
+}
+
+.form {
+	background-color: #34bdeb;
+	height: 300px;
+	border-radius: 5px;	
+	border: 4px solid #016b91;
+}
+
+.eflex {
+	width: 60%;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	margin-top: 50px;
+	min-height: 30px;
+}
+
+.button {font-size: 17px;}
+
+.button:hover {
+	font-weight: bold;
+	cursor: pointer;
+}
