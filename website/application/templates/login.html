@@ -2,25 +2,21 @@
 {% block title %}Login{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/login.css') }}" >
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/login.css') }}" >
 {% endblock %}
 
 {% block content %}
-    {% if token %}
-        <script>
-            sessionStorage.setItem("token", "{{ token }}");
-            window.location.href = "/";
-        </script>
-    {% else %}
-        <span id="title">Kevin | Login</span>
-        <div class="flex">
-            <form class="form" method="POST" action="/login">
-                <input type="text" name="username" placeholder="Username" required class="eflex">
-                <input type="password" name="password" placeholder="Password" required class="eflex">
-                <br><br>
-                <button class="button">Login!</button>
-                <br><br>
-            </form>
-        </div>
-    {% endif %}
+	{% if token %}
+		<script>
+			sessionStorage.setItem("token", "{{ token }}");
+			window.location.href = "/";
+		</script>
+	{% else %}
+		<h1 id="title">Login</h1>
+		<form method="POST" action="/login">
+			<input type="text" name="username" placeholder="Username" required>
+			<input type="password" name="password" placeholder="Password" required>
+			<button>Login!</button>
+		</form>
+	{% endif %}
 {% endblock %}

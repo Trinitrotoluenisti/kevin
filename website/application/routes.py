@@ -30,11 +30,11 @@ def login():
             return render_template('/home.html', alert=r.json()["msg"])
 
 
-@app.route('/signup', methods=["GET", "POST"])
-def signup():
+@app.route('/register', methods=["GET", "POST"])
+def register():
     # Return the template if it's a GET request
     if request.method == "GET":
-        return render_template('signup.html')
+        return render_template('register.html')
 
     # If it's POST...
     else:
@@ -48,10 +48,10 @@ def signup():
 
         # if it's ok, return the register
         if r.status_code == 200: 
-            return render_template('/signup.html', token=r.json()["token"])
+            return render_template('/register.html', token=r.json()["token"])
         else: 
             return render_template('/home.html', alert=r.json()["msg"])
 
 @app.errorhandler(404)
 def error_404(e):
-    return render_template('/404.html', nav=True, footer=True), 404
+    return render_template('/404.html', alert="Not found", nav=True, footer=True), 404
