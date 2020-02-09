@@ -25,38 +25,32 @@
 
 	<body>
 		{% if nav %}
-			<nav class="menu">
-				<ul class="navbar">
-					<li class="button"><a href="#">Home</a></li>
-					<li class="button"><a href="#">News</a></li>
-					<li class="button"><a href="#">Contact</a></li>
-					<li class="button"><a href="#">About</a></li>
-					<div class="dropdown">
-						<button class="ddbutton">Dropdown</button>
-						<div class="dropdown-content">
-							<a href="#">Link 1</a>
-							<a href="#">Link 2</a>
-							<a href="#">Link 3</a>
-						</div>
+			<nav class="navbar">
+				<span class="button"><a href="#">Home</a></span>
+				<span class="button"><a href="#">News</a></span>
+				<span class="button"><a href="#">Contact</a></span>
+				<span class="button"><a href="#">About</a></span>
+				<span class="button dropdown">
+					<a>Dropdown</a>
+					<div class="dropdown-content">
+						<a href="#">Link 1</a>
+						<a href="#">Link 2</a>
+						<a href="#">Link 3</a>
 					</div>
-				</ul>
+				</span>
 			</nav>
 		{% endif %}
 
 		<main>{% block content %}{% endblock %}</main>
 
 		{% if footer %}
-			<footer>
-				<nav class="menufooter">
-					<ul class="footer">
-						<li class="fbutton"><a href="#">Home</a></li>
-						<li class="fbutton"><a href="#">News</a></li>
-						<li class="fbutton"><a href="#">Contact</a></li>
-						<li class="fbutton"><a href="#">About</a></li>
-					</ul>
-					<i class="far fa-arrow-alt-circle-up"></i>
-				</nav>
-			</footer>
+			<nav class="footer">
+				<span class="button"><a href="#">Home</a></span>
+				<span class="button"><a href="#">News</a></span>
+				<span class="button"><a href="#">Contact</a></span>
+				<span class="button"><a href="#">About</a></span>
+				<span class="button"><i class="far fa-arrow-alt-circle-up"></i></span>
+			</nav>
 		{% endif %}
 	</body>
 </html>
