@@ -5,14 +5,14 @@ from requests import get, post
 
 @app.route('/')
 def home():
-    return render_template('home.html', nav=True, footer=True)
+    return render_template('home.html')
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
     # Return the template if it's a GET request
     if request.method == "GET":
-        return render_template('login.html')
+        return render_template('login.html', nav=False)
 
     # If it's POST...
     else:
@@ -34,7 +34,7 @@ def login():
 def register():
     # Return the template if it's a GET request
     if request.method == "GET":
-        return render_template('register.html')
+        return render_template('register.html', nav=False)
 
     # If it's POST...
     else:
@@ -54,4 +54,4 @@ def register():
 
 @app.errorhandler(404)
 def error_404(e):
-    return render_template('/404.html', alert="Not found", nav=True, footer=True), 404
+    return render_template('/404.html'), 404

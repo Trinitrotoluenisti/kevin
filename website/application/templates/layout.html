@@ -24,7 +24,7 @@
 	</head>
 
 	<body onload="adjust_dropdowns();">
-		{% if nav %}
+		{% if (nav | default("there", false)) %}
 			<nav class="navbar">
 				<span class="button"><a href="#">Home</a></span>
 				<span class="button"><a href="#">News</a></span>
@@ -43,7 +43,7 @@
 
 		<main>{% block content %}{% endblock %}</main>
 
-		{% if footer %}
+		{% if (footer | default("there", false)) %}
 			<nav class="footer">
 				<span class="button"><a href="#">Home</a></span>
 				<span class="button"><a href="#">News</a></span>

@@ -1,13 +1,8 @@
-body {
-	margin-top: 3vh;
-	display: grid;
-	justify-content: center;
-	text-align: center;
-	background-color: #f9fcff;
-}
+body { align-items: center; }
 
 main {
 	width: max-content;
+	margin-top: 6vh;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
