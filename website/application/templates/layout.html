@@ -23,7 +23,7 @@
 		{% block js %}{% endblock %}
 	</head>
 
-	<body>
+	<body onload="adjust_dropdowns();">
 		{% if nav %}
 			<nav class="navbar">
 				<span class="button"><a href="#">Home</a></span>
@@ -53,4 +53,25 @@
 			</nav>
 		{% endif %}
 	</body>
+
+	<script>
+		function adjust_dropdowns() {
+			var dropdowns = document.getElementsByClassName("dropdown");
+			var button;
+			var content;
+
+			for (var i = 0; i < dropdowns.length; i++) {
+				button = dropdowns[i];
+				content = button.children[1];
+
+				button.style.fontWeight = '700';
+
+				content.style.width = button.offsetWidth + 'px';
+				console.log(button.offsetWidth);
+				content.style.left = button.offsetLeft + 'px';
+
+				button.style.fontWeight = null;
+			}
+		}
+	</script>
 </html>

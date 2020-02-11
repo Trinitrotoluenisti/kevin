@@ -26,11 +26,16 @@ body {
 	height: 100%;
 	padding-left: 2vw;
 	padding-right: 2vw;
-	display: flex;
+	display: grid;
 	align-items: center;
 }
 
 .navbar .button:hover {
+	font-weight: bold;
+	background-color: #34bdeb;
+}
+
+.navbar .dropdown:focus {
 	font-weight: bold;
 	background-color: #34bdeb;
 }
@@ -44,7 +49,6 @@ body {
 .navbar .dropdown-content {
 	position: fixed;
 	top: 10vh;
-	width: 10vw;
 	display: none;
 	background-color: #0499cf;
 }
