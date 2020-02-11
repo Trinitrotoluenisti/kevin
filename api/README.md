@@ -11,7 +11,7 @@ pip install -r requirements.txt
 ### Running APIs
 
 ```bash
-py run.py
+python3 run.py
 ```
 
 ### Running tests

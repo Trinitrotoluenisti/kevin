@@ -3,6 +3,12 @@ html, body {
 	margin: 0;
 }
 
+main {
+	height: min-content;
+	flex-grow: 1;
+	margin: 5vh 5vw 3vh 7vh;
+}
+
 body {
 	display: flex;
 	flex-direction: column;
@@ -10,11 +16,13 @@ body {
 	font-family: 'Roboto', sans-serif;
 }
 
+/* Navbar */
+
 .navbar {
 	position: sticky;
 	top: 0;
 	width: 100%;
-	min-height: 10vh;
+	min-height: 6vh;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -22,22 +30,21 @@ body {
 	background-color: #0499cf;
 }
 
+/* Buttons in Navbar */
+
 .button {
 	height: 100%;
-	padding-left: 2vw;
-	padding-right: 2vw;
+	padding-left: 1.5vw;
+	padding-right: 1.5vw;
 	display: grid;
 	align-items: center;
 }
 
 .navbar .button:hover {
-	font-weight: bold;
 	background-color: #34bdeb;
-}
-
-.navbar .dropdown:focus {
+	border-radius: 5px;
 	font-weight: bold;
-	background-color: #34bdeb;
+	cursor: pointer;
 }
 
 .button a {
@@ -46,43 +53,45 @@ body {
 	color: white;
 }
 
+/* Dropdown */
+
 .navbar .dropdown-content {
 	position: fixed;
-	top: 10vh;
+	top: 6vh;
 	display: none;
-	background-color: #0499cf;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	background-color: #f9f9f9;
+	border-radius: 5px;
 }
 
 .navbar .dropdown-content a {
 	padding-left: 2vw;
-	padding-top: 1vh;
+	padding-top: 1.2vh;
 	padding-bottom: 1vh;
 	display: block;
-	font-size: .8em;
+	font-size: 0.8em;
 	font-weight: 400;
 	text-align: left;
+	color: black;
 }
 
 .navbar .dropdown-content a:hover {
-	background-color: #34bdeb;
+	background-color: #b0ddc8;
 	font-weight: bold;
+	border-radius: 5px;
 }
 
 .navbar .dropdown:hover .dropdown-content {
 	display: block;
 }
 
-main {
-	height: min-content;
-	flex-grow: 1;
-	margin: 5vh 5vw 3vh 7vh;
-}
+/* Footer */
 
 .footer {
 	position: static;
 	bottom: 0;
 	width: 100%;
-	min-height: 10vh;
+	min-height: 5.5vh;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -90,17 +99,28 @@ main {
 	background-color: #e38d30;
 }
 
+/* Buttons in Footer */
+
 .footer .button:hover {
 	background-color: #e7c73f;
 	color: black;
+	border-radius: 5px;
+	font-size: bold;
 }
+
+/* Arrow up */
 
 .fa-arrow-alt-circle-up {
 	font-size: 1.5em;
-	color: white;	
+	position: fixed;
+	bottom: 0;
+	right: 1%;
+	padding: 1.3vh;
+	color: white;
 }
 
 .fa-arrow-alt-circle-up:hover {
-	border-radius: 20px;
+	border-radius: 5px;
 	background-color: #e7c73f;
+	color: black;
 }
