@@ -3,7 +3,7 @@ from .database import User
 
 from flask import request
 from flask_restful import Resource
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy.exc import IntegrityError
 
 from re import search
@@ -29,7 +29,9 @@ class Login(Resource):
             return {"msg": "Wrong username or password"}, 400
 
         # return the token
-        return {"msg": "Ok", "token": create_access_token(identity=user.username)}
+        access = create_access_token(identity=user.username)
+        refresh = create_refresh_token(identity=user.username)
+        return {"msg": "Ok", "acces_token": access, "refresh_token": refresh}
 
 class SignUp(Resource):
     def post(self):
@@ -59,7 +61,9 @@ class SignUp(Resource):
             return {"msg": "Already registered"}, 400
 
         # if nothing goes wrong, return the token
-        return {"msg": "Ok", "token": create_access_token(identity=username)}
+        access = create_access_token(identity=user.username)
+        refresh = create_refresh_token(identity=user.username)
+        return {"msg": "Ok", "acces_token": access, "refresh_token": refresh}
 
 
 api.add_resource(Ping, '/', '/ping')
