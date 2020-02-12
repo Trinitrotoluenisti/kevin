@@ -61,7 +61,7 @@ body {
 	display: none;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	background-color: #f9f9f9;
-	border-radius: 5px;
+	border-radius: 0 0 5px 5px;
 }
 
 .navbar .dropdown-content a {
@@ -78,7 +78,7 @@ body {
 .navbar .dropdown-content a:hover {
 	background-color: #b0ddc8;
 	font-weight: bold;
-	border-radius: 5px;
+	border-radius: 0 0 5px 5px;
 }
 
 .navbar .dropdown:hover .dropdown-content {
@@ -116,11 +116,11 @@ body {
 	bottom: 0;
 	right: 1%;
 	padding: 1.3vh;
-	color: white;
+	color: black;
 }
 
 .fa-arrow-alt-circle-up:hover {
 	border-radius: 5px;
 	background-color: #e7c73f;
-	color: black;
+	color: white;
 }
