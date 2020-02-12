@@ -35,7 +35,7 @@
 
     {
         "id": "#0.2",
-        "path": "/signup",
+        "path": "/register",
         "method": "POST",
         "desc": "Create a new user and add it into the database",
         "headers": [],

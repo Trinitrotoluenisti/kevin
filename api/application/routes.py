@@ -33,7 +33,7 @@ class Login(Resource):
         refresh = create_refresh_token(identity=user.username)
         return {"msg": "Ok", "access_token": access, "refresh_token": refresh}
 
-class SignUp(Resource):
+class Register(Resource):
     def post(self):
         # fetch parameters
         try:
@@ -68,4 +68,4 @@ class SignUp(Resource):
 
 api.add_resource(Ping, '/', '/ping')
 api.add_resource(Login, '/login')
-api.add_resource(SignUp, '/signup')
+api.add_resource(Register, '/register')

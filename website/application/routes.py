@@ -52,7 +52,7 @@ def register():
         password = request.form["password"]
 
         # make a requets to the apis
-        r = post(server + "/signup", data={"username": username, "password": password, 'email': email})
+        r = post(server + "/register", data={"username": username, "password": password, 'email': email})
 
         # if it's ok, return the register
         if r.status_code == 200:

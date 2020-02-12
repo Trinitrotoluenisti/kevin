@@ -68,28 +68,28 @@ class Test(unittest.TestCase):
         self.route('/login', 'POST', 400, response, data={'username': self.testing_user['username'], 'password': ''})
         self.route('/login', 'POST', 400, response, data={'username': '', 'password': self.testing_user['password']})
 
-    def test_signup(self):
+    def test_register(self):
         # without parameters
         response = {"msg": "Missing parameter(s)"}
-        self.route('/signup', 'POST', 400, response)
-        self.route('/signup', 'POST', 400, response, data={'username': self.testing_user['username']})
+        self.route('/register', 'POST', 400, response)
+        self.route('/register', 'POST', 400, response, data={'username': self.testing_user['username']})
 
         # too long parameters
         response = {"msg": "username and/or password too short"}
-        self.route('/signup', 'POST', 400, response, data={'username': '', 'email': '', 'password': ''})
-        self.route('/signup', 'POST', 400, response, data={'username': 'a', 'email': 'zhou@zhou.it', 'password': 'a'})
+        self.route('/register', 'POST', 400, response, data={'username': '', 'email': '', 'password': ''})
+        self.route('/register', 'POST', 400, response, data={'username': 'a', 'email': 'zhou@zhou.it', 'password': 'a'})
 
         # invalid email
         response = {"msg": "Invalid email"}
-        self.route('/signup', 'POST', 400, response, data={'username': 'qiang', 'email': 'zhou.it', 'password': 'lamiapassword'})
+        self.route('/register', 'POST', 400, response, data={'username': 'qiang', 'email': 'zhou.it', 'password': 'lamiapassword'})
 
         # already registered
         response = {"msg": "Already registered"}
-        self.route('/signup', 'POST', 400, response, data=self.testing_user)
+        self.route('/register', 'POST', 400, response, data=self.testing_user)
 
         # try with a new user
         user = {'username': 'noobmaster69', 'email': 'lol@gmail.com', 'password': 'password123'}
-        self.route('/signup', 'POST', 200, {"msg": "Ok"}, data=user)
+        self.route('/register', 'POST', 200, {"msg": "Ok"}, data=user)
 
         # login now works with that user
         self.route('/login', 'POST', 200, {"msg": "Ok"}, data=user)
