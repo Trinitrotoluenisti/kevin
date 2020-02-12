@@ -37,8 +37,9 @@ body {
 	padding-right: 1.5vw;
 	display: grid;
 	align-items: center;
-
+	text-decoration: none;
 	margin: 2.5vh;
+	color: white;
 }
 
 .navbar .button:hover {
@@ -52,6 +53,16 @@ body {
 	text-align: center;
 	text-decoration: none;
 	color: white;
+}
+
+#register {
+	position: absolute;
+	right: 0%;
+}
+
+#login{
+	position: absolute;
+	right: 8%;
 }
 
 /* Dropdown */

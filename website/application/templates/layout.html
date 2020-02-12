@@ -38,6 +38,8 @@
 						<a href="#">Link 3</a>
 					</div>
 				</span>
+				<a href="login" class="button" id="login"><span>Login</a></span>
+				<a href="register" class="button" id="register">Register</a></span>
 			</nav>
 		{% endif %}
 
@@ -45,12 +47,12 @@
 
 		{% if (footer | default("there", false)) %}
 			<nav class="footer">
-				<span class="button"><a href="..">Home</a></span>
-				<span class="button" class="ext"><a href="login">Login</a></span>
-				<span class="button" class="ext"><a href="register">Register</a></span>
-				<span class="button"><a href="#">News</a></span>
-				<span class="button"><a href="#">Contact</a></span>
-				<span class="button"><a href="#">About</a></span>
+				<a href=".." class="button"><span>Home</a></span>
+				<a href="login" class="button"><span>Login</a></span>
+				<a href="register" class="button">Register</a></span>
+				<a href="#" class="button"><span>News</a></span>
+				<a href="#" class="button"><span>Contact</a></span>
+				<a href="#" class="button"><span>About</span></a>
 				<span><i class="far fa-arrow-alt-circle-up"></i></span>
 			</nav>
 		{% endif %}
