@@ -25,7 +25,7 @@ body {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	font-size: 1.2em;
+	font-size: 1.3em;
 	background-color: #0499cf;
 }
 
@@ -38,7 +38,7 @@ body {
 	display: grid;
 	align-items: center;
 	text-decoration: none;
-	margin: 2.5vh;
+	margin: 1.5vh;
 	color: white;
 }
 
@@ -57,23 +57,25 @@ body {
 
 #register {
 	position: absolute;
-	right: 0%;
+	right: 0;
+	margin-top: 0;
 }
 
 #login{
 	position: absolute;
 	right: 8%;
+	margin-top: 0;
 }
 
 /* Dropdown */
 
 .navbar .dropdown-content {
 	position: fixed;
-	top: 8vh;
+	top: 5.5vh;
 	display: none;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	background-color: #f9f9f9;
-	border-radius: 0 0 5px 5px;
+	border-radius: 5px;
 }
 
 .navbar .dropdown-content a {
@@ -90,7 +92,7 @@ body {
 .navbar .dropdown-content a:hover {
 	background-color: #b0ddc8;
 	font-weight: bold;
-	border-radius: 0 0 5px 5px;
+	border-radius: 5px;
 }
 
 .navbar .dropdown:hover .dropdown-content {
