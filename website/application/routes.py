@@ -1,5 +1,5 @@
 from . import app, server
-from flask import render_template, request, jsonify
+from flask import render_template, request, make_response, redirect
 from requests import get, post
 
 
@@ -24,8 +24,16 @@ def login():
         r = post(server + "/login", data={"username": username, "password": password})
 
         # if it's ok, return the register
-        if r.status_code == 200: 
-            return render_template('/login.html', token=r.json()["token"])
+        if r.status_code == 200:
+            access = r.json()["access_token"]
+            refresh = r.json()["refresh_token"]
+
+            # set cookies
+            response = make_response(redirect("/", code=302))
+            response.set_cookie('access_token', access, httponly=True)
+            response.set_cookie('refresh_token', refresh, httponly=True)
+
+            return response
         else: 
             return render_template('/home.html', alert=r.json()["msg"])
 
@@ -47,8 +55,16 @@ def register():
         r = post(server + "/signup", data={"username": username, "password": password, 'email': email})
 
         # if it's ok, return the register
-        if r.status_code == 200: 
-            return render_template('/register.html', token=r.json()["token"])
+        if r.status_code == 200:
+            access = r.json()["access_token"]
+            refresh = r.json()["refresh_token"]
+
+            # set cookies
+            response = make_response(redirect("/", code=302))
+            response.set_cookie('access_token', access, httponly=True)
+            response.set_cookie('refresh_token', refresh, httponly=True)
+
+            return response
         else: 
             return render_template('/home.html', alert=r.json()["msg"])
 

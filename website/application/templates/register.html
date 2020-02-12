@@ -6,30 +6,22 @@
 {% endblock %}
 
 {% block content %}
-	{% if access_token and refresh_token %}
-		<script>
-			sessionStorage.setItem("refresh_token", "{{ refresh_token }}")
-			sessionStorage.setItem("access_token", "{{ access_token }}")
-			window.location.href = "/";
-		</script>
-	{% else %}
-		<h1 id="title">Register</h1>
-		<form method="POST" action="/register" name="mainform" onsubmit="return testpass(this)">
-			<input type="text" name="username" placeholder="Username" required>
-			<input type="email" name="email" placeholder="Email" required>
-			<input type="password" name="password" placeholder="Password" required>
-			<input type="password" name="cpassword" placeholder="Confim Password" required>
-			<button>Register!</button>
-		</form>
+	<h1 id="title">Register</h1>
+	<form method="POST" action="/register" name="mainform" onsubmit="return testpass(this)">
+		<input type="text" name="username" placeholder="Username" required>
+		<input type="email" name="email" placeholder="Email" required>
+		<input type="password" name="password" placeholder="Password" required>
+		<input type="password" name="cpassword" placeholder="Confim Password" required>
+		<button>Register!</button>
+	</form>
 
-		<script>
-			function testpass(form){
-				if (form.password.value != form.cpassword.value) {
-					alert("Password aren't matching!")
-					return false
-				}
-				return true
+	<script>
+		function testpass(form){
+			if (form.password.value != form.cpassword.value) {
+				alert("Password aren't matching!")
+				return false
 			}
-		</script>
-	{% endif %}
+			return true
+		}
+	</script>
 {% endblock %}

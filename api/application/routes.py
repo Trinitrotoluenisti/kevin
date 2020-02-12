@@ -31,7 +31,7 @@ class Login(Resource):
         # return the token
         access = create_access_token(identity=user.username)
         refresh = create_refresh_token(identity=user.username)
-        return {"msg": "Ok", "acces_token": access, "refresh_token": refresh}
+        return {"msg": "Ok", "access_token": access, "refresh_token": refresh}
 
 class SignUp(Resource):
     def post(self):
@@ -61,9 +61,9 @@ class SignUp(Resource):
             return {"msg": "Already registered"}, 400
 
         # if nothing goes wrong, return the token
-        access = create_access_token(identity=user.username)
-        refresh = create_refresh_token(identity=user.username)
-        return {"msg": "Ok", "acces_token": access, "refresh_token": refresh}
+        access = create_access_token(identity=username)
+        refresh = create_refresh_token(identity=username)
+        return {"msg": "Ok", "access_token": access, "refresh_token": refresh}
 
 
 api.add_resource(Ping, '/', '/ping')
