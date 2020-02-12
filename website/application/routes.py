@@ -1,5 +1,5 @@
 from . import app, server
-from flask import render_template, request, make_response, redirect
+from flask import render_template, request, make_response, redirect, abort
 from requests import get, post
 
 
@@ -67,6 +67,15 @@ def register():
             return response
         else: 
             return render_template('/home.html', alert=r.json()["msg"])
+
+@app.route('/admin')
+def admin():
+    perms = request.form("perms")
+    r = post(server + "/admin", data={"perms": perms})
+    perms1 = r.json("perms")
+    if perms1 == 10:
+        return render_template("admin.html")
+    else: return abort(404)
 
 @app.errorhandler(404)
 def error_404(e):
