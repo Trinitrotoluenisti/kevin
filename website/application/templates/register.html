@@ -6,9 +6,10 @@
 {% endblock %}
 
 {% block content %}
-	{% if token %}
+	{% if access_token and refresh_token %}
 		<script>
-			sessionStorage.setItem("token", "{{ token }}");
+			sessionStorage.setItem("refresh_token", "{{ refresh_token }}")
+			sessionStorage.setItem("access_token", "{{ access_token }}")
 			window.location.href = "/";
 		</script>
 	{% else %}
