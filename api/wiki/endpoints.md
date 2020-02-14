@@ -61,4 +61,44 @@ _Generate a new access token from refresh token_
 - **msg:** Ok
 - **access_token:** `<STRING>`
 
+## #1.X Users
+
+### #1.0.1 /user GET
+
+_Returns your informations_
+
+#### Headers
+
+- **Authorization:** Bearer: `<access_token>`
+
+#### Body
+
+
+
+#### Responses
+
+- **Status code:** 200
+- **msg:** Ok
+- **username:** `<STRING>`
+- **email:** `<STRING>`
+- **perms:** `<INTEGER>`
+
+### #1.0.2 /user/`<USERNAME>` GET
+
+_Returns informations about the given username_
+
+#### Headers
+
+
+#### Body
+
+
+
+#### Responses
+
+- **Status code:** 200
+- **msg:** Ok
+- **username:** `<STRING>`
+- **perms:** `<INTEGER>`
+
 _auto-generated docs_

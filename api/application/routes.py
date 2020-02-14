@@ -5,7 +5,7 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                jwt_refresh_token_required, get_jwt_identity,
-                               jwt_required)
+                               jwt_required, jwt_optional)
 from sqlalchemy.exc import IntegrityError
 
 from re import search
@@ -13,12 +13,6 @@ from re import search
 
 class Ping(Resource):
     def get(self):
-        return {"msg": "Working"}
-
-# TEMPORARY
-class Protected(Resource):
-    @jwt_required
-    def post(self):
         return {"msg": "Working"}
 
 class Login(Resource):
@@ -73,17 +67,48 @@ class Register(Resource):
         refresh = create_refresh_token(identity=username)
         return {"msg": "Ok", "access_token": access, "refresh_token": refresh}
 
-
 class Refresh(Resource):
     @jwt_refresh_token_required
     def post(self):
         username = get_jwt_identity()
         return {'msg': 'Ok', 'access_token': create_access_token(identity=username)}
 
+class ViewUser(Resource):
+    @jwt_optional
+    def get(self, username=None):
+        # if username isn't specified, return your infos
+        if not username:
+            username = get_jwt_identity()
+
+            # check if it's logged in
+            if not username:
+                return {"msg": "Missing Authorization Header"}, 401
+
+            # fetch user infos and change something
+            user = User.query.filter_by(username=username).first().json
+            del user['id'], user['password']
+            user['msg'] = "Ok"
+
+            # return them
+            return user
+
+        # if a username is specified, check if exists
+        user = User.query.filter_by(username=username).first()
+
+        if not user:
+            return {"msg": "User does not exist"}, 404
+
+        # If it exists, fetch his public data
+        user = user.json
+        del user['id'], user['email'], user['password']
+        user['msg'] = 'Ok'
+
+        # return it
+        return user
+
 
 api.add_resource(Ping, '/', '/ping')
-# TEMPORARY
-api.add_resource(Protected, '/protected')
 api.add_resource(Login, '/login')
 api.add_resource(Register, '/register')
 api.add_resource(Refresh, '/refresh')
+api.add_resource(ViewUser, '/user', '/user/<string:username>')

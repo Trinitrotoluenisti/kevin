@@ -108,5 +108,62 @@
                 }
             }
         ]
+    },
+    {
+        "id": "#1.0.1",
+        "path": "/user",
+        "method": "GET",
+        "desc": "Returns your informations",
+        "headers": {
+            "Authorization": "Bearer: <access_token>"
+        },
+        "body": {},
+        "responses": [
+            {
+                "scode": 200,
+                "values": {
+                    "msg": "Ok",
+                    "username": "<STRING>",
+                    "email": "<STRING>",
+                    "perms": "<INTEGER>"
+                }
+            },
+            {
+                "scode": 422,
+                "values": {
+                    "msg": "Only refresh tokens are allowed"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "Missing Authorization Header"
+                }
+            }
+        ]
+    },
+    {
+        "id": "#1.0.2",
+        "path": "/user/<USERNAME>",
+        "method": "GET",
+        "desc": "Returns informations about the given username",
+        "headers": {},
+        "body": {},
+        "responses": [
+            {
+                "scode": 200,
+                "values": {
+                    "msg": "Ok",
+                    "username": "<STRING>",
+                    "perms": "<INTEGER>"
+                }
+            },
+            {
+                "scode": 404,
+                "values": {
+                    "msg": "User does not exists"
+                }
+            }
+        ]
     }
 ]
