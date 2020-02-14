@@ -32,7 +32,6 @@
             }
         ]
     },
-
     {
         "id": "#0.2",
         "path": "/register",
@@ -75,6 +74,37 @@
                 "scode": 400,
                 "values": {
                     "msg": "Already registered"
+                }
+            }
+        ]
+    },
+    {
+        "id": "#0.3",
+        "path": "/refresh",
+        "method": "POST",
+        "desc": "Generate a new access token from refresh token",
+        "headers": {
+            "Authorization": "Bearer: <refresh_token>"
+        },
+        "body": {},
+        "responses": [
+            {
+                "scode": 200,
+                "values": {
+                    "msg": "Ok",
+                    "access_token": "<STRING>"
+                }
+            },
+            {
+                "scode": 422,
+                "values": {
+                    "msg": "Only refresh tokens are allowed"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "Missing Authorization Header"
                 }
             }
         ]

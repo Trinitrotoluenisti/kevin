@@ -19,9 +19,13 @@ class Test(unittest.TestCase):
 
         # add a testing user into the database
         self.testing_user = {'username': 'username', 'email': 'email@email.it', 'password': 'password'}
-        User(**self.testing_user).save()
+        r = self.app.post('/register', data=self.testing_user)
+
+        # save tokens
+        self.access = r.json['access_token']
+        self.refresh = r.json['refresh_token']
     
-    def route(self, path, method, expected_sc, response, data=None):
+    def route(self, path, method, expected_sc, response, data=None, auth=None):
         """
         Test a route.
 
@@ -35,11 +39,14 @@ class Test(unittest.TestCase):
         response, no error is raised
         """
 
+        if auth:
+            auth = {'Authorization': f'Bearer {auth}'}
+
         # Make request
         if method.lower() == 'get':
-            r = self.app.get(path)
+            r = self.app.get(path, headers=auth)
         elif method.lower() == 'post':
-            r = self.app.post(path, data=data)
+            r = self.app.post(path, data=data, headers=auth)
         else:
             raise ValueError("Undefined method")
 
@@ -50,13 +57,19 @@ class Test(unittest.TestCase):
         for key in response:
             self.assertEqual(r.json[key], response[key])
 
-    def test_ping(self):
-        self.route('/', 'GET', 200, {"msg": "Working"})
+        return r.json
+
+    def auth(self, auth):
+        """
+        Check if access_token is valid or not
+        """
+
+        r = self.app.post("/protected", headers={'Authorization': f'Bearer {auth}'})
+
+        # Check status code
+        self.assertEqual(r.status_code, 200)
 
     def test_login(self):
-        # with right parameters
-        self.route('/login', 'POST', 200, {"msg": "Ok"}, data=self.testing_user)
-
         # without parameters
         response = {"msg": "Missing parameter(s)"}
         self.route('/login', 'POST', 400, response)
@@ -67,6 +80,10 @@ class Test(unittest.TestCase):
         response = {"msg": "Wrong username or password"}
         self.route('/login', 'POST', 400, response, data={'username': self.testing_user['username'], 'password': ''})
         self.route('/login', 'POST', 400, response, data={'username': '', 'password': self.testing_user['password']})
+
+        # with right parameters
+        token = self.route('/login', 'POST', 200, {"msg": "Ok"}, data=self.testing_user)['access_token']
+        self.auth(token)
 
     def test_register(self):
         # without parameters
@@ -89,11 +106,26 @@ class Test(unittest.TestCase):
 
         # try with a new user
         user = {'username': 'noobmaster69', 'email': 'lol@gmail.com', 'password': 'password123'}
-        self.route('/register', 'POST', 200, {"msg": "Ok"}, data=user)
+        token = self.route('/register', 'POST', 200, {"msg": "Ok"}, data=user)['access_token']
 
-        # login now works with that user
+        # try token
+        self.auth(token)
+
+        # check if user is in the db
         self.route('/login', 'POST', 200, {"msg": "Ok"}, data=user)
 
+    def test_refresh(self):
+        # without header
+        self.route('/refresh', 'POST', 401, {"msg": "Missing Authorization Header"})
+
+        # with wrong header
+        self.route('/refresh', 'POST', 422, {'msg': "Only refresh tokens are allowed"}, auth=self.access)
+
+        # with right refresh
+        token = self.route('/refresh', 'POST', 200, {'msg': "Ok"}, auth=self.refresh)['access_token']
+
+        # check token
+        self.auth(token)
 
 if __name__ == "__main__":
     unittest.main()
