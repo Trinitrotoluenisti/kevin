@@ -70,12 +70,12 @@ def register():
 
 @app.route('/admin')
 def admin():
-    perms = request.form("perms")
-    r = post(server + "/admin", data={"perms": perms})
-    perms1 = r.json("perms")
-    if perms1 == 10:
-        return render_template("admin.html")
-    else: return abort(404)
+    access_token = request.cookies.get('access_token')
+    r= get(server + "/user", headers={"Authorization": "Bearer"+access_token})
+    if r.status_code == 200:
+        return "ok champ"
+    else: 
+        return "wewaglio"
 
 @app.errorhandler(404)
 def error_404(e):
