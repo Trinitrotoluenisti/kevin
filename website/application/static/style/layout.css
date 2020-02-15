@@ -55,24 +55,6 @@ body {
 	color: white;
 }
 
-#register {
-	position: fixed;
-	right: 1%;
-	margin: 1.5vh;
-	padding-left: 1.5vw;
-	padding-right: 1.5vw;
-	height: 10%
-}
-
-#login{
-	height: 10%;
-	position: fixed;
-	right: 10%;
-	margin: 1.5vh;
-	padding-left: 1.5vw;
-	padding-right: 1.5vw;
-}
-
 /* Dropdown */
 
 .navbar .dropdown-content {
@@ -137,10 +119,13 @@ body {
 	right: 1%;
 	padding: 1.3vh;
 	color: black;
+	background-color: #e38d30;
+	border-radius: 5px;
 }
 
 .fa-arrow-alt-circle-up:hover {
 	border-radius: 5px;
 	background-color: #e7c73f;
 	color: white;
+	cursor: pointer;
 }

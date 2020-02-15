@@ -40,22 +40,29 @@
 				</span>
 				{% if not logged_in %}
 				<a href="login" class="button" id="login"><span style="align-items: right;">Login</a></span>
-				<a href="register" class="button" id="register">Register</a></span>
+				<a href="register" class="button">Register</a></span>
 				{% else %}
-				<a href="" class="button" id="login"><span style="align-items: right;">Profile</a></span>
+				<a href="login" class="button"><span style="align-items: right;">Profile</a></span>
 				<a href="" class="button" id="register">Logout</a></span>
 				{% endif %}
 
 			</nav>
 		{% endif %}
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mollis odio in lorem varius feugiat. Cras cursus arcu non est rhoncus, dignissim suscipit ex mattis. In ultricies blandit viverra. Curabitur ut velit fringilla, ullamcorper diam ut, suscipit elit. Etiam ac leo orci. Quisque semper mattis congue. Sed ligula lacus, convallis id mi non, ultrices efficitur elit. Aliquam tortor justo, congue tincidunt pharetra vitae, volutpat sit amet nisl. Fusce sit amet venenatis mauris, eu varius nisl.
+
+		Aliquam erat volutpat. Donec posuere, nisl eget varius vehicula, eros dolor fermentum nibh, nec venenatis libero mauris vel ligula. Nullam eget sodales velit, sit amet blandit augue. Sed elementum eleifend neque, eu aliquam nibh lacinia vitae. Cras pulvinar odio sed scelerisque aliquet. Quisque libero dui, volutpat in consectetur et, interdum vulputate eros. Nam porta nunc et est congue, non posuere mauris elementum. Vestibulum in justo nec leo vestibulum blandit sit amet sed purus. Pellentesque accumsan eget eros vitae semper. Curabitur rutrum, velit vitae fringilla volutpat, tortor est feugiat orci, ut pharetra magna erat ut elit. Aenean vehicula lobortis mi, sit amet ultricies ligula congue at.
+
+		In non nunc turpis. Maecenas tristique eleifend laoreet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin eget odio tristique, aliquam lacus sit amet, ornare magna. Donec a felis et nunc bibendum scelerisque. Phasellus fringilla at turpis ullamcorper vehicula. Praesent hendrerit eleifend magna ut hendrerit. Nam elementum, ipsum ac varius tincidunt, tortor nisi congue diam, sed dignissim velit ex id nibh. Maecenas at arcu eu tellus dapibus vestibulum sit amet et sem. Suspendisse maximus magna vel lorem elementum luctus. Nunc maximus odio ut interdum ornare. Nulla scelerisque scelerisque nisi et porttitor.
+
+		Maecenas dictum facilisis euismod. Nunc porta erat et dui tempus vulputate. Duis ornare ex magna, ac finibus est sagittis sit amet. Suspendisse sit amet libero tempor, fermentum diam et, pellentesque dolor. Etiam ac elementum orci, eu tincidunt tellus. Duis ornare diam dui, ut sollicitudin leo condimentum in. Donec porttitor leo at odio consectetur aliquam ullamcorper id justo. Maecenas condimentum auctor commodo. Curabitur pharetra suscipit scelerisque. Phasellus ex urna, dignissim et eros non, egestas feugiat erat. Pellentesque eget eros diam. Integer volutpat placerat enim eget ullamcorper. In ultricies, risus ut ultrices interdum, risus justo porta sapien, vel malesuada arcu nibh imperdiet dui. Duis volutpat bibendum leo porttitor blandit.
+
+		Nullam sit amet mollis metus, ut fermentum mauris. Vestibulum nunc risus, scelerisque ac tempor at, tempor quis purus. Proin varius facilisis egestas. Suspendisse sed purus scelerisque, egestas lorem nec, aliquam risus. Donec lobortis nulla vitae erat auctor, sed ultrices elit semper. Praesent mi risus, sagittis id nulla non, tincidunt luctus quam. Quisque augue leo, pellentesque vel gravida vel, interdum et nulla. Sed euismod sagittis arcu, et dictum orci aliquam lobortis. Phasellus posuere ipsum ut enim blandit suscipit. Sed ut malesuada enim. Sed vestibulum risus a tincidunt congue. Donec sit amet pretium eros, vitae convallis sapien. </p>
 
 		<main>{% block content %}{% endblock %}</main>
 
 		{% if (footer | default("there", false)) %}
 			<nav class="footer">
 				<a href=".." class="button"><span>Home</a></span>
-				<a href="login" class="button"><span>Login</a></span>
-				<a href="register" class="button">Register</a></span>
 				<a href="#" class="button"><span>News</a></span>
 				<a href="#" class="button"><span>Contacts</a></span>
 				<a href="#" class="button"><span>About</span></a>
