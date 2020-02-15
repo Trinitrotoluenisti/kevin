@@ -1,21 +1,20 @@
 [
     {
-        "id": "#0.1",
         "path": "/login",
         "method": "POST",
         "desc": "Make the login process with the given credentials",
         "headers": [],
         "body": {
-            "username": "<string>",
-            "password": "<string>"
+            "username": "<STRING>",
+            "password": "<STRING>"
         },
         "responses": [
             {
                 "scode": 200,
                 "values": {
                     "msg": "Ok",
-                    "access_token": "<string>",
-                    "refresh_token": "<string>"
+                    "access_token": "<STRING>",
+                    "refresh_token": "<STRING>"
                 }
             },
             {
@@ -32,24 +31,26 @@
             }
         ]
     },
+
     {
-        "id": "#0.2",
         "path": "/register",
         "method": "POST",
         "desc": "Create a new user and add it into the database",
         "headers": [],
         "body": {
-            "username": "<string>",
-            "email": "<string>",
-            "password": "<string>"
+            "username": "<STRING>",
+            "name": "<STRING>",
+            "surname": "<STRING>",
+            "email": "<STRING>",
+            "password": "<STRING>"
         },
         "responses": [
             {
                 "scode": 200,
                 "values": {
                     "msg": "Ok",
-                    "access_token": "<string>",
-                    "refresh_token": "<string>"
+                    "access_token": "<STRING>",
+                    "refresh_token": "<STRING>"
                 }
             },
             {
@@ -78,8 +79,8 @@
             }
         ]
     },
+
     {
-        "id": "#0.3",
         "path": "/refresh",
         "method": "POST",
         "desc": "Generate a new access token from refresh token",
@@ -109,8 +110,8 @@
             }
         ]
     },
+
     {
-        "id": "#1.0.1",
         "path": "/user",
         "method": "GET",
         "desc": "Returns your informations",
@@ -124,6 +125,8 @@
                 "values": {
                     "msg": "Ok",
                     "username": "<STRING>",
+                    "name": "<STRING>",
+                    "surname": "<STRING>",
                     "email": "<STRING>",
                     "perms": "<INTEGER>"
                 }
@@ -142,8 +145,8 @@
             }
         ]
     },
+
     {
-        "id": "#1.0.2",
         "path": "/user/<USERNAME>",
         "method": "GET",
         "desc": "Returns informations about the given username",
@@ -155,6 +158,8 @@
                 "values": {
                     "msg": "Ok",
                     "username": "<STRING>",
+                    "name": "<STRING>",
+                    "surname": "<STRING>",
                     "perms": "<INTEGER>"
                 }
             },

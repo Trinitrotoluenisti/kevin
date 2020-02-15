@@ -19,6 +19,8 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
     username = db.Column("username", db.String, unique=True, nullable=False)
+    name = db.Column("name", db.String, nullable=False)
+    surname = db.Column("surname", db.String, nullable=False)
     email = db.Column("email", db.String, unique=True, nullable=False)
     password = db.Column("password", db.String, nullable=False)
     perms = db.Column("perms", db.Integer)
@@ -77,6 +79,8 @@ class User(db.Model):
         return {
                 "id": self.id,
                 "username": self.username,
+                "name": self.name,
+                "surname": self.surname,
                 "email": self.email,
                 "password": self.password,
                 "perms": self.perms
