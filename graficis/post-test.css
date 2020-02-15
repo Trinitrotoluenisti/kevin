@@ -1,4 +1,4 @@
-div {
+.post-container {
 	max-width: 100%;
 	background-color: gainsboro;
 	border-radius: 8px;
@@ -7,16 +7,16 @@ div {
 	text-align: justify;
 }
 
-span {
+.post-section {
 	line-height: 1.4;
 	font-size: 20px;
 }
 
 #title {
 	color: red;
-	font-family: Arial;
+	font-family: 'Roboto', sans-serif;
 }
 
 #body {
-	font-family: Arial;
+	font-family: 'Roboto', sans-serif;
 }

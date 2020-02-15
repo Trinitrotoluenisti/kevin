@@ -94,3 +94,7 @@ def admin():
 @app.errorhandler(404)
 def error_404(e):
     return render_template('/404.html'), 404
+
+@app.route('/post')
+def post():
+    return render_template('post.html')
