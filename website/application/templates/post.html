@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+
+
+{% block css %}
+	<link type="text/css" href="{{ url_for('static', filename='style/home.css') }}">
+{% endblock %}
+
+{% block content %}
+	<div class="post-container">
+		<span class="post-section" id="post-title">Lorem ipsum dolor sit amet</span>
+		<span class="post-section" id="post-body">Consectetur adipiscing elit. Curabitur a enim in lacus convallis blandit vel id nisi. Etiam porta, risus a convallis rutrum, mauris lacus scelerisque diam, eu elementum urna nibh ac arcu. In nec nisi pulvinar, mattis velit et, iaculis lectus. Vivamus dignissim sollicitudin enim vel imperdiet. Proin enim metus, sollicitudin in rutrum vitae, mollis ac mauris. Curabitur aliquet augue vitae iaculis volutpat. Aliquam consectetur auctor sodales. Nulla eu est euismod orci efficitur malesuada. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse commodo pellentesque lorem. Ut nisl massa, gravida nec elit eget, finibus tincidunt augue. Phasellus eget ultricies nibh. Quisque sodales turpis eget ligula volutpat porttitor. Aliquam tellus lectus, aliquet in mauris sed, tincidunt ornare odio. Aenean placerat nibh neque. Etiam tempor mattis leo ut cursus. Nullam finibus, lacus vel sodales sagittis, purus nisi vestibulum augue, in consectetur felis nibh id sapien. Maecenas laoreet urna non odio mollis varius. Sed a mi erat. Praesent erat sem, gravida at nibh eget, tincidunt iaculis felis. Donec ac enim tortor. Duis condimentum elit nec eros vehicula, eget tincidunt risus euismod. Mauris ut condimentum lacus, eu sollicitudin sapien. Aliquam et sem vulputate, convallis ipsum quis, elementum urna.</span>
+	</div>
+{% endblock %}
+
+{% if alert %}
+	<script>
+		alert("{{alert}}");
+	</script>
+{% endif %}

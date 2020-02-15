@@ -1,0 +1,22 @@
+.post-container {
+	max-width: 100%;
+	background-color: gainsboro;
+	border-radius: 8px;
+	padding: 20px;
+	margin: 30px;
+	text-align: justify;
+}
+
+.post-section {
+	line-height: 1.4;
+	font-size: 20px;
+}
+
+#post-title {
+	color: red;
+	font-family: 'Roboto', sans-serif;
+}
+
+#post-body {
+	font-family: 'Roboto', sans-serif;
+}
