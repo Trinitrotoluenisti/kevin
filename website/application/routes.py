@@ -51,11 +51,16 @@ def register():
     else:
         # fetch data
         username = request.form["username"]
+        name = request.form["name"]
+        surname = request.form["surname"]
         email = request.form["email"]
         password = request.form["password"]
 
+        user = {"username": username, "name": name, "surname": surname,
+                "password": password, "email": email}
+
         # make a requets to the apis
-        r = post(server + "/register", data={"username": username, "password": password, 'email': email})
+        r = post(server + "/register", data=user)
 
         # if it's ok, return the register
         if r.status_code == 200:
