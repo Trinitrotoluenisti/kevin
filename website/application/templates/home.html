@@ -4,7 +4,14 @@
 
 {% block css %}
 	<link type="text/css" href="{{ url_for('static', filename='style/home.css') }}">
+	
 {% endblock %}
 
 {% block content %}
+
+	{% if alert %}
+		<script>
+			alert("{{alert}}");
+		</script>
+	{% endif %}
 {% endblock %}

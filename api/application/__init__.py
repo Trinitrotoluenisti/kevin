@@ -14,7 +14,7 @@ jwt = JWTManager(app)
 # app configs
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-app.config["JWT_SECRET_KEY"] = str(randint(0, 99999))
+app.config["JWT_SECRET_KEY"] = 'ciao' #str(randint(0, 99999)) #TODO: ricorda che devi togliere il commento prima
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=45)
 
 

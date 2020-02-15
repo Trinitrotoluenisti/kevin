@@ -26,9 +26,9 @@
 	<body onload="adjust_dropdowns();">
 		{% if (nav | default("there", false)) %}
 			<nav class="navbar">
-				<span class="button"><a href="#">Home</a></span>
+				<span class="button"><a href="..">Home</a></span>
 				<span class="button"><a href="#">News</a></span>
-				<span class="button"><a href="#">Contact</a></span>
+				<span class="button"><a href="#">Contacts</a></span>
 				<span class="button"><a href="#">About</a></span>
 				<span class="button dropdown">
 					<a>Dropdown</a>
@@ -38,8 +38,14 @@
 						<a href="#">Link 3</a>
 					</div>
 				</span>
+				{% if not logged_in %}
 				<a href="login" class="button" id="login"><span style="align-items: right;">Login</a></span>
 				<a href="register" class="button" id="register">Register</a></span>
+				{% else %}
+				<a href="" class="button" id="login"><span style="align-items: right;">Profile</a></span>
+				<a href="" class="button" id="register">Logout</a></span>
+				{% endif %}
+
 			</nav>
 		{% endif %}
 
@@ -51,7 +57,7 @@
 				<a href="login" class="button"><span>Login</a></span>
 				<a href="register" class="button">Register</a></span>
 				<a href="#" class="button"><span>News</a></span>
-				<a href="#" class="button"><span>Contact</a></span>
+				<a href="#" class="button"><span>Contacts</a></span>
 				<a href="#" class="button"><span>About</span></a>
 				<span><i class="far fa-arrow-alt-circle-up"></i></span>
 			</nav>

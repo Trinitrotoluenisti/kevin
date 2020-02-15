@@ -5,8 +5,11 @@ from requests import get, post
 
 @app.route('/')
 def home():
-    return render_template('home.html')
-
+    access_token = request.cookies.get('access_token')
+    if access_token:
+        return render_template('home.html', logged_in=True)
+    else:
+        return render_template('home.html')
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -71,11 +74,17 @@ def register():
 @app.route('/admin')
 def admin():
     access_token = request.cookies.get('access_token')
-    r= get(server + "/user", headers={"Authorization": "Bearer"+access_token})
+    r= get(server + "/user", headers={"Authorization": "Bearer " + access_token})
     if r.status_code == 200:
-        return "ok champ"
+        perms = r.json()["perms"]
+        if perms >= 10:     #TODO: ricorda di cambiare il numero per il max perms (admin)
+            return render_template('admin.html')
+        else: 
+            #return abort(404)
+            return render_template('/home.html', alert=r.json()["msg"])
     else: 
-        return "wewaglio"
+        #return abort(404)
+        return render_template('/home.html', alert=r.json()["msg"])
 
 @app.errorhandler(404)
 def error_404(e):
