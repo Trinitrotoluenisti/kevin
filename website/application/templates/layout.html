@@ -27,31 +27,44 @@
 	<body>
 		{% if (nav | default("there", false)) %}
 			<nav class="menu">
-			<ul class="navbar">
-				<li class="button"><a href="..">Home</a></li>
-				<div class="dropdown">
-					<button class="ddbutton">Dropdown</button>
-					<div class="dropdown-content">
-						<a href="#">Link 1</a>
-						<a href="#">Link 2</a>
-						<a href="#">Link 3</a>
+				<ul class="navbar">
+					<li class="button"><a href="..">Home</a></li>
+					<div class="dropdown">
+						<button class="ddbutton">Dropdown</button>
+						<div class="dropdown-content">
+							<a href="#">Link 1</a>
+							<a href="#">Link 2</a>
+							<a href="#">Link 3</a>
+						</div>
 					</div>
-				</div>
-				<li class="button"><a href="#">Lorem</a></li>
-				<li class="button"><a href="#">ipsum</a></li>
-				<li class="button"><a href="#">dolor</a></li>				
-				{% if not logged_in %}
-					<li class="button rbutton"><a href="login" style="margin-right: 2vh">Login</a></li>
-					<li class="button rbutton"><a href="register">Register</a></li>
-				{% else %}
-					<li class="button rbutton"><a href="#" style="margin-right: 2vh">Profile</a></li>
-					<li class="button rbutton"><a href="#">Logout</a></li>
-				{% endif %}
-			</ul>
-		</nav>	
+					<li class="button"><a href="#">Lorem</a></li>
+					<li class="button"><a href="#">ipsum</a></li>
+					<li class="button"><a href="#">dolor</a></li>				
+					{% if not logged_in %}
+						<li class="button rbutton"><a href="login" style="margin-right: 2vh">Login</a></li>
+						<li class="button rbutton"><a href="register">Register</a></li>
+					{% else %}
+						<li class="button rbutton"><a href="#" style="margin-right: 2vh">Profile</a></li>
+						<li class="button rbutton"><a href="#">Logout</a></li>
+					{% endif %}
+				</ul>
+			</nav>	
 		{% endif %}
 
 		<main>{% block content %}{% endblock %}</main>
+
+		<div id="popup-lightbox">
+			<div id="cookie-popup">
+				<div id="popup-content">
+					<div id="popup-hey">Hey!</div>
+					<div id="popup-text">This site uses cookies. If you agree with that, click "I Agree"</i>. If you don't, we are sorry but you can't use our site.</div>
+					<div id="popup-buttons">
+						<a href="https://google.com"><span class="popup-button">I <b>DON'T</b> agree</span></a>
+						<span class="popup-button" onclick="close_cookie_popup();">I Agree</span>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		{% if (footer | default("there", false)) %}
 			<nav class="footer">
@@ -65,4 +78,17 @@
 			</nav>
 		{% endif %}
 	</body>
+
+	<script>
+		function close_cookie_popup() {
+			var popup = document.getElementById("popup-lightbox");
+			popup.parentNode.removeChild(popup);
+			localStorage.setItem("cookie-accepted", 1);
+		}
+
+		// Check if user has already accepted it
+		if (localStorage.getItem("cookie-accepted") == 1) {
+			close_cookie_popup();
+		}
+	</script>
 </html>
