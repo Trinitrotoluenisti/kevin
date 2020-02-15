@@ -1,7 +1,6 @@
 html {		
 	background-color: #f9fcff;
 	font-family: 'Roboto', sans-serif;
-	padding-bottom: 20vh;
 }
 
 /* Navbar */
@@ -46,6 +45,10 @@ html {
 	font-weight: bold;
 }
 
+.rbutton {
+	float: right;
+}
+
 /* dropdown */
 
 .dropdown {	
@@ -58,7 +61,7 @@ html {
 	border: none;
 	outline: none;
 	color: white;
-	padding: 14px 16px;
+	padding: 11px;
 	background-color: #0499cf;
 	border-radius: 5px;
 	font-size: 20px;
@@ -102,20 +105,15 @@ html {
 
 /* footer */
 
-.menufooter {
-	position: fixed;
-	left: 0px;
-}
-
 .footer {
-	position: fixed;
-	left: 0;
-	padding: 0;
-	bottom: -16px;
-	width: 100%;
+	position: static;
+	margin: 0;
+	bottom: -5vh;
+	display: flex;
+	align-items: center;
+	font-size: 1.2em;
 	background-color: #e38d30;
 	list-style-type: none;
-	overflow: hidden;
 }
 
 .ftext {
@@ -156,6 +154,8 @@ html {
 	padding: 8.5px;
 	font-size: 30px;
 	color: white;
+	background-color: #e38d30;
+	border-radius: 5px;
 }
 
 .fa-arrow-alt-circle-up:hover {
