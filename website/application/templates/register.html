@@ -8,6 +8,8 @@
 {% block content %}
 	<h1 id="title">Register</h1>
 	<form method="POST" action="/register" name="mainform" onsubmit="return testpass(this)">
+		<input type="text" name="name" placeholder="Insert name" required>
+		<input type="text" name="surname" placeholder="Insert surname" required>
 		<input type="text" name="username" placeholder="Username" required>
 		<input type="email" name="email" placeholder="Email" required>
 		<input type="password" name="password" placeholder="Password" required>
