@@ -40,6 +40,8 @@ class Register(Resource):
         # fetch parameters
         try:
             username = str(request.form['username'])
+            name = str(request.form['name'])
+            surname = str(request.form['surname'])            
             email = str(request.form['email'])
             password = str(request.form['password'])
         except KeyError:
@@ -55,7 +57,7 @@ class Register(Resource):
 
         # Try add it in the database
         try:
-            User(username=username, email=email, password=password).save()
+            User(username=username, name=name, surname=surname, email=email, password=password).save()
 
         # If it's already present in the db
         except IntegrityError:

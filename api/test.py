@@ -18,7 +18,13 @@ class Test(unittest.TestCase):
         db.create_all()
 
         # add a testing user into the database
-        self.testing_user = {'username': 'username', 'email': 'email@email.it', 'password': 'password'}
+        self.testing_user = {
+                             'username': 'mattone_calc01',
+                             'name': 'Mattone',
+                             'surname': 'Calcestruzzo',
+                             'email': 'mattone@impresaedile.tk',
+                             'password': 'calceviva'
+                            }
         r = self.app.post('/register', data=self.testing_user)
 
         # save tokens
@@ -92,23 +98,28 @@ class Test(unittest.TestCase):
         # without parameters
         response = {"msg": "Missing parameter(s)"}
         self.route('/register', 'POST', 400, response)
-        self.route('/register', 'POST', 400, response, data={'username': self.testing_user['username']})
 
-        # too long parameters
-        response = {"msg": "username and/or password too short"}
-        self.route('/register', 'POST', 400, response, data={'username': '', 'email': '', 'password': ''})
-        self.route('/register', 'POST', 400, response, data={'username': 'a', 'email': 'zhou@zhou.it', 'password': 'a'})
-
-        # invalid email
-        response = {"msg": "Invalid email"}
-        self.route('/register', 'POST', 400, response, data={'username': 'qiang', 'email': 'zhou.it', 'password': 'lamiapassword'})
+        user = self.testing_user
 
         # already registered
         response = {"msg": "Already registered"}
-        self.route('/register', 'POST', 400, response, data=self.testing_user)
+        self.route('/register', 'POST', 400, response, data=user)
+
+        user = dict(zip(user.keys(), [''] * len(user)))
+
+        # too long parameters
+        response = {"msg": "username and/or password too short"}
+        self.route('/register', 'POST', 400, response, data=user)
+
+        user = dict(zip(user.keys(), user.keys()))
+
+        # invalid email
+        response = {"msg": "Invalid email"}
+        self.route('/register', 'POST', 400, response, data=user)
+
+        user['email'] = 'email@email.it'
 
         # try with a new user
-        user = {'username': 'noobmaster69', 'email': 'lol@gmail.com', 'password': 'password123'}
         token = self.route('/register', 'POST', 200, {"msg": "Ok"}, data=user, equal=False)['access_token']
 
         # try token
@@ -132,7 +143,9 @@ class Test(unittest.TestCase):
 
     def test_user_view(self):
         # no username is specified but there is the access token
-        response = {"msg": "Ok", 'username': 'username', 'email': 'email@email.it', 'perms': None}
+        response = self.testing_user.copy()
+        response.update({"msg": "Ok", 'perms': None})
+        del response['password']
         self.route('/user', 'GET', 200, response, auth=self.access)
 
         # no username is specified but there is the refresh token
@@ -145,10 +158,15 @@ class Test(unittest.TestCase):
         self.route('/user/friend', 'GET', 404, {'msg': "User does not exist"})
 
         # add an user
-        self.app.post('/register', data={'username': 'friend', 'email': 'friend@email.it', 'password': 'password'})
+        user = dict(zip(self.testing_user.keys(), self.testing_user.keys()))
+        user['email'] = 'email@email.it'
+        self.app.post('/register', data=user)
+
+        del user['email'], user['password']
+        user.update({"msg": "Ok", 'perms': None})
 
         # try to fetch his data
-        self.route('/user/friend', 'GET', 200, {'msg': "Ok", "username": "friend", "perms": None})
+        self.route('/user/username', 'GET', 200, user)
 
 
 if __name__ == "__main__":
