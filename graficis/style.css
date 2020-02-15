@@ -33,9 +33,10 @@ html {
 
 .button a {
 	display: block;
+
+	padding: 2vh;
 	color: white;
 	text-align: center;
-	padding: 14px 16px;
 	text-decoration: none;
 }
 
@@ -61,7 +62,7 @@ html {
 	border: none;
 	outline: none;
 	color: white;
-	padding: 11px;
+	padding: 2vh;
 	background-color: #0499cf;
 	border-radius: 5px;
 	font-size: 20px;
@@ -106,9 +107,10 @@ html {
 /* footer */
 
 .footer {
-	position: static;
+	position: relative;
+	bottom: 0;
 	margin: 0;
-	bottom: -5vh;
+	width: 100%;
 	display: flex;
 	align-items: center;
 	font-size: 1.2em;
@@ -134,7 +136,7 @@ html {
 	display: block;
 	color: white;
 	text-align: center;
-	padding: 14px 16px;
+	padding: 2vh;
 	text-decoration: none;
 }
 
