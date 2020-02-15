@@ -1,3 +1,11 @@
+				{% if not logged_in %}
+				<a href="login" class="button" id="login"><span style="align-items: right;">Login</a></span>
+				<a href="register" class="button">Register</a></span>
+				{% else %}
+				<a href="" class="button"><span style="align-items: right;">Profile</a></span>
+				<a href="" class="button" id="register">Logout</a></span>
+				{% endif %}
+
 <!DOCTYPE html>
 <html>
 	<head>

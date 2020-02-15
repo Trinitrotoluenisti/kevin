@@ -6,7 +6,7 @@ html, body {
 main {
 	height: min-content;
 	flex-grow: 1;
-	margin: 5vh 5vw 3vh 7vh;
+	margin: 7vh 5vw 3vh 7vh;
 }
 
 body {
@@ -19,71 +19,102 @@ body {
 /* Navbar */
 
 .navbar {
-	position: sticky;
-	top: 0;
+	position: fixed;
+	list-style-type: none;
+	padding: 5px;
 	width: 100%;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	font-size: 1.3em;
+	margin-top: -6px;
+	overflow: hidden;
 	background-color: #0499cf;
+	font-size: 1.2em;
 }
 
-/* Buttons in Navbar */
+.menu {
+	position: fixed;
+	top: 6px;	
+	left: 0px;
+}
 
-.button {	
-	height: 100%;
-	padding-left: 1.5vw;
-	padding-right: 1.5vw;
-	display: grid;
-	align-items: center;
-	text-decoration: none;
-	margin: 1.5vh;
+/* Buttons in navbar */
+
+.button {
+	float: left;
+	background-color: #0499cf;
 	color: white;
-}
-
-.navbar .button:hover {
-	background-color: #34bdeb;
-	border-radius: 5px;
-	font-weight: bold;
-	cursor: pointer;
+	border: none;
 }
 
 .button a {
+	display: block;
+	padding: 1.3vh;
+	color: white;
 	text-align: center;
 	text-decoration: none;
-	color: white;
+}
+
+.button a:hover {
+	background-color: #34bdeb;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.rbutton {
+	float: right;
 }
 
 /* Dropdown */
 
-.navbar .dropdown-content {
-	position: fixed;
-	top: 5.5vh;
-	display: none;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	background-color: #f9f9f9;
+.dropdown {	
+	float: left;
+	overflow: hidden;
+}
+
+.dropdown .ddbutton {
+	border: none;
+	outline: none;
+	color: white;
+	padding: 1.5vh;
+	background-color: #0499cf;
 	border-radius: 5px;
+	font-size: 1em;
+	cursor: pointer;
 }
 
-.navbar .dropdown-content a {
-	padding-left: 2vw;
-	padding-top: 1.2vh;
-	padding-bottom: 1vh;
-	display: block;
-	font-size: 0.8em;
-	font-weight: 400;
-	text-align: left;
-	color: black;
-}
-
-.navbar .dropdown-content a:hover {
-	background-color: #b0ddc8;
+.dropdown:hover .ddbutton {
+	background-color: #34bdeb;
 	font-weight: bold;
+}
+
+/* Dropdown content */
+
+.dropdown-content {
+	display: none;
+	position: fixed;
+	background-color: #f9f9f9;
+	min-width: 15vh;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;	
 	border-radius: 5px;
 }
 
-.navbar .dropdown:hover .dropdown-content {
+.dropdown-content a {
+	float: none;
+	font-size: 0.875em;
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	text-align: left;
+	border-radius: 5px;
+}
+
+.dropdown-content a:hover {
+	background-color: #b0ddc8;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.dropdown:hover .dropdown-content {
 	display: block;
 }
 
@@ -93,21 +124,38 @@ body {
 	position: static;
 	bottom: 0;
 	width: 100%;
-	min-height: 5.5vh;
+	min-height: auto;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	font-size: 1.2em;
+	font-size: 1.15em;
 	background-color: #e38d30;
 }
 
 /* Buttons in Footer */
 
-.footer .button:hover {
+.fbutton {
+	float: left;
+	background-color: #e38d30;
+	color: white;
+	border: none;
+	padding: 1.5vh;
+	cursor: pointer;
+}
+
+.fbutton a {
+	display: block;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+}
+
+
+.fbutton:hover {
 	background-color: #e7c73f;
-	color: black;
 	border-radius: 5px;
-	font-size: bold;
+	color: black;
+	font-weight: bold;
 }
 
 /* Arrow up */
@@ -117,7 +165,7 @@ body {
 	position: fixed;
 	bottom: 0;
 	right: 1%;
-	padding: 1.3vh;
+	padding: 1vh;
 	color: black;
 	background-color: #e38d30;
 	border-radius: 5px;

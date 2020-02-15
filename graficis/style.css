@@ -8,12 +8,12 @@ html {
 .navbar {
 	position: fixed;
 	list-style-type: none;
-	padding: 7px;
+	padding: 5px;
 	width: 100%;
 	margin-top: -6px;
 	overflow: hidden;
 	background-color: #0499cf;
-	font-size: 20px;
+	font-size: 1.25em;
 }
 
 .menu {
@@ -33,8 +33,7 @@ html {
 
 .button a {
 	display: block;
-
-	padding: 2vh;
+	padding: 1.5vh;
 	color: white;
 	text-align: center;
 	text-decoration: none;
@@ -58,14 +57,13 @@ html {
 }
 
 .dropdown .ddbutton {
-	font-size: 16px;  
 	border: none;
 	outline: none;
 	color: white;
-	padding: 2vh;
+	padding: 1.5vh;
 	background-color: #0499cf;
 	border-radius: 5px;
-	font-size: 20px;
+	font-size: 1em;
 	cursor: pointer;
 }
 
@@ -86,6 +84,7 @@ html {
 
 .dropdown-content a {
 	float: none;
+	font-size: 0.875em;
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
@@ -113,7 +112,7 @@ html {
 	width: 100%;
 	display: flex;
 	align-items: center;
-	font-size: 1.2em;
+	font-size: 1em;
 	background-color: #e38d30;
 	list-style-type: none;
 }

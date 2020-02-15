@@ -24,62 +24,45 @@
 		{% block js %}{% endblock %}
 	</head>
 
-	<body onload="adjust_dropdowns();">
+	<body>
 		{% if (nav | default("there", false)) %}
-			<nav class="navbar">
-				<span class="button"><a href="..">Home</a></span>
-				<span class="button"><a href="#">News</a></span>
-				<span class="button"><a href="#">Contacts</a></span>
-				<span class="button"><a href="#">About</a></span>
-				<span class="button dropdown">
-					<a>Dropdown</a>
+			<nav class="menu">
+			<ul class="navbar">
+				<li class="button"><a href="..">Home</a></li>
+				<div class="dropdown">
+					<button class="ddbutton">Dropdown</button>
 					<div class="dropdown-content">
 						<a href="#">Link 1</a>
 						<a href="#">Link 2</a>
 						<a href="#">Link 3</a>
 					</div>
-				</span>
+				</div>
+				<li class="button"><a href="#">Lorem</a></li>
+				<li class="button"><a href="#">ipsum</a></li>
+				<li class="button"><a href="#">dolor</a></li>				
 				{% if not logged_in %}
-				<a href="login" class="button" id="login"><span style="align-items: right;">Login</a></span>
-				<a href="register" class="button">Register</a></span>
+				<li class="button rbutton"><a href="login" style="margin-right: 2vh">Login</a></li>
+				<li class="button rbutton"><a href="register">Register</a></li>
 				{% else %}
-				<a href="" class="button"><span style="align-items: right;">Profile</a></span>
-				<a href="" class="button" id="register">Logout</a></span>
+				<a href="" class="button rbutton"><span style="margin-right: 2vh">Profile</a></span>
+				<a href="" class="button rbutton">Logout</a></span>
 				{% endif %}
-
-			</nav>
+			</ul>
+		</nav>	
 		{% endif %}
 
 		<main>{% block content %}{% endblock %}</main>
 
 		{% if (footer | default("there", false)) %}
 			<nav class="footer">
-				<a href=".." class="button"><span>Home</a></span>
-				<a href="#" class="button"><span>News</a></span>
-				<a href="#" class="button"><span>Contacts</a></span>
-				<a href="#" class="button"><span>About</span></a>
+				<span class="fbutton"><a href="..">Home</span></a>
+				<span class="fbutton"><a href="#">Lorem</span></a>
+				<span class="fbutton"><a href="#">ipsum</span></a>
+				<span class="fbutton"><a href="#">dolor</span></a>
+				<span class="fbutton"><a href="#">sit</span></a>
+				<span class="fbutton"><a href="#">amet</span></a>
 				<span><i class="far fa-arrow-alt-circle-up"></i></span>
 			</nav>
 		{% endif %}
 	</body>
-
-	<script>
-		function adjust_dropdowns() {
-			var dropdowns = document.getElementsByClassName("dropdown");
-			var button;
-			var content;
-
-			for (var i = 0; i < dropdowns.length; i++) {
-				button = dropdowns[i];
-				content = button.children[1];
-
-				button.style.fontWeight = '700';
-
-				content.style.width = button.offsetWidth + 'px';
-				content.style.left = button.offsetLeft + 'px';
-
-				button.style.fontWeight = null;
-			}
-		}
-	</script>
 </html>
