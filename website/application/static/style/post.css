@@ -2,14 +2,16 @@
 	max-width: 100%;
 	background-color: gainsboro;
 	border-radius: 8px;
-	padding: 20px;
-	margin: 30px;
+	padding: 1vw;
+	margin-top: 3vh;
+	margin-left: -3vh;
+	right: -2vh;
 	text-align: justify;
 }
 
 .post-section {
 	line-height: 1.4;
-	font-size: 20px;
+	font-size: 1.25em;
 }
 
 #post-title {
@@ -18,5 +20,6 @@
 }
 
 #post-body {
+	margin-top: 1.5vh;
 	font-family: 'Roboto', sans-serif;
 }
