@@ -1,5 +1,7 @@
 from application import app, db, User
+
 import unittest
+from datetime import timedelta
 
 
 class Test(unittest.TestCase):
@@ -9,6 +11,7 @@ class Test(unittest.TestCase):
         app.config['WTF_CSRF_ENABLED'] = False
         app.config['DEBUG'] = False
         app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db"
+        app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=5)
 
         # Creating app
         self.app = app.test_client()
@@ -68,7 +71,7 @@ class Test(unittest.TestCase):
 
         return r.json
 
-    def auth(self, auth):
+    def auth(self, auth, real=True):
         """
         Check if access_token is valid or not
         """
@@ -76,7 +79,10 @@ class Test(unittest.TestCase):
         r = self.app.get("/user", headers={'Authorization': f'Bearer {auth}'})
 
         # Check status code
-        self.assertEqual(r.status_code, 200)
+        if real:
+            self.assertEqual(r.status_code, 200)
+        else:
+            self.assertEqual(r.status_code, 401)
 
     def test_login(self):
         # without parameters
@@ -140,6 +146,36 @@ class Test(unittest.TestCase):
 
         # check token
         self.auth(token)
+
+    def test_logouts(self):
+        self.auth(self.access)
+
+        # revoke access token
+        self.app.post('/logout/access', headers={'Authorization': f'Bearer {self.access}'})
+
+        # make sure it's revoked
+        self.auth(self.access, real=False)
+
+        # try generating a new access
+        access = self.route('/refresh', 'POST', 200, {'msg': "Ok"}, auth=self.refresh, equal=False)['access_token']
+        self.auth(access)
+
+        # revoke refresh
+        self.app.post('/logout/refresh', headers={'Authorization': f'Bearer {self.refresh}'})
+
+        # make sure it's revoked
+        self.route('/refresh', 'POST', 401, {'msg': "Token has been revoked"}, auth=self.refresh)
+
+        # try without headers
+        self.route('/logout/access', 'POST', 401, {'msg': "Missing Authorization Header"})
+        self.route('/logout/refresh', 'POST', 401, {'msg': "Missing Authorization Header"})
+
+        # try with wrong tokens
+        self.route('/logout/access', 'POST', 422, {'msg': "Only access tokens are allowed"}, auth=self.refresh)
+        self.route('/logout/refresh', 'POST', 422, {'msg': "Only refresh tokens are allowed"}, auth=self.access)
+
+        self.route('/logout/access', 'POST', 401, {'msg': "Token has been revoked"}, auth=self.access)
+        self.route('/logout/refresh', 'POST', 401, {'msg': "Token has been revoked"}, auth=self.refresh)
 
     def test_user_view(self):
         # no username is specified but there is the access token

@@ -112,6 +112,78 @@
     },
 
     {
+        "path": "/logout/access",
+        "method": "POST",
+        "desc": "Revoke the access token",
+        "headers": {
+            "Authorization": "Bearer: <access_token>"
+        },
+        "body": {},
+        "responses": [
+            {
+                "scode": 200,
+                "values": {
+                    "msg": "Ok"
+                }
+            },
+            {
+                "scode": 422,
+                "values": {
+                    "msg": "Only access tokens are allowed"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "Missing Authorization Header"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "Token has been revoked"
+                }
+            }
+        ]
+    },
+
+    {
+        "path": "/logout/revoke",
+        "method": "POST",
+        "desc": "Revoke the refresh token",
+        "headers": {
+            "Authorization": "Bearer: <refresh_token>"
+        },
+        "body": {},
+        "responses": [
+            {
+                "scode": 200,
+                "values": {
+                    "msg": "Ok"
+                }
+            },
+            {
+                "scode": 422,
+                "values": {
+                    "msg": "Only refresh tokens are allowed"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "Missing Authorization Header"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "Token has been revoked"
+                }
+            }
+        ]
+    },
+
+    {
         "path": "/user",
         "method": "GET",
         "desc": "Returns your informations",
@@ -134,13 +206,19 @@
             {
                 "scode": 422,
                 "values": {
-                    "msg": "Only refresh tokens are allowed"
+                    "msg": "Only access tokens are allowed"
                 }
             },
             {
                 "scode": 401,
                 "values": {
                     "msg": "Missing Authorization Header"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "Token has been revoked"
                 }
             }
         ]
