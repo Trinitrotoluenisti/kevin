@@ -1,6 +1,7 @@
 .post-container {
 	max-width: 100%;
-	background-color: gainsboro;
+	/* background-color: #dae7e8; */
+	background-color: #ddeced;
 	border-radius: 8px;
 	padding: 1vw;
 	margin-top: 3vh;
@@ -11,15 +12,23 @@
 
 .post-section {
 	line-height: 1.4;
-	font-size: 1.25em;
 }
 
 #post-title {
-	color: red;
+	/* color: #1100ff; */
+	color: #0499cf;
 	font-family: 'Roboto', sans-serif;
+	font-size: 1.5em;
 }
 
 #post-body {
 	margin-top: 1.5vh;
 	font-family: 'Roboto', sans-serif;
+	font-size: 1.25em;
+}
+
+#post-author {
+	margin-top: 0.5vh;
+	font-size: 1em;
+	color: #fc6000;
 }
