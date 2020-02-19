@@ -1,6 +1,7 @@
 from . import app, server
 from flask import render_template, request, make_response, redirect, abort
 from requests import get, post
+import requests
 
 
 @app.route('/')
@@ -24,7 +25,7 @@ def login():
         password = request.form["password"]
 
         # make a requets to the apis
-        r = post(server + "/login", data={"username": username, "password": password})
+        r = requests.post(server + "/login", data={"username": username, "password": password})
 
         # if it's ok, return the register
         if r.status_code == 200:
@@ -38,7 +39,7 @@ def login():
 
             return response
         else: 
-            return render_template('/home.html', alert=r.json()["msg"])
+            return redirect("/", code=302) #render_template('/home.html', alert=r.json()["msg"])
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -60,7 +61,7 @@ def register():
                 "password": password, "email": email}
 
         # make a requets to the apis
-        r = post(server + "/register", data=user)
+        r = requests.post(server + "/register", data=user)
 
         # if it's ok, return the register
         if r.status_code == 200:
