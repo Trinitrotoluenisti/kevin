@@ -62,62 +62,6 @@ body {
 	float: right;
 }
 
-/* Dropdown */
-
-.dropdown {	
-	float: left;
-	overflow: hidden;
-}
-
-.dropdown .ddbutton {
-	border: none;
-	outline: none;
-	color: white;
-	padding: 1.3vh;
-	background-color: #0499cf;
-	border-radius: 5px;
-	font-size: 1em;
-	cursor: pointer;
-}
-
-.dropdown:hover .ddbutton {
-	background-color: #34bdeb;
-	font-weight: bold;
-}
-
-/* Dropdown content */
-
-.dropdown-content {
-	display: none;
-	position: fixed;
-	background-color: #f9f9f9;
-	min-width: 15vh;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;	
-	border-radius: 5px;
-}
-
-.dropdown-content a {
-	float: none;
-	font-size: 0.875em;
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
-	text-align: left;
-	border-radius: 5px;
-}
-
-.dropdown-content a:hover {
-	background-color: #b0ddc8;
-	border-radius: 5px;
-	font-weight: bold;
-}
-
-.dropdown:hover .dropdown-content {
-	display: block;
-}
-
 /* Footer */
 
 .footer {

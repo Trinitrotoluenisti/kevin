@@ -1,6 +1,5 @@
 .post-container {
 	max-width: 100%;
-	/* background-color: #dae7e8; */
 	background-color: #ddeced;
 	border-radius: 8px;
 	padding: 1vw;
@@ -15,7 +14,6 @@
 }
 
 #post-title {
-	/* color: #1100ff; */
 	color: #0499cf;
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.5em;
@@ -30,5 +28,14 @@
 #post-author {
 	margin-top: 0.5vh;
 	font-size: 1em;
-	color: #fc6000;
+	color: gray;
+}
+
+.link {
+	text-decoration: none;
+	color: gray;
+}
+
+.link:hover {
+	text-decoration: underline;
 }

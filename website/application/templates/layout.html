@@ -30,19 +30,6 @@
 				<ul class="navbar">
 					<li class="button"><a href="..">Home</a></li>
 					<li class="button"><a href="../post">Post</a></li>
-					<div class="dropdown">
-						<button class="ddbutton">Dropdown</button>
-						<div class="dropdown-content">
-							<a href="#">Link 1</a>
-							<a href="#">Link 2</a>
-							<a href="#">Link 3</a>
-						</div>
-					</div>
-					<li class="button"><a href="#">Lorem</a></li>
-					<li class="button"><a href="#">ipsum</a></li>
-					<li class="button"><a href="#">dolor</a></li>		
-					<li class="button"><a href="#">sit</a></li>	
-					<li class="button"><a href="#">amet</a></li>	
 					{% if not logged_in %}
 						<li class="button rbutton"><a href="login" style="margin-right: 2vh">Login</a></li>
 						<li class="button rbutton"><a href="register">Register</a></li>
@@ -73,10 +60,6 @@
 			<nav class="footer">
 				<span class="fbutton"><a href="..">Home</span></a>
 				<span class="fbutton"><a href="#">Lorem</span></a>
-				<span class="fbutton"><a href="#">ipsum</span></a>
-				<span class="fbutton"><a href="#">dolor</span></a>
-				<span class="fbutton"><a href="#">sit</span></a>
-				<span class="fbutton"><a href="#">amet</span></a>
 				<span><a href='#' title='Torna su'><i class="far fa-arrow-alt-circle-up"></i></a></span>
 			</nav>
 		{% endif %}
