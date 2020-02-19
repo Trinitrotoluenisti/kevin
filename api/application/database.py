@@ -1,6 +1,7 @@
 from . import app
 
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 
 # Initialize the databases
@@ -86,5 +87,40 @@ class User(db.Model):
                 "perms": self.perms
                 }
 
+class RevokedTokens(db.Model):
+    __tablename__ = "revoked_tokens"
+    id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
+    jti = db.Column("jti", db.Integer, unique=True, nullable=False)
+    exp = db.Column("exp", db.Integer, nullable=False)
+
+    def save(self):
+        """
+        Save the token in the database
+        """
+
+        db.session.add(self)
+        db.session.commit()
+
+    @staticmethod
+    def list():
+        """
+        Return the list of users
+        """
+
+        return list(map(repr, RevokedTokens.query.all()))
+
+    @staticmethod
+    def clean():
+        """
+        Clean the blacklist
+        """
+
+        now = datetime.now().timestamp()
+
+        RevokedTokens.query.filter(RevokedTokens.exp <= now).delete()
+        db.session.commit()
+
+
 # Create the database
+RevokedTokens.__table__.drop(db.engine)
 db.create_all()

@@ -1,14 +1,22 @@
-from . import api, db
-from .database import User
+from . import api, db, jwt
+from .database import User, RevokedTokens
 
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                jwt_refresh_token_required, get_jwt_identity,
-                               jwt_required, jwt_optional)
+                               jwt_required, jwt_optional, get_raw_jwt)
 from sqlalchemy.exc import IntegrityError
 
 from re import search
+
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    # Check if tokens are in blacklist
+    jti = decrypted_token['jti']
+
+    return bool(RevokedTokens.query.filter_by(jti=jti).first())
 
 
 class Ping(Resource):
@@ -73,7 +81,24 @@ class Refresh(Resource):
     @jwt_refresh_token_required
     def post(self):
         username = get_jwt_identity()
+        jti = get_raw_jwt()['jti']
         return {'msg': 'Ok', 'access_token': create_access_token(identity=username)}
+
+class LogoutAccess(Resource):
+    @jwt_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+        exp = get_raw_jwt()['exp']
+        RevokedTokens(jti=jti, exp=exp).save()
+        return {'msg': 'Ok'}
+
+class LogoutRefresh(Resource):
+    @jwt_refresh_token_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+        exp = get_raw_jwt()['exp']
+        RevokedTokens(jti=jti, exp=exp).save()
+        return {'msg': 'Ok'}
 
 class ViewUser(Resource):
     @jwt_optional
@@ -109,8 +134,12 @@ class ViewUser(Resource):
         return user
 
 
+
+# Add resources to APIs
 api.add_resource(Ping, '/', '/ping')
 api.add_resource(Login, '/login')
 api.add_resource(Register, '/register')
 api.add_resource(Refresh, '/refresh')
+api.add_resource(LogoutAccess, '/logout/access')
+api.add_resource(LogoutRefresh, '/logout/refresh')
 api.add_resource(ViewUser, '/user', '/user/<string:username>')
