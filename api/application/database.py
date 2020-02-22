@@ -1,4 +1,4 @@
-from . import app
+from . import app, logging
 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -115,12 +115,24 @@ class RevokedTokens(db.Model):
         Clean the blacklist
         """
 
+        # Fetch current informations
+        number = len(RevokedTokens.query.all())
         now = datetime.now().timestamp()
 
+        # Delete all the expired tokens
         RevokedTokens.query.filter(RevokedTokens.exp <= now).delete()
         db.session.commit()
 
+        # Calculate how many have been deleted and log it
+        number -= len(RevokedTokens.query.all())
+        logging.debug(f"Cleaned tokens' blacklist ({number} tokens deleted)")
 
-# Create the database
-RevokedTokens.__table__.drop(db.engine)
+
+# Delete the revoked tokens' table if exists
+try:
+    RevokedTokens.__table__.drop(db.engine)
+except:
+    pass
+
+# create the db if it doesn't exist
 db.create_all()

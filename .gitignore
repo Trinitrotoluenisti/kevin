@@ -10,5 +10,6 @@ env
 .vscode
 *.sublime-*
 
-# Other
+# API's data
 **.db
+**.log
