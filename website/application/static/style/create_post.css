@@ -5,6 +5,15 @@ form {
 	align-items: center;
 }
 
+#post-title {
+	font-size: 1.5em;
+	width: 60vw;
+	height: 5vh;
+	padding-right: 0.5vh;
+	margin: 1vh 0 1vh 0;
+	font-family: 'Roboto', sans-serif;
+}
+
 textarea {
 	resize: none;
 	min-height: 50vh;
@@ -16,21 +25,15 @@ textarea {
 	font-family: 'Roboto', sans-serif;
 }
 
-#post-title {
-	font-size: 1.5em;
-	width: 60vw;
-	height: 5vh;
-	margin: 1vh 0 1vh 0;
-}
-
 button {
-	width: 20vw;
+	width: 61vw;
 	height: 5vh;
 	margin: 1vh 0 1vh 0;
 	background-color: dodgerblue;
 	border: none;
 	color: white;
 	font-size: 1em;
+	font-family: 'Roboto', sans-serif;
 }
 
 button:hover {

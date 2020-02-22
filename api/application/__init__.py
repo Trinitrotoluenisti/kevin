@@ -26,7 +26,7 @@ app.config["JWT_BLACKLIST_TOKEN_CHECKS"] = ['access', 'refresh']
 logging.basicConfig(
 	                level=logging.DEBUG,
 	                filename='api.log',
-	                format='%(name)s %(asctime)s %(levelname)s - %(message)s',
+	                format='%(asctime)s %(levelname)s - %(message)s',
 	                datefmt='[%d/%m/%y %H:%M:%S]'
 	               )
 
@@ -40,4 +40,4 @@ from .routes import *
 
 
 # Add tokens' blacklist cleaning process to the schedule
-scheduler.add_job(func=RevokedTokens.clean, trigger='interval', id='blacklist_clean', seconds=5)
+scheduler.add_job(func=RevokedTokens.clean, trigger='interval', id='blacklist_clean', minutes=30)
