@@ -99,3 +99,7 @@ def error_404(e):
 @app.route('/post')
 def post():
     return render_template('post.html')
+
+@app.route('/create_post')
+def create_post():
+    return render_template('create_post.html')
