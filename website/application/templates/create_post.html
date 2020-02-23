@@ -7,9 +7,9 @@
 {% endblock %}
 
 {% block content %}
-	<form method="GET" action="/http://0.0.0.0:8000/create_post" id="post">
-		<input type="text" name="post_title" placeholder="Post Title (optional)" maxlenght="100" id="post-title">
-		<textarea name="post_body" placeholder="Post text" required maxlength="3000" col="127" form="post"></textarea>
+	<form method="GET" action="/http://0.0.0.0:8000/create_post">
+		<textarea name="post_title" placeholder="Post Title (optional)" maxlength="100" col="127" id="post-title"></textarea>
+		<textarea name="post_body" placeholder="Post text" required maxlength="3000" id="post-body"></textarea>
 		<button>Post <i class="fas fa-arrow-up"></i></button>
 	</form>
 {% endblock %}
