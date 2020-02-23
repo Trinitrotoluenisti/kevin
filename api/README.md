@@ -17,11 +17,11 @@ python3 run.py
 ### Run tests
 
 ```bash
-python3 test.py
+python3 unittests.py
 ```
 
 ### Check logs while API are running
 
 ```bash
-watch -n 0.2 tail api.log -n 20
+watch --colors -n 0.2 python3 view_logs.py
 ```
