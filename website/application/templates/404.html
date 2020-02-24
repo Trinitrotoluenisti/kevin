@@ -3,9 +3,10 @@
 
 
 {% block css %}
-	<link type="text/css" href="{{ url_for('static', filename='style/home.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/404.css') }}">
 {% endblock %}
 
 {% block content %}
-    <p>Error 404</p>
+    <div id="title">Error 404</div>
+    <div id="msg">The requested resource could not be found but may be available in the future, who knows. Keep trying!</div>
 {% endblock %}

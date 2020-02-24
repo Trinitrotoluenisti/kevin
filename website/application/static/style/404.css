@@ -1,0 +1,12 @@
+div {
+	margin-left: -2vw;
+}
+
+#title {
+	font-size: 8em;
+}
+
+#msg {
+	font-size: 1.5em;
+	font-style: italic;
+}
