@@ -1,12 +1,18 @@
+main {
+	font-family: 'Courier Prime', monospace;
+}
+
 div {
 	margin-left: -2vw;
 }
 
 #title {
 	font-size: 8em;
+	font-weight: bold;
 }
 
-#msg {
+.msg {
+	margin-top: 0.42vh;
 	font-size: 1.5em;
 	font-style: italic;
 }

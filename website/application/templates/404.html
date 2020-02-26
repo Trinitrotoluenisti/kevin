@@ -4,9 +4,11 @@
 
 {% block css %}
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/404.css') }}">
+		<link href="https://fonts.googleapis.com/css?family=Courier+Prime&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
     <div id="title">Error 404</div>
-    <div id="msg">The requested resource could not be found but may be available in the future, who knows. Keep trying!</div>
+    <div class="msg">DON'T PANIC!</div>
+    <div class="msg">The requested resource could not be found but may be available in the future.</div>
 {% endblock %}
