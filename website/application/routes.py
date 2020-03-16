@@ -4,6 +4,17 @@ from requests import get, post
 
 
 
+def api(method, path, data={}, headers={}):
+    headers["X-Forwarded-For"] = request.remote_addr
+
+    if method == "GET":
+        return get(server + path, data=data, headers=headers)
+    elif method == "POST":
+        return post(server + path, data=data, headers=headers)
+    else:
+        raise ValueError("Method not known")
+
+
 """
 Others
 """
@@ -15,13 +26,13 @@ def error_404(e):
 def refresh_token():
     # Get token
     access_token = request.cookies.get('access_token')
-    r = get(server + "/user", headers={"Authorization": "Bearer " + access_token})
+    r = api("GET", "/user", headers={"Authorization": "Bearer " + access_token})
 
     # Check if token has expired
     if r.status_code == 401 and r.json()["msg"] == "Token has expired":
         # If it has, create a new access token and return it
         refresh_token = request.cookies.get('refresh_token')
-        r = post(server + "/refresh", headers={"Authorization": "Bearer " + refresh_token})
+        r = api("POST", "/refresh", headers={"Authorization": "Bearer " + refresh_token})
 
         return (r.json()['access_token'], True)
 
@@ -54,7 +65,7 @@ def login():
         password = request.form["password"]
 
         # make a requets to the apis
-        r = post(server + "/login", data={"username": username, "password": password})
+        r = api("POST", "/login", data={"username": username, "password": password})
 
         # if it's ok, return the register
         if r.status_code == 200:
@@ -89,7 +100,7 @@ def register():
                 "password": password, "email": email}
 
         # make a requets to the apis
-        r = post(server + "/register", data=user)
+        r = api("POST", "/register", data=user)
 
         # if it's ok, return the register
         if r.status_code == 200:
@@ -111,10 +122,10 @@ def logout():
     refresh_token = request.cookies.get('refresh_token')
 
     # revoke access token
-    post(server + "/logout/access", headers={'Authorization': 'Bearer ' + access_token})
+    api("POST", "/logout/access", headers={'Authorization': 'Bearer ' + access_token})
 
     # revoke refresh token
-    post(server + "/logout/refresh", headers={'Authorization': 'Bearer ' + refresh_token})
+    api("POST", "/logout/refresh", headers={'Authorization': 'Bearer ' + refresh_token})
 
     # Delete cookies
     response = make_response(redirect("/", code=302))
@@ -132,7 +143,7 @@ User
 def view_user():
     # Get user's data
     username = request.args.get('username', '')
-    r = get(server + "/user/" + username)
+    r = api("GET", "/user/" + username)
 
     # Return view_user.html if it worked
     if r.status_code == 200:
@@ -155,19 +166,19 @@ def user():
     if new:
         response.set_cookie('access_token', access_token)
 
-
-    r = get(server + "/user", headers={"Authorization": "Bearer " + access_token})
+    r = api("GET", "/user", headers={"Authorization": "Bearer " + access_token})
 
     # Return view_user.html if it worked
     if r.status_code == 200:
         user_data = r.json()
-
+        response.data = render_template('/user.html', user=user_data)
 
     # If it didn't, return an error in home.html
     else:
         response.data = render_template('/home.html', alert=r.json()["msg"])
         response.code = r.status_code
-        return response
+    
+    return response
 
 
 """
