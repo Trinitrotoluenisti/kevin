@@ -103,3 +103,23 @@ def post():
 @app.route('/create_post')
 def create_post():
     return render_template('create_post.html')
+
+@app.route('/view_user')
+def view_user():
+    username = request.args.get('username')
+    r = get(server + "/user/" + username).json()
+    if r.status_code == 200:
+        user_data = r.json()
+        return render_template('/view_user.html', user=user_data)
+    else:
+        return render_template('/home.html', alert=r.json()["msg"])
+
+@app.route('/user')
+def user():
+    access_token = request.cookies.get('access_token')
+    r = get(server + "/user", headers={"Authorization": "Bearer " + access_token})
+    if r.status_code == 200:
+        user_data = r.json()
+        return render_template('/view_user.html', user=user_data)
+    else:
+        return render_template('/home.html', alert=r.json()["msg"])
