@@ -11,8 +11,11 @@
 		<svg id="propic" height="200" width="200">
 			<circle cx="100" cy="100" r="100" stroke="black" stroke-width=".5" />
 		</svg>
-		<div id="name">{{ user['name'] + '' + user['surname'] }}
+		<div id="name">{{ user['name'] + ' ' + user['surname'] }}</div>
 		<div id="username">{{ '@' + user['username'] }}</div>
+		{% if not user['perms'] %}
+			<span id="tag">{{ user['perms'] }}</span>
+		{% endif %}
 		<div id="user_email">{{ user['email'] }}</div>
 	</div>
 {% endblock %}
