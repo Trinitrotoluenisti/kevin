@@ -148,7 +148,7 @@
     },
 
     {
-        "path": "/logout/revoke",
+        "path": "/logout/refresh",
         "method": "POST",
         "desc": "Revoke the refresh token",
         "headers": {

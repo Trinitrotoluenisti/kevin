@@ -37,7 +37,7 @@
 						<li class="button rbutton"><a href="register">Register</a></li>
 					{% else %}
 						<li class="button rbutton"><a href="#" style="margin-right: 2vh">Profile</a></li>
-						<li class="button rbutton"><a href="#">Logout</a></li>
+						<li class="button rbutton"><a href="logout">Logout</a></li>
 					{% endif %}
 				</ul>
 			</nav>	
@@ -82,5 +82,10 @@
 		if (localStorage.getItem("cookie-accepted") == 1) {
 			close_cookie_popup();
 		}
+
+		// If there's an alert, return with an alert box
+		{% if alert %}
+			alert("{{alert}}");
+		{% endif %}
 	</script>
 </html>
