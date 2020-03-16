@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
-{% block title %}{{ '@' + user['username'] }}{% endblock %}
+{% block title %}Your profile{% endblock %}
 
 
 {% block css %}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/view_user.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/user.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -11,6 +11,7 @@
 		<svg id="propic" height="200" width="200">
 			<circle cx="100" cy="100" r="100" stroke="black" stroke-width=".5" />
 		</svg>
+		<div id="name">{{ user['name'] + '' + user['surname'] }}
 		<div id="username">{{ '@' + user['username'] }}</div>
 		<div id="user_email">{{ user['email'] }}</div>
 	</div>

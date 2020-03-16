@@ -161,8 +161,7 @@ def user():
     # Return view_user.html if it worked
     if r.status_code == 200:
         user_data = r.json()
-        response.data = render_template('/view_user.html', user=user_data)
-        return response
+
 
     # If it didn't, return an error in home.html
     else:
