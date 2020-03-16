@@ -1,7 +1,6 @@
 from . import app, server
 from flask import render_template, request, make_response, redirect, abort
 from requests import get, post
-import requests
 
 
 
@@ -55,7 +54,7 @@ def login():
         password = request.form["password"]
 
         # make a requets to the apis
-        r = requests.post(server + "/login", data={"username": username, "password": password})
+        r = post(server + "/login", data={"username": username, "password": password})
 
         # if it's ok, return the register
         if r.status_code == 200:
@@ -90,7 +89,7 @@ def register():
                 "password": password, "email": email}
 
         # make a requets to the apis
-        r = requests.post(server + "/register", data=user)
+        r = post(server + "/register", data=user)
 
         # if it's ok, return the register
         if r.status_code == 200:
@@ -104,7 +103,7 @@ def register():
 
             return response
         else: 
-            return redirect("/register", alert=r.json()["msg"]), r.status_code
+            return render_template("register.html", alert=r.json()["msg"]), r.status_code
 
 @app.route('/logout', methods=["GET"])
 def logout():
@@ -112,10 +111,10 @@ def logout():
     refresh_token = request.cookies.get('refresh_token')
 
     # revoke access token
-    requests.post(server + "/logout/access", headers={'Authorization': access_token})
+    post(server + "/logout/access", headers={'Authorization': 'Bearer ' + access_token})
 
     # revoke refresh token
-    requests.post(server + "/logout/refresh", headers={'Authorization': refresh_token})
+    post(server + "/logout/refresh", headers={'Authorization': 'Bearer ' + refresh_token})
 
     # Delete cookies
     response = make_response(redirect("/", code=302))
