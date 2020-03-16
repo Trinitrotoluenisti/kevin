@@ -4,17 +4,44 @@ from requests import get, post
 import requests
 
 
+
+"""
+Others
+"""
+@app.errorhandler(404)
+def error_404(e):
+    # Return 404 error page
+    return render_template('/404.html'), 404
+
+def refresh_token():
+    # Get token
+    access_token = request.cookies.get('access_token')
+    r = get(server + "/user", headers={"Authorization": "Bearer " + access_token})
+
+    # Check if token has expired
+    if r.status_code == 401 and r.json()["msg"] == "Token has expired":
+        # If it has, create a new access token and return it
+        refresh_token = request.cookies.get('refresh_token')
+        r = post(server + "/refresh", headers={"Authorization": "Bearer " + refresh_token})
+
+        return (r.json()['access_token'], True)
+
+    # Otherwise return None
+    return (access_token, False)
+
+
+"""
+Home
+"""
 @app.route('/')
 def home():
-    # Check if there is an access token
-    access_token = request.cookies.get('access_token')
-
     # Return home.html
-    if access_token:
-        return render_template('home.html', logged_in=True)
-    else:
-        return render_template('home.html')
+    return render_template('home.html')
 
+
+"""
+Login / Register / Logout
+"""
 @app.route('/login', methods=["GET", "POST"])
 def login():
     # Return the template if it's a GET request
@@ -37,12 +64,12 @@ def login():
 
             # set cookies
             response = make_response(redirect("/", code=302))
-            response.set_cookie('access_token', access, httponly=True)
-            response.set_cookie('refresh_token', refresh, httponly=True)
+            response.set_cookie('access_token', access)
+            response.set_cookie('refresh_token', refresh)
 
             return response
         else: 
-            return redirect("/login", alert=r.json()["msg"]), r.status_code
+            return render_template("login.html", alert=r.json()["msg"]), r.status_code
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -72,8 +99,8 @@ def register():
 
             # set cookies
             response = make_response(redirect("/", code=302))
-            response.set_cookie('access_token', access, httponly=True)
-            response.set_cookie('refresh_token', refresh, httponly=True)
+            response.set_cookie('access_token', access)
+            response.set_cookie('refresh_token', refresh)
 
             return response
         else: 
@@ -90,33 +117,22 @@ def logout():
     # revoke refresh token
     requests.post(server + "/logout/refresh", headers={'Authorization': refresh_token})
 
-    # Create response
+    # Delete cookies
     response = make_response(redirect("/", code=302))
-    response.set_cookie('access_token', "", httponly=True)
-    response.set_cookie('refresh_token', "", httponly=True)
+    response.set_cookie('access_token', "", expires=0)
+    response.set_cookie('refresh_token', "", expires=0)
 
     # Return to home
     return response
 
-@app.errorhandler(404)
-def error_404(e):
-    # Return 404 error page
-    return render_template('/404.html'), 404
 
-@app.route('/post')
-def post():
-    # Return post.html
-    return render_template('post.html')
-
-@app.route('/create_post')
-def create_post():
-    # Return create_post.html
-    return render_template('create_post.html')
-
+"""
+User
+"""
 @app.route('/view_user')
 def view_user():
     # Get user's data
-    username = request.args.get('username')
+    username = request.args.get('username', '')
     r = get(server + "/user/" + username)
 
     # Return view_user.html if it worked
@@ -130,15 +146,41 @@ def view_user():
 
 @app.route('/user')
 def user():
+    # Create a response
+    response = make_response() 
+
     # Get user's data
-    access_token = request.cookies.get('access_token')
+    access_token, new = refresh_token()
+
+    # If the token is new, edit the cookie
+    if new:
+        response.set_cookie('access_token', access_token)
+
+
     r = get(server + "/user", headers={"Authorization": "Bearer " + access_token})
 
     # Return view_user.html if it worked
     if r.status_code == 200:
         user_data = r.json()
-        return render_template('/view_user.html', user=user_data)
+        response.data = render_template('/view_user.html', user=user_data)
+        return response
 
     # If it didn't, return an error in home.html
     else:
-        return render_template('/home.html', alert=r.json()["msg"])
+        response.data = render_template('/home.html', alert=r.json()["msg"])
+        response.code = r.status_code
+        return response
+
+
+"""
+Posts
+"""
+@app.route('/post')
+def view_post():
+    # Return post.html
+    return render_template('post.html')
+
+@app.route('/create_post')
+def create_post():
+    # Return create_post.html
+    return render_template('create_post.html')

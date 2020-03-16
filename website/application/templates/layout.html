@@ -32,13 +32,15 @@
 					<li class="button"><a href="../post">Post</a></li>
 					<li class="button"><a href="../create_post">New Post</a></li>
 					<li class="button"><a href="../f">404</a></li>
-					{% if not logged_in %}
+					<div id="not_logged_buttons">
 						<li class="button rbutton"><a href="login" style="margin-right: 2vh">Login</a></li>
 						<li class="button rbutton"><a href="register">Register</a></li>
-					{% else %}
-						<li class="button rbutton"><a href="#" style="margin-right: 2vh">Profile</a></li>
+					</div>
+
+					<div id="logged_buttons">
+						<li class="button rbutton"><a href="user" style="margin-right: 2vh">Profile</a></li>
 						<li class="button rbutton"><a href="logout">Logout</a></li>
-					{% endif %}
+					</div>
 				</ul>
 			</nav>	
 		{% endif %}
@@ -83,8 +85,17 @@
 			close_cookie_popup();
 		}
 
-		// If there's an alert, return with an alert box
+		// Check if it's logged in
+		if (document.cookie.includes('access_token') && document.cookie.includes('refresh_token')) {
+			document.getElementById("not_logged_buttons").style.display = 'none';
+			document.getElementById("logged_buttons").style.display = 'unset';
+		} else {
+			document.getElementById("not_logged_buttons").style.display = 'unset';
+			document.getElementById("logged_buttons").style.display = 'none';
+		}
+
 		{% if alert %}
+			// If there's an alert, return with an alert box
 			alert("{{alert}}");
 		{% endif %}
 	</script>

@@ -212,13 +212,19 @@
             {
                 "scode": 401,
                 "values": {
-                    "msg": "Missing Authorization Header"
+                    "msg": "User not specified"
                 }
             },
             {
                 "scode": 401,
                 "values": {
                     "msg": "Token has been revoked"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "Token has expired"
                 }
             }
         ]
@@ -245,6 +251,12 @@
                 "scode": 404,
                 "values": {
                     "msg": "User does not exists"
+                }
+            },
+            {
+                "scode": 401,
+                "values": {
+                    "msg": "User not specified"
                 }
             }
         ]
