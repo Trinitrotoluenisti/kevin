@@ -138,7 +138,7 @@ class ViewUser(Resource):
             # check if it's logged in
             if not username:
                 logging.debug(f"{request.remote_addr} requested informations of non-existent user")
-                return {"msg": "Missing Authorization Header"}, 401
+                return {"msg": "No username specified"}, 401
 
             # fetch user infos and change something
             user = User.query.filter_by(username=username).first().json
@@ -158,7 +158,7 @@ class ViewUser(Resource):
 
         # If it exists, fetch his public data
         user = user.json
-        del user['id'], user['email'], user['password']
+        del user['id'], user['name'], user['surname'], user['password']
         user['msg'] = 'Ok'
 
         # log all and return it

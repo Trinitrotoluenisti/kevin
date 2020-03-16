@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}user{% endblock %}
+{% block title %}{{ '@' + user['username'] }}{% endblock %}
 
 
 {% block css %}
@@ -7,5 +7,11 @@
 {% endblock %}
 
 {% block content %}
-	<svg id="propic"></svg>
+	<div class="flex">
+		<svg id="propic" height="200" width="200">
+			<circle cx="100" cy="100" r="100" stroke="black" stroke-width=".5" />
+		</svg>
+		<div id="username">{{ '@' + user['username'] }}</div>
+		<div id="user_email">{{ user['email'] }}</div>
+	</div>
 {% endblock %}

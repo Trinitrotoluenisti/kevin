@@ -116,7 +116,7 @@ def create_post():
 @app.route('/view_user')
 def view_user():
     # Get user's data
-    username = request.args.get('username')
+    username = request.args.get('username', "")
     r = get(server + "/user/" + username)
 
     # Return view_user.html if it worked
@@ -137,7 +137,7 @@ def user():
     # Return view_user.html if it worked
     if r.status_code == 200:
         user_data = r.json()
-        return render_template('/view_user.html', user=user_data)
+        return render_template('/user.html', user=user_data)
 
     # If it didn't, return an error in home.html
     else:

@@ -1,0 +1,23 @@
+.flex {
+	display: flex;
+	flex-direction: column;
+}
+
+#propic {
+	margin-top: 4vh;
+	align-self: center;
+}
+
+#username {
+	margin-top: 3vh;
+	align-self: center;
+	font-size: 1.8em;
+	font-weight: bold;
+}
+
+#user_email {
+	margin-top: 1vh;
+	align-self: center;
+	font-size: 1.5em;
+	color: #696969;
+}
