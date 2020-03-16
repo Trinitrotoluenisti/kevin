@@ -117,7 +117,7 @@ def create_post():
 def view_user():
     # Get user's data
     username = request.args.get('username')
-    r = get(server + "/user/" + username).json()
+    r = get(server + "/user/" + username)
 
     # Return view_user.html if it worked
     if r.status_code == 200:
