@@ -14,18 +14,37 @@
 	font-weight: bold;
 }
 
+.flex2 {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.flag {
+	margin-left: 1vh;
+	margin-top: 3vh;
+	padding: .5vh;
+	border-radius: 5px;
+	color: white;
+	font-size: 1em;
+}
+
+#mod {
+	background-color: #e38d30;
+}
+
+#admin {
+	background-color: #0499cf;
+}
+
+#owner {
+	background-color: #cc4100;
+}
+
 #username {
 	margin-top: 1vh;
 	font-size: 1.5em;
 	color: #696969;
-}
-
-#tag {
-	padding: .5vh;
-	border-radius: 5px;
-	background-color: #cc4100;
-	color: white;
-	font-size: 1em;
 }
 
 #user_email {
