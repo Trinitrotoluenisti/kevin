@@ -3,13 +3,17 @@ env
 **pycache**
 **.pyc
 
-# Nelli's Macbook
-**.DS_Store
+# API's data
+**.db
+**.log
 
 # IDEs
 .vscode
 *.sublime-*
 
-# API's data
-**.db
-**.log
+# Nelli's Macbook
+**.DS_Store
+
+# Direnv
+**.envrc
+**.direnv
