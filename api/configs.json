@@ -1,0 +1,21 @@
+{
+	"API": {
+		"host": "0.0.0.0",
+		"port": 8080,
+		"debug": true
+	},
+
+	"JWT": {
+		"secret_key": "lkdjbfsfihfsh",
+		"token_expiration": {"minutes": 45},
+		"blacklist_clean": {"minutes": 30}
+	},
+
+	"DB": {
+		"filename": "sqlite:///database/database.db"
+	},
+
+	"LOG": {
+		"filename": "/dev/null"
+	}
+}

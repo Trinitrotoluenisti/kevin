@@ -19,7 +19,7 @@
 		<meta name="viewport" content="width=device-width">
 		
 		<!--  JS  --> 
-		<script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9" crossorigin="anonymous"></script>
+		<script src="https://kit.fontawesome.com/2e6be9a3fe.js" crossorigin="anonymous"></script>
 		<script src="{{ url_for('static', filename='js/up.js') }}"></script>
 		{% block js %}{% endblock %}
 	</head>
@@ -28,18 +28,21 @@
 		{% if (nav | default("there", false)) %}
 			<nav class="menu">
 				<ul class="navbar">
-					<li class="button"><a href="..">Home</a></li>
-					<li class="button"><a href="../post">Post</a></li>
-					<li class="button"><a href="../create_post">New Post</a></li>
-					<li class="button"><a href="../f">404</a></li>
+					<li class="button"><a href=".."><i class="fas fa-home"></i> Home</a></li>
+					<li class="button"><a href=".."><i class="fas fa-globe-americas"></i> News & Attualit&agrave;</a></li>
+					<li class="button"><a href=".."><i class="fas fa-cat"></i> Meme</a></li>
+					<li class="button"><a href=".."><i class="fas fa-code"></i> Informatica</a></li>
+					<li class="button"><a href=".."><i class="fas fa-flask"></i> Scienza</a></li>
+					<li class="button"><a href=".."><i class="fas fa-feather-alt"></i> Dev's Blog</a></li>
 					<div id="not_logged_buttons">
 						<li class="button rbutton"><a href="login" style="margin-right: 2vh">Login</a></li>
 						<li class="button rbutton"><a href="register">Register</a></li>
 					</div>
 
 					<div id="logged_buttons">
-						<li class="button rbutton"><a href="user" style="margin-right: 2vh">Profile</a></li>
-						<li class="button rbutton"><a href="logout">Logout</a></li>
+						<li class="button rbutton"><a href="user" style="margin-right: 2vh"><i class="fas fa-user"></i> Profile</a></li>
+						<li class="button rbutton"><a href="logout"><i class="fas fa-user-slash"></i> Logout</a></li>
+						<li class="button rbutton"><a href="../create_post"><i class="fas fa-plus-square"></i> Crea Post</a></li>
 					</div>
 				</ul>
 			</nav>	
@@ -62,12 +65,9 @@
 
 		{% if (footer | default("there", false)) %}
 			<nav class="footer">
-				<span class="fbutton"><a href="..">Home</span></a>
-				<span class="fbutton"><a href="#">Lorem</span></a>
-				<span class="fbutton"><a href="#">ipsum</span></a>
-				<span class="fbutton"><a href="#">dolor</span></a>
-				<span class="fbutton"><a href="#">sit</span></a>
-				<span class="fbutton"><a href="#">amet</span></a>
+				<span class="fbutton"><a href=".."><i class="fas fa-users"></i> About</span></a>
+				<span class="fbutton"><a href="#"><i class="fas fa-tools"></i> Supporto</span></a>
+				<span class="fbutton"><a href="#"><i class="fab fa-github"></i> Github</span></a>
 				<span><a href='#' title='Torna su'><i class="far fa-arrow-alt-circle-up"></i></a></span>
 			</nav>
 		{% endif %}
