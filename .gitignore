@@ -4,7 +4,8 @@ env
 **.pyc
 
 # API's data
-**.db
+api/application/database
+api/config.py
 **.log
 
 # IDEs

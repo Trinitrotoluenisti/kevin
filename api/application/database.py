@@ -1,7 +1,7 @@
-from . import app, logging
-
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+
+from .main import app, logging
 
 
 # Initialize the databases

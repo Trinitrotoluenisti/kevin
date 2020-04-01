@@ -1,15 +1,16 @@
-from . import api, db, jwt, logging
-from .database import User, RevokedTokens
-
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import *
 from sqlalchemy.exc import IntegrityError
-
 from re import search
 
+from .main import api, db, jwt, logging
+from .database import User, RevokedTokens
 
+
+# Get original IP
 get_ip = lambda: request.headers.get('X-Forwarded-For', request.remote_addr)
+
 
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
