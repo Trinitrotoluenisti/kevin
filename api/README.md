@@ -20,29 +20,32 @@ python3 run.py
 watch --colors -n 0.2 python3 view_logs.py
 ```
 
-### Example of `configs.json`
+### Example of `secrets.py`
 
-```json
-{
-	"API": {
-		"host": "0.0.0.0",
-		"port": 8080,
-		"debug": true
-	},
+```python
+def hash_passwords(password):
+    return password
 
-	"JWT": {
-		"secret_key": "###",
-		"token_expiration": {"minutes": 45},
-		"blacklist_clean": {"minutes": 30}
-	},
+configs = {
+    "API": {
+        "host": "0.0.0.0",
+        "port": 8080,
+        "debug": True
+    },
 
-	"DB": {
-		"filename": "sqlite:///database/database.db"
-	},
+    "JWT": {
+        "secret_key": "###",
+        "token_expiration": {"minutes": 45},
+        "blacklist_clean": {"minutes": 30}
+    },
 
-	"LOG": {
-		"filename": "api.log"
-	}
+    "DB": {
+        "sqlite3": "sqlite:///database/database.db",
+        "posts_path": "application/database/posts"
+    },
+
+    "LOG": {
+        "filename": "api.log"
+    }
 }
-
 ```

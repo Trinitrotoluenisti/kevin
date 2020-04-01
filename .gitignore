@@ -5,8 +5,9 @@ env
 
 # API's data
 api/application/database
-api/config.py
-**.log
+api/secrets.py
+api/view_logs.py
+api/api.log
 
 # IDEs
 .vscode

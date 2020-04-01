@@ -1,19 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from os import mkdir
 
-from .main import app, logging
+from .main import app, db, logging, configs
+
+from secrets import *
 
 
 # Initialize the databases
-db = SQLAlchemy(app)
-
-
-def hash_password(password):
-    """
-    Returns an hashed version of the password
-    """
-
-    return password
 
 
 class User(db.Model):

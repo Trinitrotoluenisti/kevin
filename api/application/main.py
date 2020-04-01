@@ -1,27 +1,22 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 
 from json import load as json_load
 from datetime import timedelta
 import logging
 
-
-# Load Configs
-with open("configs.json") as f:
-    configs = json_load(f)
+from secrets import configs
 
 
-# Initialize Frameworks
+# Initialize Flask
 app = Flask(__name__)
-api = Api(app)
-jwt = JWTManager(app)
-scheduler = APScheduler()
 
 # Save configs
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URI"] = configs['DB']['filename']
+app.config["SQLALCHEMY_DATABASE_URI"] = configs['DB']['sqlite3']
 app.config["JWT_SECRET_KEY"] = configs['JWT']['secret_key']
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(**configs['JWT']['token_expiration'])
 app.config["JWT_BLACKLIST_ENABLED"] = True
@@ -30,6 +25,12 @@ logging.basicConfig(level=logging.DEBUG, filename=configs['LOG']['filename'], fo
 logging.getLogger('werkzeug').disabled = True
 logging.getLogger('apscheduler.scheduler').disabled = True
 logging.getLogger('apscheduler.executors.default').disabled = True
+
+# Initialize Flas frameworks
+api = Api(app)
+db = SQLAlchemy(app)
+jwt = JWTManager(app)
+scheduler = APScheduler()
 
 # Import other file's content
 from .database import *
