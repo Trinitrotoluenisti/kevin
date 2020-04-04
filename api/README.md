@@ -20,10 +20,10 @@ python3 run.py
 watch --colors -n 0.2 python3 view_logs.py
 ```
 
-### Example of `secrets.py`
+### Example of `api/secrets.py`
 
 ```python
-def hash_passwords(password):
+def hash_password(password):
     return password
 
 configs = {
@@ -40,12 +40,12 @@ configs = {
     },
 
     "DB": {
-        "sqlite3": "sqlite:///database/database.db",
-        "posts_path": "application/database/posts"
+        "sqlite3": "sqlite:///database/database.db", # from api/application
+        "posts_path": "application/database/posts"   # from api/
     },
 
     "LOG": {
-        "filename": "api.log"
+        "filename": "api.log"                        # from api/
     }
 }
 ```

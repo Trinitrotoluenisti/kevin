@@ -1,14 +1,11 @@
 from datetime import datetime
-from os import mkdir
+from os import listdir, mkdir
+import json
 
-from .main import app, db, logging, configs
-
-from secrets import *
+from .main import app, db, logging, configs, hash_password
 
 
 # Initialize the databases
-
-
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
@@ -17,7 +14,7 @@ class User(db.Model):
     surname = db.Column("surname", db.String, nullable=False)
     email = db.Column("email", db.String, unique=True, nullable=False)
     password = db.Column("password", db.String, nullable=False)
-    perms = db.Column("perms", db.Integer)
+    perms = db.Column("perms", db.SmallInteger)
 
     def save(self):
         """

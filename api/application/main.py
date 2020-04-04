@@ -8,7 +8,7 @@ from json import load as json_load
 from datetime import timedelta
 import logging
 
-from secrets import configs
+from secrets import configs, hash_password
 
 
 # Initialize Flask
