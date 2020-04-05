@@ -19,19 +19,19 @@ def check_token():
 
     # Get token
     access_token = request.cookies.get('access_token')
-    request = api("GET", "/user", headers={"Authorization": "Bearer " + access_token})
+    r = api("GET", "/user", headers={"Authorization": "Bearer " + access_token})
 
     # Check if token has expired
-    if request.status_code == 401 and request.json()["msg"] == "Token has expired":
+    if r.status_code == 401 and r.json()["msg"] == "Token has expired":
         # If it has, create a new access token and return it
         refresh_token = request.cookies.get('refresh_token')
-        request = api("POST", "/refresh", headers={"Authorization": "Bearer " + refresh_token})
+        r = api("POST", "/refresh", headers={"Authorization": "Bearer " + refresh_token})
 
         # Edit access token and response
-        access_token = request.json()['access_token']
+        access_token = r.json()['access_token']
         response.set_cookie('access_token', access_token)
 
-    return access_token, request
+    return access_token, response
 
 
 """
@@ -68,12 +68,12 @@ def login():
         password = request.form["password"]
 
         # make a requets to the apis
-        request = api("POST", "/login", data={"username": username, "password": password})
+        r = api("POST", "/login", data={"username": username, "password": password})
 
         # if it's ok, return the register
-        if request.status_code == 200:
-            access = request.json()["access_token"]
-            refresh = request.json()["refresh_token"]
+        if r.status_code == 200:
+            access = r.json()["access_token"]
+            refresh = r.json()["refresh_token"]
 
             # set cookies
             response = make_response(redirect("/", code=302))
@@ -82,7 +82,7 @@ def login():
 
             return response
         else: 
-            return render_template("login.html", alert=r.json()["msg"]), request.status_code
+            return render_template("login.html", alert=r.json()["msg"]), r.status_code
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -103,12 +103,12 @@ def register():
                 "password": password, "email": email}
 
         # make a requets to the apis
-        request = api("POST", "/register", data=user)
+        r = api("POST", "/register", data=user)
 
         # if it's ok, return the register
-        if request.status_code == 200:
-            access = request.json()["access_token"]
-            refresh = request.json()["refresh_token"]
+        if r.status_code == 200:
+            access = r.json()["access_token"]
+            refresh = r.json()["refresh_token"]
 
             # set cookies
             response = make_response(redirect("/", code=302))
@@ -117,7 +117,7 @@ def register():
 
             return response
         else: 
-            return render_template("register.html", alert=r.json()["msg"]), response.status_code
+            return render_template("register.html", alert=r.json()["msg"]), r.status_code
 
 @app.route('/logout', methods=["GET"])
 def logout():
@@ -146,33 +146,33 @@ User
 def view_user():
     # Get user's data
     username = request.args.get('username', '')
-    request = api("GET", "/user/" + username)
+    r = api("GET", "/user/" + username)
 
     # Return view_user.html if it worked
-    if request.status_code == 200:
-        user_data = request.json()
+    if r.status_code == 200:
+        user_data = r.json()
         return render_template('/view_user.html', user=user_data)
 
     # If it didn't, return an error in home.html
     else:
-        return render_template('/home.html', alert=r.json()["msg"]), request.status_code
+        return render_template('/home.html', alert=r.json()["msg"]), r.status_code
 
 @app.route('/user')
 def user():
     # Check the token
     access_token, response = check_token()
 
-    request = api("GET", "/user", headers={"Authorization": "Bearer " + access_token})
+    r = api("GET", "/user", headers={"Authorization": "Bearer " + access_token})
 
     # Return view_user.html if it worked
-    if request.status_code == 200:
-        user_data = request.json()
+    if r.status_code == 200:
+        user_data = r.json()
         response.data = render_template('/user.html', user=user_data)
 
     # If it didn't, return an error in home.html
     else:
-        response.data = render_template('/home.html', alert=request.json()["msg"])
-        response.code = request.status_code
+        response.data = render_template('/home.html', alert=r.json()["msg"])
+        response.code = r.status_code
     
     return response
 

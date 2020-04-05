@@ -196,6 +196,7 @@
                 "scode": 200,
                 "values": {
                     "msg": "Ok",
+                    "id": "<INTEGER>",
                     "username": "<STRING>",
                     "name": "<STRING>",
                     "surname": "<STRING>",
@@ -212,7 +213,7 @@
             {
                 "scode": 401,
                 "values": {
-                    "msg": "User not specified"
+                    "msg": "Missing Authorization Header"
                 }
             },
             {
@@ -241,6 +242,7 @@
                 "scode": 200,
                 "values": {
                     "msg": "Ok",
+                    "id": "<INTEGER>",
                     "username": "<STRING>",
                     "name": "<STRING>",
                     "surname": "<STRING>",
@@ -251,12 +253,6 @@
                 "scode": 404,
                 "values": {
                     "msg": "User does not exists"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "User not specified"
                 }
             }
         ]

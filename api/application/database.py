@@ -1,6 +1,6 @@
 from datetime import datetime
 from os import listdir, mkdir
-import json
+from json import dump as json_dump
 
 from .main import app, db, logging, configs, hash_password
 
@@ -14,7 +14,9 @@ class User(db.Model):
     surname = db.Column("surname", db.String, nullable=False)
     email = db.Column("email", db.String, unique=True, nullable=False)
     password = db.Column("password", db.String, nullable=False)
-    perms = db.Column("perms", db.SmallInteger)
+    perms = db.Column("perms", db.SmallInteger, default=0)
+    written_posts = db.relationship("Post", foreign_keys='Post.author_id', backref='author')
+    approved_posts = db.relationship("Post", foreign_keys='Post.approver_id', backref='approver')
 
     def save(self):
         """
@@ -23,14 +25,6 @@ class User(db.Model):
 
         db.session.add(self)
         db.session.commit()
-
-    @staticmethod
-    def list():
-        """
-        Return the list of users
-        """
-
-        return User.query.all()
 
     @staticmethod
     def check(username, password):
@@ -73,9 +67,66 @@ class User(db.Model):
                 "name": self.name,
                 "surname": self.surname,
                 "email": self.email,
-                "password": self.password,
                 "perms": self.perms
                 }
+
+class Post(db.Model):
+    __tablename__ = "posts"
+    id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    approver_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    datetime = db.Column("datetime", db.DateTime)
+    tags = db.Column("tags", db.String)
+
+    def __init__(self, author, title, content, tags=""):
+        """
+        Initialize a post
+        """
+
+        self.datetime = datetime.now()
+        self.title = title
+        self.content = content
+        self.likes = {"count": 0, "list": []}
+        self.dislikes = {"count": 0, "list": []}
+        super().__init__(author=author, datetime=self.datetime, tags=tags)
+
+    def save(self):
+        """
+        Save the post in the database
+        """
+
+        # save in the database
+        db.session.add(self)
+        db.session.commit()
+
+        # prepare the file
+        json_file = {}
+        json_file["title"] = self.title
+        json_file["content"] = self.content
+        json_file["likes"] = self.likes
+        json_file["dislikes"] = self.dislikes
+
+        # write it
+        with open(f"{configs['DB']['posts_path']}/{self.id}.json", 'w') as f:
+            json_dump(json_file, f)
+
+    @property
+    def json(self):
+        """
+        Return the post in json format
+        """
+
+        return {
+                "id": self.id,
+                "author": self.author.json,
+                "approver": self.approver_id,
+                "title": self.title,
+                "content": self.content,
+                "datetime": str(self.datetime),
+                "tags": self.tags.split(';'),
+                "likes": self.likes,
+                "dislikes": self.dislikes
+               }
 
 class RevokedTokens(db.Model):
     __tablename__ = "revoked_tokens"
@@ -90,14 +141,6 @@ class RevokedTokens(db.Model):
 
         db.session.add(self)
         db.session.commit()
-
-    @staticmethod
-    def list():
-        """
-        Return the list of users
-        """
-
-        return list(map(repr, RevokedTokens.query.all()))
 
     @staticmethod
     def clean():
@@ -126,3 +169,9 @@ except:
 
 # create the db if it doesn't exist
 db.create_all()
+
+# Create the posts dir if it doesn't exists
+try:
+    listdir(configs['DB']['posts_path'])
+except FileNotFoundError:
+    mkdir(configs['DB']['posts_path'])

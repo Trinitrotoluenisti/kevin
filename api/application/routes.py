@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from re import search
 
 from .main import api, db, jwt, logging
-from .database import User, RevokedTokens
+from .database import User, RevokedTokens, Post
 
 
 # Get original IP
@@ -141,11 +141,10 @@ class ViewUser(Resource):
             # check if it's logged in
             if not username:
                 logging.debug(f"{get_ip()} requested informations of non-existent user")
-                return {"msg": "No username specified"}, 401
+                return {"msg": "Missing Authorization Header"}, 401
 
             # fetch user infos and change something
             user = User.query.filter_by(username=username).first().json
-            del user['id'], user['password']
             user['msg'] = "Ok"
 
             # return them
@@ -161,7 +160,7 @@ class ViewUser(Resource):
 
         # If it exists, fetch his public data
         user = user.json
-        del user['id'], user['name'], user['surname'], user['password']
+        del user['name'], user['surname']
         user['msg'] = 'Ok'
 
         # log all and return it
