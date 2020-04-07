@@ -11,7 +11,6 @@ from .database import User, RevokedTokens, Post
 # Get original IP
 get_ip = lambda: request.headers.get('X-Forwarded-For', request.remote_addr)
 
-
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
     # Check if tokens are in blacklist
@@ -55,7 +54,7 @@ class Register(Resource):
         try:
             username = str(request.form['username'])
             name = str(request.form['name'])
-            surname = str(request.form['surname'])            
+            surname = str(request.form['surname'])
             email = str(request.form['email'])
             password = str(request.form['password'])
         except KeyError:
@@ -144,7 +143,7 @@ class ViewUser(Resource):
                 return {"msg": "Missing Authorization Header"}, 401
 
             # fetch user infos and change something
-            user = User.query.filter_by(username=username).first().json
+            user = User.from_username(username).json()
             user['msg'] = "Ok"
 
             # return them
@@ -152,21 +151,43 @@ class ViewUser(Resource):
             return user
 
         # if a username is specified, check if exists
-        user = User.query.filter_by(username=username).first()
+        user = User.from_username(username)
 
         if not user:
             logging.debug(f"{get_ip()} requested informations of non-existent user")
             return {"msg": "User does not exist"}, 404
 
         # If it exists, fetch his public data
-        user = user.json
+        user = user.json()
         del user['name'], user['surname']
         user['msg'] = 'Ok'
 
         # log all and return it
-        logging.info(f"{get_ip()} requested informations of an user '{username}'")
+        logging.info(f"{get_ip()} requested informations of '{username}'")
         return user
 
+class CreatePost(Resource):
+    @jwt_required
+    def post(self):
+        user = User.from_username(get_jwt_identity())
+        title = request.form.get('title', None)
+        content = request.form.get('content', '')
+        tags = request.form.get('tags', '')
+
+        # check content lenght
+        if len(content) < 20:
+            logging.debug(f"{get_ip()} tried to create an empty post")
+            return {"msg": "Post content empty or too short"}, 400
+
+        # save the post
+        post = Post(user, title, content, tags)
+        post.save()
+
+        # log the post creation
+        logging.info(f"{user.username} created a post (id #{post.id})")
+
+        # return an ok msg
+        return {'msg': 'Ok'}
 
 
 # Add resources to APIs
@@ -177,3 +198,4 @@ api.add_resource(Refresh, '/refresh')
 api.add_resource(LogoutAccess, '/logout/access')
 api.add_resource(LogoutRefresh, '/logout/refresh')
 api.add_resource(ViewUser, '/user', '/user/<string:username>')
+api.add_resource(CreatePost, '/post')

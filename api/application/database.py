@@ -44,8 +44,7 @@ class User(db.Model):
         """
 
         password = hash_password(password)
-
-        user = User.query.filter_by(username=username).first()
+        user = User.from_username(username)
 
         if not user:
             raise ValueError("There are no registered users with that username")
@@ -55,7 +54,10 @@ class User(db.Model):
 
         return user
 
-    @property
+    @staticmethod
+    def from_username(username):
+        return User.query.filter_by(username=username).first()
+
     def json(self):
         """
         Return the user in json format
@@ -78,12 +80,12 @@ class Post(db.Model):
     datetime = db.Column("datetime", db.DateTime)
     tags = db.Column("tags", db.String)
 
-    def __init__(self, author, title, content, tags=""):
+    def __init__(self, author, title, content, tags=''):
         """
         Initialize a post
         """
 
-        self.datetime = datetime.now()
+        self.datetime = datetime.now().replace(microsecond=0)
         self.title = title
         self.content = content
         self.likes = {"count": 0, "list": []}
@@ -110,7 +112,6 @@ class Post(db.Model):
         with open(f"{configs['DB']['posts_path']}/{self.id}.json", 'w') as f:
             json_dump(json_file, f)
 
-    @property
     def json(self):
         """
         Return the post in json format

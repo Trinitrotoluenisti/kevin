@@ -170,6 +170,7 @@ class Test(unittest.TestCase):
         self.route('/logout/access', 'POST', 422, {'msg': "Only access tokens are allowed"}, auth=self.refresh)
         self.route('/logout/refresh', 'POST', 422, {'msg': "Only refresh tokens are allowed"}, auth=self.access)
 
+        # try with revoked tokens
         self.route('/logout/access', 'POST', 401, {'msg': "Token has been revoked"}, auth=self.access)
         self.route('/logout/refresh', 'POST', 401, {'msg': "Token has been revoked"}, auth=self.refresh)
 
@@ -179,9 +180,6 @@ class Test(unittest.TestCase):
         response.update({"msg": "Ok", 'perms': 0, 'id': 1})
         del response['password']
         self.route('/user', 'GET', 200, response, auth=self.access)
-
-        # no username is specified but there is the refresh token
-        self.route('/user', 'GET', 422, {'msg': "Only access tokens are allowed"}, auth=self.refresh)
 
         # no username is specified and there isn't any token
         self.route('/user', 'GET', 401, {'msg': "Missing Authorization Header"})
@@ -194,12 +192,27 @@ class Test(unittest.TestCase):
         user['email'] = 'email@email.com'
         self.app.post('/register', data=user)
 
-        del user['password'], user['surname'], user['name']
-        user.update({"msg": "Ok", 'perms': 0, 'id': 2})
-
         # try to fetch his data
+        del user['password'], user['surname'], user['name']
+        user.update({"msg": "Ok", 'perms': 0, 'id': 2})        
         self.route('/user/username', 'GET', 200, user)
 
+    def test_post_creation(self):
+        # without authorization
+        self.route('/post', 'POST', 401, {'msg': "Missing Authorization Header"})
+
+        # with empty content
+        data = {}
+        response = {'msg': "Post content empty or too short"}
+        self.route('/post', 'POST', 400, response, data=data, auth=self.access)
+
+        # too short content
+        data['content'] = "a"
+        self.route('/post', 'POST', 400, response, data=data, auth=self.access)
+
+        # good post
+        data['content'] = "a" * 21
+        self.route('/post', 'POST', 200, {'msg': 'Ok'}, data=data, auth=self.access)
 
 if __name__ == "__main__":
     unittest.main()

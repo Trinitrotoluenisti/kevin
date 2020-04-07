@@ -1,3 +1,5 @@
+// NB: All the responses with 401 or 422 as status code have been omitted.
+
 [
     {
         "path": "/login",
@@ -95,18 +97,6 @@
                     "msg": "Ok",
                     "access_token": "<STRING>"
                 }
-            },
-            {
-                "scode": 422,
-                "values": {
-                    "msg": "Only refresh tokens are allowed"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "Missing Authorization Header"
-                }
             }
         ]
     },
@@ -125,24 +115,6 @@
                 "values": {
                     "msg": "Ok"
                 }
-            },
-            {
-                "scode": 422,
-                "values": {
-                    "msg": "Only access tokens are allowed"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "Missing Authorization Header"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "Token has been revoked"
-                }
             }
         ]
     },
@@ -160,24 +132,6 @@
                 "scode": 200,
                 "values": {
                     "msg": "Ok"
-                }
-            },
-            {
-                "scode": 422,
-                "values": {
-                    "msg": "Only refresh tokens are allowed"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "Missing Authorization Header"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "Token has been revoked"
                 }
             }
         ]
@@ -202,30 +156,6 @@
                     "surname": "<STRING>",
                     "email": "<STRING>",
                     "perms": "<INTEGER>"
-                }
-            },
-            {
-                "scode": 422,
-                "values": {
-                    "msg": "Only access tokens are allowed"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "Missing Authorization Header"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "Token has been revoked"
-                }
-            },
-            {
-                "scode": 401,
-                "values": {
-                    "msg": "Token has expired"
                 }
             }
         ]
@@ -253,6 +183,34 @@
                 "scode": 404,
                 "values": {
                     "msg": "User does not exists"
+                }
+            }
+        ]
+    },
+
+    {
+        "path": "/post",
+        "method": "POST",
+        "desc": "Create a post",
+        "headers": {
+            "Authorization": "Bearer: <access_token>"
+        },
+        "body": {
+            "title": "<STRING>",
+            "content": "<STRING>",
+            "tags": "<STRING>;<STRING>;<STRING>;..."
+        },
+        "responses": [
+            {
+                "scode": 200,
+                "values": {
+                    "msg": "Ok"
+                }
+            },
+            {
+                "scode": 400,
+                "values": {
+                    "msg": "Post content empty or too short"
                 }
             }
         ]
