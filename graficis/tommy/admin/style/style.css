@@ -1,0 +1,58 @@
+html, body, head{
+    margin:0;
+    padding:0;
+}
+
+h1, h2, h3, h4, h5, h6, p, a {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1{
+    color: red
+}
+
+/* Navbar */
+
+.navbar {
+	position: fixed;
+	list-style-type: none;
+	padding: 5px;
+	width: 100%;
+	margin-top: -6px;
+	overflow: hidden;
+	background-color: #0499cf;
+	font-size: 1.2em;
+}
+
+.menu {
+	position: fixed;
+	top: 6px;	
+	left: 0px;
+}
+
+/* Buttons in navbar */
+
+.button {
+	float: left;
+	background-color: #0499cf;
+	color: white;
+	border: none;
+}
+
+.button a {
+	display: block;
+	padding: 1.3vh;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+}
+
+.button a:hover {
+	background-color: #34bdeb;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.rbutton {
+	float: right;
+}
