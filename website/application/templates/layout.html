@@ -31,7 +31,7 @@
 
 	<body>
 		{% if (nav | default("there", false)) %}
-			<nav class="navbar navbar-expand-xl navbar-dark bg-primary">
+			<nav class="navbar navbar-expand-xl navbar-dark bg-primary fixed-top">
  				<button class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target">
 					<span class="navbar-toggler-icon"></span>
 				</button>
@@ -110,13 +110,17 @@
 		</div>
 
 		{% if (footer | default("there", false)) %}
-			<nav class="footer">
-				<span class="fbutton"><a href=".."><i class="fas fa-home"></i> Home</span></a>
-				<span class="fbutton"><a href="#"><i class="fas fa-users"></i> About</span></a>
-				<span class="fbutton"><a href="#"><i class="fas fa-tools"></i> Supporto</span></a>
-				<span class="fbutton"><a href="#"><i class="fab fa-github"></i> Github</span></a>
-				<span><a href='#' title='Torna su'><i class="far fa-arrow-alt-circle-up"></i></a></span>
-			</nav>
+			<footer class="foot fixed-bottom">
+				<div class="row text-center inline-block">
+					<div class="col-md">
+						<a href="#" class="text-decoration-none "><button class="btn text-white fbutton" type="button"><i class="fas fa-users"></i> About</button></a>
+						<a href="#" class="text-decoration-none "><button class="btn text-white fbutton" type="button"><i class="fas fa-tools"></i> Supporto</button></a>
+						<a href="https://github.com/TommyAnd/kevin" class="text-decoration-none "><button class="btn text-white fbutton" type="button"><i class="fab fa-github"></i> Github</button></a>
+						<!--<span><a href="#" title="Torna su" aria-hidden="true" data-attribute="back-to-top" class="back-to-top"><i class="far fa-arrow-alt-circle-up"></i></a></span>-->
+						<a href="#" class="text-decoration-none back-to-top" title="Torna su"><button class="btn fbutton" type="button"><i class="far fa-arrow-alt-circle-up"></i></button></a>
+					</div>
+				</div>
+			</footer>	
 		{% endif %}
 	</body>
 

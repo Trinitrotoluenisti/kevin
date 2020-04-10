@@ -6,7 +6,7 @@ html, body {
 main {
 	height: min-content;
 	flex-grow: 1;
-	margin: 7vh 5vw 3vh 7vh;
+	margin: 10vh 2vh 20vh 2vh;
 }
 
 body {
@@ -15,6 +15,7 @@ body {
 	background-color: #f9fcff;
 	font-family: 'Roboto', sans-serif;
 }
+
 .n{
 	font-family: 'Stylish', sans-serif; 
 	font-size: 20px;
@@ -23,52 +24,27 @@ body {
 
 /* Footer */
 
-.footer {
-	position: static;
-	bottom: 0;
-	width: 100%;
-	min-height: auto;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	font-size: 1.15em;
+.foot{
 	background-color: #e38d30;
 }
 
 /* Buttons in Footer */
 
 .fbutton {
-	float: left;
 	background-color: #e38d30;
-	color: white;
-	border: none;
-	padding: 1.5vh;
-	cursor: pointer;
 }
-
-.fbutton a {
-	display: block;
-	color: white;
-	text-align: center;
-	text-decoration: none;
-}
-
 
 .fbutton:hover {
 	background-color: #e7c73f;
 	border-radius: 5px;
-	color: black;
 	font-weight: bold;
 }
 
 /* Arrow up */
 
 .fa-arrow-alt-circle-up {
-	font-size: 1.5em;
-	position: fixed;
-	bottom: 0;
-	right: 1%;
-	padding: 1vh;
+	font-size: 1.2em;
+	padding:auto;
 	color: black;
 	background-color: #e38d30;
 	border-radius: 5px;
@@ -80,7 +56,6 @@ body {
 	color: white;
 	cursor: pointer;
 }
-
 
 /* COOKIE POPUP */
 
