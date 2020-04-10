@@ -27,7 +27,7 @@ form {
 	font-family: 'Roboto', sans-serif;
 }
 
-button {
+#send {
 	width: 71.5vw;
 	height: 5vh;
 	margin: 1vh 0 1vh 0;
@@ -38,7 +38,7 @@ button {
 	font-family: 'Roboto', sans-serif;
 }
 
-button:hover {
+#send:hover {
 	border: 1px solid dodgerblue;
 	color: dodgerblue;
 	background-color: white;
