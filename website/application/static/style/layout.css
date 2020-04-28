@@ -15,6 +15,8 @@ body {
 	background-color: #f9fcff;
 	font-family: 'Roboto', sans-serif;
 }
+  
+/* Navbar & Dropdown */
 
 .navbar-toggler {
 	font-family: 'Roboto', sans-serif;
@@ -26,21 +28,29 @@ body {
 	font-weight: bolder;
 	cursor: default;
 }
+.topnav, .ddbtn{
+	background-color: #345DA7 !important;
+}
+
+.menu:hover, .nbtn:hover, .ddbtn:hover {
+	background-color: #3B8AC4 !important;
+}
 
 /* Footer */
 
 .foot{
-	background-color: #e38d30;
+	/*background-color: #e38d30;*/
+	background-color: #4BB4DE;
 }
 
 /* Buttons in Footer */
 
 .fbutton {
-	background-color: #e38d30;
+	background-color: #4BB4DE;
 }
 
 .fbutton:hover {
-	background-color: #e7c73f;
+	background-color: #75BDE0;
 	border-radius: 5px;
 	font-weight: bold;
 }
@@ -51,13 +61,13 @@ body {
 	font-size: 1.2em;
 	padding:auto;
 	color: black;
-	background-color: #e38d30;
+	background-color: #4BB4DE;
 	border-radius: 5px;
 }
 
 .fa-arrow-alt-circle-up:hover {
 	border-radius: 5px;
-	background-color: #e7c73f;
+	background-color: #75BDE0;
 	color: white;
 	cursor: pointer;
 }
@@ -77,7 +87,7 @@ body {
 	height: max-content;
 	margin: 15vh 10vw 15vh 10vw;
 	border-radius: 30px;
-	background-color: #e38d30;
+	background-color: #4BB4DE;
 	color: #ffecb3;
 }
 
@@ -111,5 +121,5 @@ body {
 
 .popup-button:hover {
 	background-color: #ffecb3;
-	color: #e38d30;
+	color: #4BB4DE;
 }

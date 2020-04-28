@@ -11,31 +11,38 @@ main {
 #title {
 	margin-bottom: 5vh;
 	font-size: 3em;
-	color: dodgerblue;
+	color: #345DA7;
+	align-self: center;
 }
 
 form {
 	display: flex;
 	flex-direction: column;
+	align-self: center;
 }
 
 input {
 	width: 20vw;
+	min-width: 200px;
 	height: 4vh;
+	min-height: 30px;
 	margin: 1vh 0 1vh 0;
+	border: 1px solid #4BB4DE;
+	color: #345DA7;
 }
 
 button {
 	height: 5vh;
+	min-height: 30px;
 	margin: 1vh 0 1vh 0;
-	background-color: dodgerblue;
+	background-color: #345DA7;
 	border: none;
 	color: white;
 	font-size: 1em;
 }
 
 button:hover {
-	border: 1px solid dodgerblue;
-	color: dodgerblue;
+	border: 1px solid #3B8AC4;
+	color: #3B8AC4;
 	background-color: white;
 }
