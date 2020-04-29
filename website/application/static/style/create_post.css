@@ -1,3 +1,5 @@
+body { align-items: center; margin-bottom: 15vh; }
+
 form {
 	margin-top: 3vh;
 	display: flex;
@@ -5,15 +7,25 @@ form {
 	align-items: center;
 }
 
+#title {
+	margin-bottom: 5vh;
+	font-size: 3em;
+	color: #345DA7;
+	text-align: center !important;
+}
+
 #post-title {
 	resize: none;
 	font-size: 1.5em;
 	width: 70.5vw;
 	min-height: 5vh;
+	height: 10vh;
 	padding: 1vh 1vh 0 1vh;
 	margin: 1vh 0 1vh 0;
 	line-height: 1.4;
 	font-family: 'Roboto', sans-serif;
+	border: 1px solid #4BB4DE;
+	color: #345DA7;
 }
 
 #post-body {
@@ -25,13 +37,16 @@ form {
 	font-size: 1.25em;
 	line-height: 1.4;
 	font-family: 'Roboto', sans-serif;
+	border: 1px solid #4BB4DE;
+	color: #345DA7;
 }
 
 #send {
-	width: 71.5vw;
+	width: 70.5vw;
 	height: 5vh;
+	min-height: 30px;
 	margin: 1vh 0 1vh 0;
-	background-color: dodgerblue;
+	background-color: #345DA7;
 	border: none;
 	color: white;
 	font-size: 1em;
@@ -45,3 +60,62 @@ form {
 	cursor: pointer;
 }
 
+/*#title {
+	margin-bottom: 5vh;
+	font-size: 3em;
+	color: #345DA7;
+	align-self: center;
+}
+
+body { align-items: center; }
+
+main {
+	width: max-content;
+	margin-top: 10vh;
+	margin-bottom: 15vh;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	align-self: center;
+}
+
+textarea {
+	width: 70vw;
+	min-width: 80%;
+	margin: 1vh 0 1vh 0;
+	border: 1px solid #4BB4DE;
+	color: #345DA7;
+	padding: 0.5vh;
+	margin: 1vh 0 1vh 0;
+}
+
+#post-title {
+	height: 8vh;	
+	min-height: 6vh;
+}
+
+#post-body {
+	height: 20vh;
+	min-height: 20vh;
+}
+
+button {
+	height: 5vh;
+	min-height: 30px;
+	margin: 1vh 0 1vh 0;
+	background-color: #345DA7;
+	border: none;
+	color: white;
+	font-size: 1em;
+}
+
+button:hover {
+	border: 1px solid #3B8AC4;
+	color: #3B8AC4;
+	background-color: white;
+}*/
