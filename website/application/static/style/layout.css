@@ -18,6 +18,10 @@ body {
   
 /* Navbar */
 
+.logo {
+	height: 5vh;
+}
+
 .navbar-toggler {
 	font-family: 'Roboto', sans-serif;
 }
