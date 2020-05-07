@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
 		<title>Kevin | {% block title %}{% endblock %}</title>
 
@@ -28,7 +28,7 @@
 	</head>
 
 	<body>
-		{% if (nav | default("there", false)) %}
+		{% if (nav|default("there", false)) %}
 			<nav class="navbar navbar-expand-xl navbar-dark fixed-top topnav">
  				<button class="menu btn navbar-toggler border-0 text-white" data-toggle="collapse" data-target="#collapse-target">
 					<span class="fas fa-ellipsis-h"> Menu</span>
@@ -101,7 +101,7 @@
 			</div>
 		</div>
 
-		{% if (footer | default("there", false)) %}
+		{% if (footer|default("there", false)) %}
 			<footer class="foot fixed-bottom">
 				<div class="row text-center inline-block">
 					<div class="col-md">
@@ -121,29 +121,30 @@
 			popup.parentNode.removeChild(popup);
 			localStorage.setItem("cookie-accepted", 1);
 		}
-
+		
 		// Check if user has already accepted it
 		if (localStorage.getItem("cookie-accepted") == 1) {
 			close_cookie_popup();
 		}
 
-		// Check if it's logged in
-		if (document.cookie.includes('access_token') && document.cookie.includes('refresh_token')) {
-			document.getElementById("unlogged_button1").style.display = 'none';
-			document.getElementById("unlogged_button2").style.display = 'none';
-			document.getElementById("logged_button1").style.display = 'unset';
-			document.getElementById("logged_button2").style.display = 'unset';
-			document.getElementById("logged_button3").style.display = 'unset';
-		} else {
-			document.getElementById("unlogged_button1").style.display = 'unset';
-			document.getElementById("unlogged_button2").style.display = 'unset';
-			document.getElementById("logged_button1").style.display = 'none';
-			document.getElementById("logged_button2").style.display = 'none';
-			document.getElementById("logged_button3").style.display = 'none';
-		}
+		{% if (nav|default("there",false)) %}
+			// Check if it's logged in
+			if (document.cookie.includes('access_token') && document.cookie.includes('refresh_token')) {
+				document.getElementById("unlogged_button1").style.display = 'none';
+				document.getElementById("unlogged_button2").style.display = 'none';
+				document.getElementById("logged_button1").style.display = 'unset';
+				document.getElementById("logged_button2").style.display = 'unset';
+				document.getElementById("logged_button3").style.display = 'unset';
+			} else {
+				document.getElementById("unlogged_button1").style.display = 'unset';
+				document.getElementById("unlogged_button2").style.display = 'unset';
+				document.getElementById("logged_button1").style.display = 'none';
+				document.getElementById("logged_button2").style.display = 'none';
+				document.getElementById("logged_button3").style.display = 'none';
+			}
+		{% endif %}
 
 		{% if alert %}
-			// If there's an alert, return an alert box
 			alert("{{alert}}");
 		{% endif %}
 	</script>

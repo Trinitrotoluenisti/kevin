@@ -82,7 +82,7 @@ def login():
 
             return response
         else: 
-            return render_template("login.html", alert=r.json()["msg"]), r.status_code
+            return render_template("login.html", alert=r.json()["msg"], nav=False), r.status_code
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -117,7 +117,7 @@ def register():
 
             return response
         else: 
-            return render_template("register.html", alert=r.json()["msg"]), r.status_code
+            return render_template("register.html", alert=r.json()["msg"], nav=False), r.status_code
 
 @app.route('/logout', methods=["GET"])
 def logout():
