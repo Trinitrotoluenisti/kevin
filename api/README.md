@@ -14,7 +14,7 @@ mkdir application/database
 #### Windows
 
 ```bash
-python3 -m venv env
+python -m venv env
 env\Scripts\activate.bat
 pip install -r requirements.txt
 mkdir application\database
