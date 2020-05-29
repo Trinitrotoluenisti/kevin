@@ -1,0 +1,427 @@
+openapi: 3.0.0
+info:
+  title: Kevin API
+  version: '1.0'
+  license:
+    url: 'https://github.com/Trinitrotoluenisti/kevin/blob/master/LICENSE'
+    name: Mozilla Public License 2.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /ping:
+    get:
+      summary: Ping
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                required:
+                  - msg
+              examples:
+                Working:
+                  value:
+                    msg: Working
+      operationId: get-ping
+      description: Test if the server is running
+  /login:
+    post:
+      summary: Login
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  access_token:
+                    type: string
+                  refresh_token:
+                    type: string
+                required:
+                  - msg
+                  - access_token
+                  - refresh_token
+              examples:
+                Ok:
+                  value:
+                    msg: Ok
+                    access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDczNTgsIm5iZiI6MTU5MDc0NzM1OCwianRpIjoiMWU4MWNhOGEtYmY5ZC00YzQyLWIzOGUtNWU2OWNlZWVlZWRmIiwiZXhwIjoxNTkwNzUwMDU4LCJpZGVudGl0eSI6InVzZXJuYW1lNyIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.bL_UNbfyb-Oh4YXt8RoBgY5h-OWk4o5LwfuFmLYxrVg
+                    refresh_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDczNTgsIm5iZiI6MTU5MDc0NzM1OCwianRpIjoiYWQ0MjYxYjQtYTlmNy00MjdmLTg4MzAtNjBiNzE0ZDU4MGEyIiwiZXhwIjoxNTkzMzM5MzU4LCJpZGVudGl0eSI6InVzZXJuYW1lNyIsInR5cGUiOiJyZWZyZXNoIn0.G0EDenDOzYhb1FQBIQh2z5j3wop6PRSUQ6n5OWR8Dr0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                required:
+                  - msg
+              examples:
+                Missing parameter(s):
+                  value:
+                    msg: Missing parameter(s)
+                Wrong username or password:
+                  value:
+                    msg: Wrong username or password
+      description: Make the login process with the given credentials
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+  /register:
+    post:
+      summary: Register
+      operationId: post-register
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  access_token:
+                    type: string
+                  refresh_token:
+                    type: string
+                required:
+                  - msg
+                  - access_token
+                  - refresh_token
+              examples:
+                Ok:
+                  value:
+                    msg: Ok
+                    access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDcyNjYsIm5iZiI6MTU5MDc0NzI2NiwianRpIjoiODdlMGQ2NDgtYmRmOC00NWQyLWI1YjMtMjBiNmIzNTY5MGQxIiwiZXhwIjoxNTkwNzQ5OTY2LCJpZGVudGl0eSI6InVzZXJuYW1lNyIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.kct7WyWU5teG8oCQyEWKQOKo0jmqoSw7w9sYAhdS3Zc
+                    refresh_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDcyNjYsIm5iZiI6MTU5MDc0NzI2NiwianRpIjoiZjdlOGUwNTUtODNlMi00MjJlLWJmZWYtYmI3ODhkZjlhMmM3IiwiZXhwIjoxNTkzMzM5MjY2LCJpZGVudGl0eSI6InVzZXJuYW1lNyIsInR5cGUiOiJyZWZyZXNoIn0.5-VZg4hMDqxtkssYTyA0xowrNHGdFVBVx5y8foju-HA
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                required:
+                  - msg
+              examples:
+                Missing parameter(s):
+                  value:
+                    msg: Missing parameter(s)
+                Username and/or password too short:
+                  value:
+                    msg: Username and/or password too short
+                Invalid email:
+                  value:
+                    msg: Invalid email
+                Already registered:
+                  value:
+                    msg: Already registered
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                name:
+                  type: string
+                surname:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - name
+                - surname
+                - email
+                - password
+        description: ''
+      description: Create a new user and add it into the database
+  /refresh:
+    post:
+      summary: Refresh
+      operationId: post-refresh
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  access_token:
+                    type: string
+                required:
+                  - msg
+                  - access_token
+              examples:
+                Ok:
+                  value:
+                    msg: Ok
+                    access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDc1ODMsIm5iZiI6MTU5MDc0NzU4MywianRpIjoiOGM0ZDU1ZjAtZmE3MC00YmM0LWIzYjQtNjJhMzc3MmEzYTUyIiwiZXhwIjoxNTkwNzUwMjgzLCJpZGVudGl0eSI6InVzZXJuYW1lNyIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.DXhFXtL5UP1VmiUM9wiLy0PCdJ7F8wtcxeOUktUcug8
+      parameters: []
+      security:
+        - Refresh Token: []
+      description: Generate a new access token from refresh token
+  /logout/access:
+    post:
+      summary: LogoutAccess
+      operationId: post-logout-access
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                required:
+                  - msg
+              examples:
+                Ok:
+                  value:
+                    msg: Ok
+      description: Revoke the access token
+      security:
+        - Access Token: []
+  /logout/refresh:
+    post:
+      summary: LogoutRefresh
+      operationId: post-logout-refresh
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                required:
+                  - msg
+              examples:
+                Ok:
+                  value:
+                    msg: Ok
+      description: Revoke the refresh token
+      security:
+        - Refresh Token: []
+  /user:
+    get:
+      summary: User
+      operationId: get-user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Ok:
+                  value:
+                    id: 1
+                    username: username
+                    name: name
+                    surname: surname
+                    email: email@email.com
+                    perms: 0
+      description: Returns your informations
+      security:
+        - Access Token: []
+  '/user/{username}':
+    get:
+      summary: UserView
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  name:
+                    type: string
+                  surname:
+                    type: string
+                  perms:
+                    type: integer
+                required:
+                  - id
+                  - username
+                  - name
+                  - surname
+                  - perms
+              examples:
+                Ok:
+                  value:
+                    id: 1
+                    username: username
+                    email: email@email.com
+                    perms: 0
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                required:
+                  - msg
+              examples:
+                User does not exist:
+                  value:
+                    msg: User does not exist
+      operationId: get-user-username
+      description: Returns informations about the given username
+    parameters:
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
+  /post:
+    post:
+      summary: Post
+      operationId: post-post
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                required:
+                  - msg
+              examples:
+                Ok:
+                  value:
+                    msg: Ok
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                required:
+                  - msg
+              examples:
+                Post content empty or too short:
+                  value:
+                    msg: Post content empty or too short
+      description: Create a post
+      security:
+        - Access Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        name:
+          type: string
+        surname:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        perms:
+          type: integer
+        written_posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+        approved_posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+    Post:
+      title: Post
+      type: object
+      properties:
+        id:
+          type: number
+        author_id:
+          type: integer
+        approver_id:
+          type: integer
+        datetime:
+          type: string
+        tags:
+          type: string
+        '':
+          type: string
+  securitySchemes:
+    Access Token:
+      type: http
+      scheme: bearer
+    Refresh Token:
+      type: http
+      scheme: bearer
