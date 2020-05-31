@@ -1,4 +1,7 @@
-body { align-items: center; margin-bottom: 15vh; }
+body {
+	align-items: center;
+	margin-bottom: 15vh;
+}
 
 form {
 	margin-top: 3vh;

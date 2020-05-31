@@ -15,9 +15,9 @@ mkdir application/database
 
 ```bash
 python -m venv env
-env\Scripts\activate.bat
+env\\Scripts\\activate.bat
 pip install -r requirements.txt
-mkdir application\database
+mkdir application\\database
 ```
 
 Then you have to create a copy of `api/secrets.py`, like [this](#Example of `api/secrets.py`).

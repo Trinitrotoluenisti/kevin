@@ -8,6 +8,7 @@ api/application/database
 api/secrets.py
 api/view_logs.py
 api/api.log
+api/database
 
 # IDEs
 .vscode

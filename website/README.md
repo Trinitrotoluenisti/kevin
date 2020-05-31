@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 ```bash
 python -m venv env
-env\Scripts\activate.bat
+env\\Scripts\\activate.bat
 pip install -r requirements.txt
 ```
 

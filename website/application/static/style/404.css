@@ -2,10 +2,6 @@ main {
 	font-family: 'Courier Prime', monospace;
 }
 
-div {
-	margin-left: -2vw;
-}
-
 #title {
 	font-size: 8em;
 	font-weight: bold;

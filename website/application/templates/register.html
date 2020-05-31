@@ -1,13 +1,18 @@
 {% extends "layout.html" %}
 {% block title %}SignUp{% endblock %}
 
+
 {% block css %}
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/login.css') }}" >
 {% endblock %}
 
+{% block js %}
+	<script src="{{ url_for('static', filename='script/password_matching.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 	<h1 id="title">Register</h1>
-	<form method="POST" action="/register" name="mainform" onsubmit="return testpass(this)">
+	<form method="POST" action="/register" name="mainform" onsubmit="return check_passwords(this)">
 		<input type="text" name="name" placeholder="Name" required>
 		<input type="text" name="surname" placeholder="Surname" required>
 		<input type="text" name="username" placeholder="Username" required>
@@ -16,14 +21,4 @@
 		<input type="password" name="cpassword" placeholder="Confim Password" required>
 		<button>Register!</button>
 	</form>
-
-	<script>
-		function testpass(form){
-			if (form.password.value != form.cpassword.value) {
-				alert("Password aren't matching!")
-				return false
-			}
-			return true
-		}
-	</script>
 {% endblock %}

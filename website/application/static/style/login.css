@@ -1,4 +1,6 @@
-body { align-items: center; }
+body {
+	align-items: center;
+}
 
 main {
 	width: max-content;
@@ -9,7 +11,7 @@ main {
 }
 
 #title {
-	margin-bottom: 5vh;
+	margin-bottom: 7vh;
 	font-size: 3em;
 	color: #345DA7;
 	align-self: center;
@@ -25,24 +27,36 @@ input {
 	width: 20vw;
 	min-width: 200px;
 	height: 4vh;
-	min-height: 30px;
+	min-height: 40px;
 	margin: 1vh 0 1vh 0;
-	border: 1px solid #4BB4DE;
+	border: 1px solid #757575;
+	border-radius: 5px;
+	padding-left: 0.5vw;
+	color: #757575;
+}
+
+input::placeholder {
+	color: #8e8e8e;
+}
+
+input:focus {
+	border: 1px solid #345DA7;
 	color: #345DA7;
 }
 
 button {
 	height: 5vh;
-	min-height: 30px;
+	min-height: 50px;
 	margin: 1vh 0 1vh 0;
 	background-color: #345DA7;
 	border: none;
+	border-radius: 4px;
 	color: white;
 	font-size: 1em;
 }
 
 button:hover {
-	border: 1px solid #3B8AC4;
-	color: #3B8AC4;
+	border: 1px solid #345DA7;
+	color: #345DA7;
 	background-color: white;
 }

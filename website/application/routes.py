@@ -8,9 +8,9 @@ def api(method, path, data={}, headers={}):
     headers["X-Forwarded-For"] = request.remote_addr
 
     if method == "GET":
-        return get(server + path, data=data, headers=headers)
+        return get(server + path, json=data, headers=headers)
     elif method == "POST":
-        return post(server + path, data=data, headers=headers)
+        return post(server + path, json=data, headers=headers)
     else:
         raise ValueError("Method not known")
 
