@@ -1,7 +1,7 @@
 function check_passwords(form) {
-	if (form.password != form.cpassword) {
+	if (form.password.value != form.cpassword.value) {
 		alert("Password aren't matching!");
 	}
 
-	return form.password == form.cpassword;
+	return form.password.value == form.cpassword.value;
 }
