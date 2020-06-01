@@ -193,7 +193,7 @@ class Test(unittest.TestCase):
         self.app.post('/register', json=user)
 
         # try to fetch his data
-        del user['password'], user['surname'], user['name']
+        del user['password']
         user.update({'perms': 0, 'id': 2})        
         self.route('/user/username', 'GET', 200, user)
 
@@ -213,7 +213,7 @@ class Test(unittest.TestCase):
 
         # good post
         data['content'] = "a" * 21
-        print(self.route('/post', 'POST', 200, {'msg': 'Ok'}, json=data, auth=self.access))
+        self.route('/post', 'POST', 200, {'msg': 'Ok'}, json=data, auth=self.access)
 
 if __name__ == "__main__":
     unittest.main()

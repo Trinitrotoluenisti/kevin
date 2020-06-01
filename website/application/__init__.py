@@ -4,6 +4,7 @@ from requests import get, ConnectionError
 
 app = Flask(__name__)
 server = "http://localhost:8080"
+tokens_age = 45 * 60 # 45 Minutes
 
 # Check if there's a server online
 try:

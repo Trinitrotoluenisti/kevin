@@ -120,11 +120,10 @@ class LogoutRefresh(Resource):
     def post(self):
         # Fetch data
         jti = get_raw_jwt()['jti']
-        exp = get_raw_jwt()['exp']
         username = get_jwt_identity()
 
         # Revoke token
-        RevokedTokens(jti=jti, exp=exp).save()
+        RevokedTokens(jti=jti).save()
 
         # Return an ok message
         logging.info(f"'{username}' ({get_ip()}) revoked his refresh token")
@@ -154,7 +153,6 @@ class ViewUser(Resource):
 
         # If it exists, return it
         user = user.json()
-        del user['name'], user['surname']
         logging.info(f"{get_ip()} requested informations of '{username}'")
         return user
 

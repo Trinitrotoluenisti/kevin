@@ -1,33 +1,49 @@
-.flex {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-#propic {
-	margin-top: 4vh;
-}
-
-#name {
-	margin-top: 3vh;
-	font-size: 1.8em;
-	font-weight: bold;
-	color: #345DA7;
-}
-
-.flex2 {
+#user {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	justify-content: center;
+
+	margin: 4vh 20% 4vh 20%;
+	border-bottom: 1px solid #bdbdbd;
+	padding-bottom: 6vh;
 }
 
-.flag {
-	margin-left: 1vh;
-	margin-top: 3vh;
-	padding: .5vh;
-	border-radius: 5px;
-	color: white;
-	font-size: 1em;
+@media (orientation: portrait) {
+	#user {
+		flex-direction: column;
+		margin: 4vh 10% 4vh 10%;
+	}
+}
+
+#propic {
+	height: 23vh;
+	width: auto;
+	margin-right: 3vw;
+	border-radius: 50%;
+}
+
+#infos {
+	display: flex;
+	flex-direction: column;
+}
+
+#username {
+	display: inline-flex;
+	align-items: center;
+}
+
+#username-text {
+	margin-right: .5vw;
+	font-size: 1.8em;
+	font-weight: bold;
+}
+
+.username-flag {
+	height: min-content;
+	border-radius: 3px;
+	padding: 5px 8px 5px 8px;
+	color: white;	
 }
 
 #mod {
@@ -38,18 +54,41 @@
 	background-color: #0499cf;
 }
 
-#owner {
+#dev {
 	background-color: #cc4100;
 }
 
-#username {
-	margin-top: 1vh;
-	font-size: 1.5em;
-	color: #696969;
+#name {
+	font-size: 1.2em;
 }
 
-#user_email {
-	margin-top: 2.5vh;
-	font-size: 1.5em;
-	color: #4BB4DE;
+#bio {
+	font-size: .9em;
+}
+
+.button {
+	height: 7vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-top: 3vh;
+	border-radius: 9px;
+
+	font-size: 1.3em;
+
+	background-color: #345DA7;
+	color: white;
+}
+
+.button:hover {
+	border: 1px solid #345DA7;
+	background-color: white;
+	color: #345DA7;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.button i {
+	margin-right: 1vw; 
 }

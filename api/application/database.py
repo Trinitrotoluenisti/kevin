@@ -133,7 +133,7 @@ class RevokedTokens(db.Model):
     __tablename__ = "revoked_tokens"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
     jti = db.Column("jti", db.Integer, unique=True, nullable=False)
-    exp = db.Column("exp", db.Integer, nullable=False)
+    exp = db.Column("exp", db.Integer, nullable=True)
 
     def save(self):
         """
@@ -154,7 +154,7 @@ class RevokedTokens(db.Model):
         now = datetime.now().timestamp()
 
         # Delete all the expired tokens
-        RevokedTokens.query.filter(RevokedTokens.exp <= now).delete()
+        RevokedTokens.query.filter(RevokedTokens.exp and RevokedTokens.exp <= now).delete()
         db.session.commit()
 
         # Calculate how many have been deleted and log it
