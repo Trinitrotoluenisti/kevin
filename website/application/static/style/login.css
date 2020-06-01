@@ -23,7 +23,7 @@ form {
 	align-self: center;
 }
 
-input {
+input:not([type=checkbox]) {
 	width: 20vw;
 	min-width: 200px;
 	height: 4vh;
@@ -35,11 +35,11 @@ input {
 	color: #757575;
 }
 
-input::placeholder {
+input:not([type=checkbox])::placeholder {
 	color: #8e8e8e;
 }
 
-input:focus {
+input:not([type=checkbox]):focus {
 	border: 1px solid #345DA7;
 	color: #345DA7;
 }

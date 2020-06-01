@@ -37,15 +37,22 @@ def login():
         # fetch data
         username = request.form["username"]
         password = request.form["password"]
+        persistent = bool(request.form.get("keep_logged", ""))
 
         try:
             # make a requets to the apis
             r = api("post", "/login", data={"username": username, "password": password})
 
-            # set cookies
+            # set access token's cookie
             response = make_response(redirect("/", code=302))
             response.set_cookie('access_token', r["access_token"], max_age=tokens_age)
-            response.set_cookie('refresh_token', r["refresh_token"])
+
+            # If "keep me logged in" was enabled, set the refresh token's expiration
+            # for one month, otherwise it will expire once the session is closed
+            if persistent:
+                response.set_cookie('refresh_token', r["refresh_token"], max_age=2628000)
+            else:
+                response.set_cookie('refresh_token', r["refresh_token"])
 
             return response
 
@@ -67,6 +74,7 @@ def register():
         surname = request.form["surname"]
         email = request.form["email"]
         password = request.form["password"]
+        persistent = bool(request.form.get("keep_logged", ""))
 
         # build the user's dict
         user = {"username": username, "name": name, "surname": surname,
@@ -76,10 +84,16 @@ def register():
             # make a requets to the apis
             r = api("post", "/register", data=user)
 
-            # set cookies
+            # set access token's cookie
             response = make_response(redirect("/", code=302))
             response.set_cookie('access_token', r["access_token"], max_age=tokens_age)
-            response.set_cookie('refresh_token', r["refresh_token"])
+
+            # If "keep me logged in" was enabled, set the refresh token's expiration
+            # for one month, otherwise it will expire once the session is closed
+            if persistent:
+                response.set_cookie('refresh_token', r["refresh_token"], max_age=2628000)
+            else:
+                response.set_cookie('refresh_token', r["refresh_token"])
 
             return response
 
@@ -92,12 +106,18 @@ def logout():
     # revoke access token
     access = request.cookies.get('access_token')
     if access:
-        api("post", "/logout/access", auth=access)
+        try:
+            api("post", "/logout/access", auth=access)
+        except APIError:
+            pass
 
     # revoke refresh token
-    refresh_token = request.cookies.get('refresh_token')
+    refresh = request.cookies.get('refresh_token')
     if refresh:
-        api("post", "/logout/refresh", auth=refresh)
+        try:
+            api("post", "/logout/refresh", auth=refresh)
+        except APIError:
+            pass
 
     # Delete cookies
     response = make_response(redirect("/", code=302))

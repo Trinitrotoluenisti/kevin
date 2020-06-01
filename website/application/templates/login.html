@@ -11,6 +11,10 @@
 	<form method="POST" action="/login">
 		<input type="text" name="username" placeholder="Username" required>
 		<input type="password" name="password" placeholder="Password" required>
+		<span>
+			<input type="checkbox" name="keep_logged" id="checkbox">
+			<label for="checkbox">Keep me logged in</label>
+		</span>
 		<button>Login!</button>
 	</form>
 {% endblock %}
