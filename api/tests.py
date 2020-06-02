@@ -177,7 +177,7 @@ class Test(unittest.TestCase):
     def test_user_view(self):
         # no username is specified but there is the access token
         response = self.testing_user.copy()
-        response.update({'perms': 0, 'id': 1})
+        response.update({'perms': 0, 'id': 1, 'public_email': False, 'bio': ''})
         del response['password']
         self.route('/user', 'GET', 200, response, auth=self.access)
 
@@ -193,8 +193,17 @@ class Test(unittest.TestCase):
         self.app.post('/register', json=user)
 
         # try to fetch his data
-        del user['password']
-        user.update({'perms': 0, 'id': 2})        
+        del user['password'], user['email']
+        user.update({'perms': 0, 'id': 2, 'public_email': False, 'bio': ''})        
+        self.route('/user/username', 'GET', 200, user)
+
+        # set public_email=True
+        User.query.filter_by(username='username').first().public_email = True
+        db.session.commit()
+
+        # retry to fetch his data
+        user['public_email'] = True
+        user['email'] = 'email@email.com'         
         self.route('/user/username', 'GET', 200, user)
 
     def test_post_creation(self):

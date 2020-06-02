@@ -55,10 +55,10 @@ class Register(Resource):
         try:
             body = request.get_json()
             username = str(body['username'])
-            name = str(body['name'])
-            surname = str(body['surname'])
             email = str(body['email'])
             password = str(body['password'])
+            name = str(body['name'])
+            surname = str(body['surname'])
         except (KeyError, TypeError):
             logging.debug(f"{get_ip()} tried to register without parameters")
             return {"msg": "Missing parameter(s)"}, 400
@@ -70,12 +70,18 @@ class Register(Resource):
 
         # Check if email is an email
         elif not search(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$', email):
-            logging.debug(f"{get_ip()} tried to register with invalid infos")
+            logging.debug(f"{get_ip()} tried to register with invalid email")
             return {"msg": "Invalid email"}, 400
 
         # Try add it in the database
         try:
-            User(username=username, name=name, surname=surname, email=email, password=password).save()
+            User(username=username,
+                 email=email,
+                 public_email=False,
+                 password=password,
+                 name=name,
+                 surname=surname,
+                 bio='').save()
         except IntegrityError:
             db.session.rollback()
             logging.debug(f"{get_ip()} tried to register with already used infos")
@@ -151,8 +157,12 @@ class ViewUser(Resource):
             logging.debug(f"{get_ip()} requested informations of non-existent user")
             return {"msg": "User does not exist"}, 404
 
-        # If it exists, return it
         user = user.json()
+
+        # Check if user's email is public
+        if not user["public_email"]:
+            del user["email"]
+
         logging.info(f"{get_ip()} requested informations of '{username}'")
         return user
 

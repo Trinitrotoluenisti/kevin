@@ -8,13 +8,19 @@ from .main import app, db, logging, configs, hash_password
 # Initialize the databases
 class User(db.Model):
     __tablename__ = "users"
+
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
+    perms = db.Column("perms", db.SmallInteger, default=0)
+
     username = db.Column("username", db.String, unique=True, nullable=False)
+    password = db.Column("password", db.String, nullable=False)
+    email = db.Column("email", db.String, unique=True, nullable=False)
+    public_email = db.Column("public_email", db.Boolean, nullable=True)
+
     name = db.Column("name", db.String, nullable=False)
     surname = db.Column("surname", db.String, nullable=False)
-    email = db.Column("email", db.String, unique=True, nullable=False)
-    password = db.Column("password", db.String, nullable=False)
-    perms = db.Column("perms", db.SmallInteger, default=0)
+    bio = db.Column("bio", db.String, nullable=True)
+
     written_posts = db.relationship("Post", foreign_keys='Post.author_id', backref='author')
     approved_posts = db.relationship("Post", foreign_keys='Post.approver_id', backref='approver')
 
@@ -65,11 +71,15 @@ class User(db.Model):
 
         return {
                 "id": self.id,
+                "perms": self.perms,
+
                 "username": self.username,
+                "email": self.email,
+                "public_email": self.public_email,
+
                 "name": self.name,
                 "surname": self.surname,
-                "email": self.email,
-                "perms": self.perms
+                "bio": self.bio
                 }
 
 class Post(db.Model):

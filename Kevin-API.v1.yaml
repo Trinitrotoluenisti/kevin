@@ -159,6 +159,12 @@ paths:
                   type: string
                 password:
                   type: string
+                public_email:
+                  type: boolean
+                  default: false
+                bio:
+                  type: string
+                  default: ''
               required:
                 - username
                 - name
@@ -251,7 +257,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  name:
+                    type: string
+                  surname:
+                    type: string
+                  email:
+                    type: string
+                  perms:
+                    type: integer
+                  bio:
+                    type: string
+                  public_email:
+                    type: boolean
+                required:
+                  - id
+                  - username
+                  - name
+                  - surname
+                  - email
+                  - perms
+                  - bio
+                  - public_email
               examples:
                 Ok:
                   value:
@@ -286,12 +318,20 @@ paths:
                     type: string
                   perms:
                     type: integer
+                  email:
+                    type: string
+                  public_email:
+                    type: boolean
+                  bio:
+                    type: string
                 required:
                   - id
                   - username
                   - name
                   - surname
                   - perms
+                  - public_email
+                  - bio
               examples:
                 Ok:
                   value:
@@ -374,50 +414,10 @@ paths:
                   type: array
                   items:
                     type: string
+              required:
+                - content
 components:
-  schemas:
-    User:
-      title: User
-      type: object
-      properties:
-        id:
-          type: integer
-        username:
-          type: string
-        name:
-          type: string
-        surname:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        perms:
-          type: integer
-        written_posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Post'
-        approved_posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Post'
-    Post:
-      title: Post
-      type: object
-      properties:
-        id:
-          type: number
-        author_id:
-          type: integer
-        approver_id:
-          type: integer
-        datetime:
-          type: string
-        tags:
-          type: string
-        '':
-          type: string
+  schemas: {}
   securitySchemes:
     Access Token:
       type: http

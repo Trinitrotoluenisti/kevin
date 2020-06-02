@@ -131,15 +131,13 @@ def logout():
 User
 """
 @app.route('/user')
-def user():
-    username = request.args.get('username', '')
-
+@app.route('/user/<string:username>')
+def user(username=''):
     # If a username is specified
     if username:
         # Try to return his profile
         try:
             user = api("get", "/user/" + username)
-            print(user)
             return render_template('/user.html', user=user)
 
         # (if errors are encountered it returns them in an alert box)
