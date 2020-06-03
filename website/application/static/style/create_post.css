@@ -17,31 +17,42 @@ form {
 	text-align: center !important;
 }
 
-#post-title {
+textarea {
 	resize: none;
-	font-size: 1.5em;
 	width: 70.5vw;
-	min-height: 5vh;
-	height: 10vh;
-	padding: 1vh 1vh 0 1vh;
+	height: 4vh;
+	min-height: 40px;
 	margin: 1vh 0 1vh 0;
-	line-height: 1.4;
-	font-family: 'Roboto', sans-serif;
-	border: 1px solid #4BB4DE;
+	border: 1px solid #757575;
+	border-radius: 5px;
+	padding: 1vh;
+	border: 1px solid #757575;
 	color: #345DA7;
 }
 
-#post-body {
-	resize: none;
-	min-height: 50vh;
-	width: 70.5vw;
-	margin-bottom: 1vh;
-	padding: 1vh;
-	font-size: 1.25em;
-	line-height: 1.4;
-	font-family: 'Roboto', sans-serif;
-	border: 1px solid #4BB4DE;
+textarea:placeholder {
+	color: #8e8e8e;
+}
+
+textarea:focus {
+	border: 1px solid #345DA7;
 	color: #345DA7;
+}
+
+
+#post-title {
+	font-size: 1.5em;
+	min-height: 5vh;
+	height: 10vh;
+	margin: 1vh 0 1vh 0;
+	line-height: 1.4;
+}
+
+#post-body {
+	font-size: 1.25em;
+	min-height: 50vh;
+	margin-bottom: 1vh;
+	line-height: 1.4;
 }
 
 #send {
@@ -51,9 +62,9 @@ form {
 	margin: 1vh 0 1vh 0;
 	background-color: #345DA7;
 	border: none;
+	border-radius: 4px;
 	color: white;
 	font-size: 1em;
-	font-family: 'Roboto', sans-serif;
 }
 
 #send:hover {

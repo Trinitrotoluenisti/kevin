@@ -44,7 +44,7 @@ input:not([type=checkbox]):focus {
 	color: #345DA7;
 }
 
-button {
+#login {
 	height: 5vh;
 	min-height: 50px;
 	margin: 1vh 0 1vh 0;
@@ -55,7 +55,7 @@ button {
 	font-size: 1em;
 }
 
-button:hover {
+#login:hover {
 	border: 1px solid #345DA7;
 	color: #345DA7;
 	background-color: white;

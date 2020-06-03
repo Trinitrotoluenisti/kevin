@@ -175,3 +175,11 @@ def view_post():
 def create_post():
     # Return create_post.html
     return render_template('create_post.html')
+
+"""
+Settings
+"""
+@app.route('/settings')
+def settings():
+    # Return settings.html
+    return render_template('settings.html')

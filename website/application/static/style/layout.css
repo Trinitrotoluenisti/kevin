@@ -142,3 +142,7 @@ body {
 	background-color: #ffecb3;
 	color: #4BB4DE;
 }
+
+.fa-ellipsis-h:hover {
+    transform: rotate(90deg);
+}
