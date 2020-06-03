@@ -1,4 +1,4 @@
-from application import startAPI
+from application import app
 
 
-startAPI()
+app.run(debug=True, host='0.0.0.0', port=8080)

@@ -1,71 +1,42 @@
 # API
 
-### Install
+## Installing
 
-#### Linux
+Once cloned the repository and moved to `/api`, you have to create a python venv, by using `python3 -m venv env`. After that you can activate it with `source env/bin/activate` on linux or `env\\Scripts\\activate.bat` on windows.
+Then install all the dependencies with `pip install -r requirements.txt` and create a stupid `application/passwords.py`, that must contain a function, called `hash_password`, which requires and returns a string.
 
-```bash
-python3 -m venv env
-source env/bin/activate
-pip install -r requirements.txt
-mkdir application/database
-```
+## Running
 
-#### Windows
-
-```bash
-python -m venv env
-env\\Scripts\\activate.bat
-pip install -r requirements.txt
-mkdir application\\database
-```
-
-Then you have to create a copy of `api/secrets.py`, like [this](#Example of `api/secrets.py`).
-
-### Run APIs
+Once activated the venv, you just have to run
 
 ```bash
 python3 run.py
 ```
 
-### Run Tests
+If you want to see the API's log while they're running, use
 
 ```bash
-python3 tests.py
+watch -c -n 0.2 python3 log_visualizer.py
 ```
 
-### Check logs while API are running
+where `-n 0.2` indicates the number of seconds after which the list id updated.
+
+## Testing
+
+If you make some changes at the APIs, you can check if you've damaged something with the unittests.
+To run them, use
 
 ```bash
-watch -c -n 0.2 python3 view_logs.py
+python3 unittests.py
 ```
 
-### Example of `api/secrets.py`
+### Coverage
 
-```python
-def hash_password(password):
-    return password
+If you also want to see which pieces of code are tested, you can use
 
-configs = {
-    "API": {
-        "host": "0.0.0.0",
-        "port": 8080,
-        "debug": True
-    },
-
-    "JWT": {
-        "secret_key": "###",
-        "token_expiration": {"minutes": 45},
-        "blacklist_clean": {"minutes": 30}
-    },
-
-    "DB": {
-        "sqlite3": "sqlite:///database/database.db", # from api/application/
-        "posts_path": "application/database/posts"   # from api/
-    },
-
-    "LOG": {
-        "filename": "api.log"                        # from api/
-    }
-}
+```bash
+coverage run --source /application unittests.py
+coverage report -m
 ```
+
+Remember to delete the `.coverage` file once run.

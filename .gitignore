@@ -1,22 +1,18 @@
-# Python
-env
-**pycache**
-**.pyc
-
-# API's data
-api/application/database
-api/secrets.py
-api/view_logs.py
+# APIs
+api/application/database/*
+!api/application/database/.keep
+api/application/passwords.py
 api/api.log
-api/database
 
 # IDEs
-.vscode
 *.sublime-*
+.vscode
+*.DS_Store
 
-# Nelli's Macbook
-**.DS_Store
-
-# Direnv
-**.envrc
-**.direnv
+# Python & venvs
+*__pycache__
+*.pyc
+env
+*.envrc
+*.direnv
+*.coverage

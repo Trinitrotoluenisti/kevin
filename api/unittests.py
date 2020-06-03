@@ -1,4 +1,4 @@
-from application.main import app, db, User
+from application import app, db, User
 
 import unittest
 from datetime import timedelta
@@ -8,10 +8,6 @@ class Test(unittest.TestCase):
     def setUp(self):
         # App configs
         app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        app.config['DEBUG'] = False
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
-        app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=5)
 
         # Creating app
         self.app = app.test_client()

@@ -1,8 +1,8 @@
 from datetime import datetime
-from os import listdir, mkdir
 from json import dump as json_dump
 
-from .main import app, db, logging, configs, hash_password
+from . import app, db, logging
+from .passwords import hash_password
 
 
 # Initialize the databases
@@ -15,11 +15,11 @@ class User(db.Model):
     username = db.Column("username", db.String, unique=True, nullable=False)
     password = db.Column("password", db.String, nullable=False)
     email = db.Column("email", db.String, unique=True, nullable=False)
-    public_email = db.Column("public_email", db.Boolean, nullable=True)
+    public_email = db.Column("public_email", db.Boolean, default=False)
 
     name = db.Column("name", db.String, nullable=False)
     surname = db.Column("surname", db.String, nullable=False)
-    bio = db.Column("bio", db.String, nullable=True)
+    bio = db.Column("bio", db.String, default="")
 
     written_posts = db.relationship("Post", foreign_keys='Post.author_id', backref='author')
     approved_posts = db.relationship("Post", foreign_keys='Post.approver_id', backref='approver')
@@ -119,7 +119,7 @@ class Post(db.Model):
         json_file["dislikes"] = self.dislikes
 
         # write it
-        with open(f"{configs['DB']['posts_path']}/{self.id}.json", 'w') as f:
+        with open(f"{app.config['DATABASE_PATH']}/posts/{self.id}.json", 'w') as f:
             json_dump(json_file, f)
 
     def json(self):
@@ -172,6 +172,7 @@ class RevokedTokens(db.Model):
         logging.debug(f"Cleaned tokens' blacklist ({number} tokens deleted)")
 
 
+
 # Delete the revoked tokens' table if exists
 try:
     RevokedTokens.__table__.drop(db.engine)
@@ -180,9 +181,3 @@ except:
 
 # create the db if it doesn't exist
 db.create_all()
-
-# Create the posts dir if it doesn't exists
-try:
-    listdir(configs['DB']['posts_path'])
-except FileNotFoundError:
-    mkdir(configs['DB']['posts_path'])

@@ -4,7 +4,7 @@ from flask_jwt_extended import *
 from sqlalchemy.exc import IntegrityError
 from re import search
 
-from .main import api, db, jwt, logging
+from . import api, db, jwt, logging
 from .database import User, RevokedTokens, Post
 
 
@@ -75,13 +75,7 @@ class Register(Resource):
 
         # Try add it in the database
         try:
-            User(username=username,
-                 email=email,
-                 public_email=False,
-                 password=password,
-                 name=name,
-                 surname=surname,
-                 bio='').save()
+            User(username=username, email=email, password=password, name=name, surname=surname).save()
         except IntegrityError:
             db.session.rollback()
             logging.debug(f"{get_ip()} tried to register with already used infos")
