@@ -62,29 +62,24 @@ body {
 
 
 /* Footer */
-.foot, .fbutton {
+.foot {
 	background-color: #4BB4DE;
+}
+
+
+/* Arrow up button */
+.fbutton {
+	font-size: 1.2em;
+	padding: auto;
+	color: black;
+	background-color: #4BB4DE;
+	border-radius: 5px;
 }
 
 .fbutton:hover {
 	background-color: #75BDE0;
 	border-radius: 5px;
 	font-weight: bold;
-}
-
-
-/* Arrow up */
-.fa-arrow-alt-circle-up {
-	font-size: 1.2em;
-	padding:auto;
-	color: black;
-	background-color: #4BB4DE;
-	border-radius: 5px;
-}
-
-.fa-arrow-alt-circle-up:hover {
-	border-radius: 5px;
-	background-color: #75BDE0;
 	color: white;
 	cursor: pointer;
 }
