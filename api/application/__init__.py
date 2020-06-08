@@ -1,7 +1,5 @@
+from sys import argv
 from flask import Flask
-from flask_restful import Api
-from flask_jwt_extended import JWTManager
-from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 import logging
 
@@ -11,12 +9,16 @@ from .configs import *
 # Initialize Flask
 app = Flask(__name__)
 
-# Load configuations from configs.py
-if app.config["DEBUG"]:
+
+# Load configurations from configs.py
+if argv[-1] == '-d':
+    configs = 'DebugConfigs'
     app.config.from_object(DebugConfigs)
-elif app.config["TESTING"]:
+elif argv[-1] == '-t':
+    configs = 'TestingConfigs'
     app.config.from_object(TestingConfigs)
 else:
+    configs = 'ProductionConfigs'
     app.config.from_object(ProductionConfigs)
 
 # Configure logging
@@ -28,14 +30,14 @@ logging.getLogger('werkzeug').disabled = True
 logging.getLogger('apscheduler.scheduler').disabled = True
 logging.getLogger('apscheduler.executors.default').disabled = True
 
-# Initialize Flask frameworks
-api = Api(app)
-db = SQLAlchemy(app)
-jwt = JWTManager(app)
+# Log the configs' type
+logging.error('Loaded ' + configs)
+
 
 # Import other file's content
 from .database import *
 from .routes import *
+
 
 # Initialize scheduler
 scheduler = APScheduler()

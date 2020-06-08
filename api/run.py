@@ -1,4 +1,6 @@
-from application import app
+from application import app, logging
 
 
-app.run(debug=True, host='0.0.0.0', port=8080)
+logging.error("API Started")
+app.run()
+logging.error("API Stopped")

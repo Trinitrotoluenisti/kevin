@@ -1,12 +1,15 @@
 from flask import request
-from flask_restful import Resource
+from flask_restful import Api, Resource
 from flask_jwt_extended import *
 from sqlalchemy.exc import IntegrityError
 from re import search
 
-from . import api, db, jwt, logging
-from .database import User, RevokedTokens, Post
+from . import app, logging, db
+from .database import *
 
+
+api = Api(app)
+jwt = JWTManager(app)
 
 # Get original IP
 get_ip = lambda: request.headers.get('X-Forwarded-For', request.remote_addr)

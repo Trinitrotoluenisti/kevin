@@ -1,14 +1,16 @@
-from application import app, db, User
-
 import unittest
 from datetime import timedelta
+from os import mkdir
+from sys import argv
+
+# An ugly import
+argv.append('-t')
+from application import app, db, User
+argv.remove('-t')
 
 
 class Test(unittest.TestCase):
     def setUp(self):
-        # App configs
-        app.config['TESTING'] = True
-
         # Creating app
         self.app = app.test_client()
 

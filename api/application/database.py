@@ -1,9 +1,13 @@
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from json import dump as json_dump
+from os import mkdir
 
-from . import app, db, logging
+from . import app, logging
 from .passwords import hash_password
 
+
+db = SQLAlchemy(app)
 
 # Initialize the databases
 class User(db.Model):
@@ -172,6 +176,15 @@ class RevokedTokens(db.Model):
         logging.debug(f"Cleaned tokens' blacklist ({number} tokens deleted)")
 
 
+try:
+    mkdir(app.config['DATABASE_PATH'])
+except FileExistsError:
+    pass
+
+try:
+    mkdir(app.config['DATABASE_PATH'] + '/posts')
+except FileExistsError:
+    pass
 
 # Delete the revoked tokens' table if exists
 try:
