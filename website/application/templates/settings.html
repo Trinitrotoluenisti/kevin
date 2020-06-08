@@ -3,9 +3,29 @@
 
 
 {% block css %}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/settings.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/settings.css') }}" >
 {% endblock %}
 
 {% block content %}
-    <p>Ciao</p>
+    <div id="header">Settings</div>
+
+    <div class="section-title">Preferences:</div>
+    <div class="section-content flex">
+        <input type="checkbox">
+        <div class="option-label">email visibile al pubblico</div>
+    </div>
+
+    <div class="section-title">Change your:</div>
+    <div class="section-content">
+        <input type="text" placeholder="Username"><br>
+        <input type="text" placeholder="Password"><br>
+        <input type="text" placeholder="E-mail"><br>
+        <input type="text" placeholder="Name">
+        <input type="text" placeholder="Surname">
+    </div>
+
+    <div class="section-title">Danger Zone:</div>
+    <div>
+        <button id="del-btn">Delete my Kevin account</button>
+    </div>
 {% endblock %}
