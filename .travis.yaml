@@ -1,0 +1,10 @@
+language: python
+
+python:
+  - "3.6"
+  - "3.8"
+
+script:
+  - cd api/
+  - pip install -r requirements.txt
+  - python3 unittests.py
