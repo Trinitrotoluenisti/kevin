@@ -24,18 +24,6 @@ body {
 
 /* Footer */
 
-/*.footer {
-	position: static;
-	bottom: 0;
-	width: 100%;
-	min-height: auto;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	font-size: 1.15em;
-	background-color: #e38d30;
-}*/
-
 .foot{
 	background-color: #e38d30;
 }
