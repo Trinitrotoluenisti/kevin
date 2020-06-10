@@ -4,8 +4,17 @@ python:
   - "3.6"
   - "3.8"
 
-script:
+before_install:
   - cd api/
   - pip install -r requirements.txt
   - printf "def hash_password(password):\n    return password" > application/passwords.py
+
+script:
   - python3 unittests.py
+
+after_success:
+  - pip install coverage codacy-coverage
+  - coverage run --source /application unittests.py
+  - coverage xml
+  - python-codacy-coverage -r coverage.xml
+  - rm coverage.xml .coverage
