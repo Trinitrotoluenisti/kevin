@@ -48,7 +48,7 @@ _NB: in unittests, `TestingConfigs` are loaded for default._
 If you also want to see which pieces of code are tested, you can use
 
 ```bash
-coverage run --source /application unittests.py
+coverage run --source application/ unittests.py
 coverage report -m
 ```
 
