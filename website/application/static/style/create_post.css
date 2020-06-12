@@ -54,22 +54,3 @@ textarea:focus {
 	margin-bottom: 1vh;
 	line-height: 1.4;
 }
-
-#send {
-	width: 70.5vw;
-	height: 5vh;
-	min-height: 30px;
-	margin: 1vh 0 1vh 0;
-	background-color: #345DA7;
-	border: none;
-	border-radius: 4px;
-	color: white;
-	font-size: 1em;
-}
-
-#send:hover {
-	border: 1px solid dodgerblue;
-	color: dodgerblue;
-	background-color: white;
-	cursor: pointer;
-}

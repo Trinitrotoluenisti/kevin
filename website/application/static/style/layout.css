@@ -141,3 +141,43 @@ body {
 .fa-ellipsis-h:hover {
     transform: rotate(90deg);
 }
+
+
+/* Button style */
+input:not([type=checkbox]) {
+	width: 20vw;
+	min-width: 200px;
+	height: 4vh;
+	min-height: 40px;
+	margin: 1vh 0 1vh 0;
+	border: 1px solid #757575;
+	border-radius: 5px;
+	padding-left: 0.5vw;
+	color: #757575;
+}
+
+input:not([type=checkbox])::placeholder {
+	color: #8e8e8e;
+}
+
+input:not([type=checkbox]):focus {
+	border: 1px solid #345DA7;
+	color: #345DA7;
+}
+
+.push-btn {
+	height: 5vh;
+	min-height: 50px;
+	margin: 1vh 0 1vh 0;
+	background-color: #345DA7;
+	border: none;
+	border-radius: 4px;
+	color: white;
+	font-size: 1em;
+}
+
+.push-btn:hover {
+	border: 1px solid #345DA7;
+	color: #345DA7;
+	background-color: white;
+}
