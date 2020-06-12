@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import OperationalError
 from datetime import datetime
 from json import dump as json_dump
 from os import mkdir
@@ -189,7 +190,7 @@ except FileExistsError:
 # Delete the revoked tokens' table if exists
 try:
     RevokedTokens.__table__.drop(db.engine)
-except:
+except OperationalError:
     pass
 
 # create the db if it doesn't exist

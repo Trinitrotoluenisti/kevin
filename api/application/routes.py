@@ -97,7 +97,6 @@ class Refresh(Resource):
     def post(self):
         # Fetch data
         username = get_jwt_identity()
-        jti = get_raw_jwt()['jti']
 
         # Return an ok message
         logging.debug(f"'{username}' ({get_ip()}) refreshed his access token")

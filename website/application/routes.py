@@ -5,27 +5,21 @@ from flask import render_template, request, make_response, redirect
 
 
 
-"""
-Others
-"""
+# Others
 @app.errorhandler(404)
 def error_404(e):
     # Return 404 error page
     return render_template('/404.html'), 404
 
 
-"""
-Home
-"""
+# Home
 @app.route('/')
 def home():
     # Return home.html
     return render_template('home.html')
 
 
-"""
-Login / Register / Logout
-"""
+# Login / Register / Logout
 @app.route('/login', methods=["GET", "POST"])
 def login():
     # Return the template if it's a GET request
@@ -127,9 +121,7 @@ def logout():
     return response
 
 
-"""
-User
-"""
+# User
 @app.route('/user')
 @app.route('/user/<string:username>')
 def user(username=''):
@@ -163,9 +155,7 @@ def user(username=''):
         except APIError as e:
             return render_template('/home.html', alert=e.args[0]), e.args[1]
 
-"""
-Posts
-"""
+# Posts
 @app.route('/post')
 def view_post():
     # Return post.html
@@ -176,9 +166,7 @@ def create_post():
     # Return create_post.html
     return render_template('create_post.html')
 
-"""
-Settings
-"""
+# Settings
 @app.route('/settings')
 def settings():
     # Return settings.html

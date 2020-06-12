@@ -1,5 +1,5 @@
 from flask import Flask
-from requests import get, ConnectionError
+from requests import get
 
 
 app = Flask(__name__)
