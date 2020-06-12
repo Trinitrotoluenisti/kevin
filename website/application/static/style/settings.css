@@ -1,25 +1,40 @@
 #header {
-	font-size: 3em;
-	color: #345DA7;
-	text-align: center;
-	margin-top: -1.5vh;
+    font-size: 3em;
+    color: #345DA7;
+    text-align: center;
+    margin-top: -1.5vh;
 }
 
 .section-title {
-	font-size: 1.8em;
-	color: #345DA7;
-	margin: 1vh 0 1vh 0;
+    font-size: 1.8em;
+    color: #345DA7;
+    margin: 1vh 0 1vh 0;
 }
 
 .section-content {
-	margin-bottom: 4vh;
+    margin-bottom: 4vh;
 }
 
 .flex {
-	display: flex;
+    display: flex;
 }
 
 .option-label {
-	font-size: 1.2em;
-	margin-left: .4vw;
+    font-size: 1.2em;
+    margin-left: .4vw;
+}
+
+#danger-days {
+    color: #f91307;
+}
+
+.del {
+    background-color: #f91307;
+    color: white;
+}
+
+.del:hover {
+    border: 1px solid #f91307;
+    color: #f91307;
+    background-color: white;
 }
