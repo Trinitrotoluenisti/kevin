@@ -6,4 +6,8 @@
 	<link type="text/css" href="{{ url_for('static', filename='style/admin/tommy.css') }}">
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block content %}
+<h4>Benvenuto {{user[("name")].title()}}</h4>
+
+
+{% endblock %}

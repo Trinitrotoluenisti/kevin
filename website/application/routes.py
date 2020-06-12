@@ -1,6 +1,5 @@
 from . import app, tokens_age
 from .api import api, check_token, APIError
-
 from flask import render_template, request, make_response, redirect
 
 
@@ -171,3 +170,19 @@ def create_post():
 def settings():
     # Return settings.html
     return render_template('settings.html')
+
+# Admin
+@app.route('/admin')
+def admin():
+    access_token = request.cookies.get('access_token')
+    try:
+        user = api("get", "/user", auth = access_token)
+        perms = user ["perms"]
+        if perms >= 10:     #TODO: ricorda di cambiare il numero per il max perms (admin)
+            return render_template('admin.html', user = user)
+        else: 
+            #return abort(404)
+            return render_template('/home.html', alert="non hai permessi")
+    except APIError as e:
+        #return abort(404)
+        return render_template('/home.html', alert=e.args[0]), e.args[1]
