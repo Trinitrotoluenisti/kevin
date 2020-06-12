@@ -1,4 +1,7 @@
 function update_navbar() {
+	var to_remove;
+	var to_show;
+
 	if (document.cookie.includes('access_token') && document.cookie.includes('refresh_token')) {
 		to_remove = '.unlogged_buttons';
 		to_show = '.logged_buttons';
@@ -7,6 +10,6 @@ function update_navbar() {
 		to_show = '.unlogged_buttons';
 	}
 
-	Array.from($(to_remove)).forEach(e => e.remove());
-	Array.from($(to_show)).forEach(e => e.style.display = 'unset');
+	Array.from($(to_remove)).forEach((e) => e.remove());
+	Array.from($(to_show)).forEach((e) => e.style.display = 'unset');
 }
