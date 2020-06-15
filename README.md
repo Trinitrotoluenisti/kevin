@@ -1,16 +1,22 @@
 # Kevin
 
-Kevin, a brand new social!
+![](https://img.shields.io/codacy/grade/26666125fb93412eb0cbff0196cb820c)
+![](https://img.shields.io/codacy/coverage/26666125fb93412eb0cbff0196cb820c)
+![](https://img.shields.io/travis/com/trinitrotoluenisti/kevin)
+![](https://img.shields.io/github/license/trinitrotoluenisti/kevin?color=blue)
+![](https://img.shields.io/badge/developers-4-blue)
+
+Kevin:tm:, a brand new social!
 
 ## Summary
-- [Installing](#Installing)
-   - [Installing APIs](#Installing_APIs)
-   - [Installing Website](#Installing_Website)
-- [Running](#Running)
-   - [Running APIs](#Running_APIs)
-   - [Running Website](#Running_Website)
-- [Contributing](#Contributing)
-- [Authors](#Authors)
+- [Installing](#installing)
+   - [Installing APIs](#installing-apis)
+   - [Installing Website](#installing-website)
+- [Running](#running)
+   - [Running APIs](#running-apis)
+   - [Running Website](#running-website)
+- [Contributing](#contributing)
+- [Authors](#authors)
 - [License](/LICENSE)
 
 ## Installing
