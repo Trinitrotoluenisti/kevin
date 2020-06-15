@@ -6,6 +6,10 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/settings.css') }}" >
 {% endblock %}
 
+{% block js %}
+    <script src="{{ url_for('static', filename='script/change_data.js') }}" defer></script>
+{% endblock %}
+
 {% block content %}
     <div id="header">Settings</div>
 
