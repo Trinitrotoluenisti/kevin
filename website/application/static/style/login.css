@@ -17,7 +17,7 @@ main {
 	align-self: center;
 }
 
-form {
+form, .redirect {
 	display: flex;
 	flex-direction: column;
 	align-self: center;
