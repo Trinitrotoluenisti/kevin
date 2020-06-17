@@ -180,7 +180,7 @@ def admin():
         perms = user ["perms"]
         if perms >= 10:     #TODO: ricorda di cambiare il numero per il max perms (admin)
             return render_template('admin/admin.html', user = user)
-        else: 
+        else:
             #return abort(404)
             return render_template('/home.html', alert="non hai permessi")
     except APIError as e:
