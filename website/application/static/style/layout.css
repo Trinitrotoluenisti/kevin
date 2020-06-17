@@ -1,141 +1,137 @@
 html, body {
-	height: 100%;
-	margin: 0;
-}
-
-main {
-	height: min-content;
-	flex-grow: 1;
-	margin: 10vh 2vh 20vh 2vh;
+    height: 100%;
+    margin: 0;
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	background-color: #f9fcff;
-	font-family: 'Roboto', sans-serif;
+    background-color: #f9fcff;
+    font-family: 'Roboto', sans-serif;
 }
 
+main {
+    height: min-content;
+    margin: 10vh 2vh 20vh 2vh;
+}
 
 /* Navbar */
 .logo {
-	height: 5vh;
+    height: 5vh;
 }
 
 .navbar-toggler {
-	font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 .topnav {
-	background-color: #345DA7 !important;
+    background-color: #345DA7 !important;
 }
 
 .menu:hover, .navbtn:hover {
-	background-color: #3B8AC4 !important;
+    background-color: #3B8AC4 !important;
 }
 
 .logged_buttons, .unlogged_buttons {
-	display: none;
+    display: none;
 }
 
 
 /* Dropdown */
 .dropdown-menu {
-	background-color: #4BB4DE !important;
-	margin-top: 0px !important;
-	padding: 0px !important;
-	border: 5px solid #4BB4DE !important;
+    background-color: #4BB4DE !important;
+    margin-top: 0px !important;
+    padding: 0px !important;
+    border: 5px solid #4BB4DE !important;
 }
 
 .dropdown:hover .dropdown-menu {
-	display: block
+    display: block
 }
 
 .ddbtn {
-	background-color: #4BB4DE !important;
-	margin: 1px 0vh !important;
-	border-radius: 5px !important;
+    background-color: #4BB4DE !important;
+    margin: 1px 0vh !important;
+    border-radius: 5px !important;
 }
 
 .ddbtn:hover {
-	background-color: #3B8AC4 !important;
+    background-color: #3B8AC4 !important;
 }
 
 
 /* Footer */
 .foot {
-	background-color: #4BB4DE;
+    background-color: #4BB4DE;
 }
 
 
 /* Arrow up button */
 .fbutton {
-	font-size: 1.2em;
-	padding: auto;
-	color: black;
-	background-color: #4BB4DE;
-	border-radius: 5px;
+    font-size: 1.2em;
+    padding: auto;
+    color: black;
+    background-color: #4BB4DE;
+    border-radius: 5px;
 }
 
 .fbutton:hover {
-	background-color: #75BDE0;
-	border-radius: 5px;
-	font-weight: bold;
-	color: white;
-	cursor: pointer;
+    background-color: #75BDE0;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
 }
 
 
 /* Cookie Popup */
 #popup-box {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 #cookie-popup {
-	position: fixed;
-	width: max-content;
-	height: max-content;
-	margin: 15vh 10vw 15vh 10vw;
-	border-radius: 30px;
-	background-color: #4BB4DE;
-	color: #ffecb3;
+    position: fixed;
+    width: max-content;
+    height: max-content;
+    margin: 15vh 10vw 15vh 10vw;
+    border-radius: 30px;
+    background-color: #4BB4DE;
+    color: #ffecb3;
 }
 
 #popup-content {
-	margin: 5vh 5vw 7vh 3vw;
+    margin: 5vh 5vw 7vh 3vw;
 }
 
 #popup-hey {
-	margin-bottom: 4vh;
-	font-size: 5em;
+    margin-bottom: 4vh;
+    font-size: 5em;
 }
 
 #popup-text {
-	font-size: 1.3em;
+    font-size: 1.3em;
 }
 
 #popup-buttons {
-	margin-top: 15vh;
+    margin-top: 15vh;
 }
 
 .popup-button {
-	padding: 2vh 2vw 2vh 2vw;
-	margin-right: 1vw;
-	border: 1px solid #ffecb3;
-	color: #ffecb3;
-	cursor: pointer;
-	text-decoration: none !important;
+    padding: 2vh 2vw 2vh 2vw;
+    margin-right: 1vw;
+    border: 1px solid #ffecb3;
+    color: #ffecb3;
+    cursor: pointer;
+    text-decoration: none !important;
 }
 
 #popup-buttons a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .popup-button:hover {
-	background-color: #ffecb3;
-	color: #4BB4DE;
+    background-color: #ffecb3;
+    color: #4BB4DE;
 }
 
 .fa-ellipsis-h:hover {
@@ -145,40 +141,40 @@ body {
 
 /* Button style */
 input:not([type=checkbox]) {
-	width: 20vw;
-	min-width: 200px;
-	height: 4vh;
-	min-height: 40px;
-	margin: 1vh 0 1vh 0;
-	border: 1px solid #757575;
-	border-radius: 5px;
-	padding-left: 0.5vw;
-	color: #757575;
+    width: 20vw;
+    min-width: 200px;
+    height: 4vh;
+    min-height: 40px;
+    margin: 1vh 0 1vh 0;
+    border: 1px solid #757575;
+    border-radius: 5px;
+    padding-left: 0.5vw;
+    color: #757575;
 }
 
 input:not([type=checkbox])::placeholder {
-	color: #8e8e8e;
+    color: #8e8e8e;
 }
 
 input:not([type=checkbox]):focus {
-	border: 1px solid #345DA7;
-	color: #345DA7;
+    border: 1px solid #345DA7;
+    color: #345DA7;
 }
 
 .push-btn {
-	height: 5vh;
-	min-height: 50px;
-	width: 20vw;
-	margin: 1vh 0 1vh 0;
-	background-color: #345DA7;
-	border: none;
-	border-radius: 4px;
-	color: white;
-	font-size: 1em;
+    height: 5vh;
+    min-height: 50px;
+    width: 20vw;
+    margin: 1vh 0 1vh 0;
+    background-color: #345DA7;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1em;
 }
 
 .push-btn:hover {
-	border: 1px solid #345DA7;
-	color: #345DA7;
-	background-color: white;
+    border: 1px solid #345DA7;
+    color: #345DA7;
+    background-color: white;
 }

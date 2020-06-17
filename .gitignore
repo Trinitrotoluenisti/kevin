@@ -6,6 +6,7 @@ api/api.log
 
 # IDEs
 *.sublime-*
+*.code-*
 .vscode
 *.DS_Store
 
