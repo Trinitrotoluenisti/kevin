@@ -11,15 +11,15 @@
 	<form method="POST" action="/login">
 		<input type="text" name="username" placeholder="Username" required>
 		<input type="password" name="password" placeholder="Password" required>
-		<span>
+		<span class="center cbox">
 			<input type="checkbox" name="keep_logged" id="checkbox">
 			<label for="checkbox">Keep me logged in</label>
 		</span>
-		<button class="push-btn">Login!</button>
+		<button class="push-btn fbtn center">Login!</button>
 	</form>
 	<br>
 	<div class="redirect">
-		<div>Not a member?</div>
-		<a href="../register"><button class="push-btn">Register now!</button></a>
+		<div class="center">Not a member?</div>
+		<a href="../register"><button class="push-btn fbtn">Register now!</button></a>
 	</div>
 {% endblock %}

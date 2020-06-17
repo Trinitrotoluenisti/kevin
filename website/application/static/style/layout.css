@@ -164,7 +164,6 @@ input:not([type=checkbox]):focus {
 .push-btn {
     height: 5vh;
     min-height: 50px;
-    width: 20vw;
     margin: 1vh 0 1vh 0;
     background-color: #345DA7;
     border: none;

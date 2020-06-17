@@ -1,14 +1,12 @@
-body {
-	align-items: center;
-}
-
 main {
-	width: max-content;
 	margin-top: 6vh;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
-}
+} 
+
+body {
+	align-items: center;
+} 
 
 #title {
 	margin-bottom: 7vh;
@@ -21,4 +19,17 @@ form, .redirect {
 	display: flex;
 	flex-direction: column;
 	align-self: center;
+}
+
+.fbtn, .redirect {
+	width: 20vw;
+	min-width: 200px;
+}
+
+.center{
+	align-self: center;
+}
+
+.cbox{
+	margin: 10px;
 }
