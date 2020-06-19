@@ -4,8 +4,9 @@ from sqlalchemy.exc import IntegrityError
 from re import search
 
 from . import jwt, logging, db
-from .database import *
+from .models import *
 from .utils import *
+from .passwords import hash_password
 
 
 
@@ -28,7 +29,8 @@ def login():
         return {'error': 'invalid login', 'description': f"Missing user's {field_name}"}, 400
 
     # Check credentials
-    if not User.check(username, password):
+    user = User.query.filter_by(username=username).first()
+    if not user or not user.password == hash_password(password):
         logging.info(f"{get_ip()} tried to login with wrong credentials as '{username}'")
         return {"error": "invalid login", "description": "Wrong username or password"}, 401
 
@@ -69,7 +71,9 @@ def register():
 
     # Try add it in the database
     try:
-        User(username=username, email=email, password=password, name=name, surname=surname).save()
+        user = User(username=username, email=email, password=password, name=name, surname=surname)
+        db.session.add(user)
+        db.session.commit()
     except IntegrityError:
         logging.debug(f"{get_ip()} tried to register with already used fields")
         return {"error": "user already exists", "description": "Some user's data have already been used"}, 409
@@ -84,7 +88,7 @@ def register():
 @app.route('/users/<string:username>')
 def users_view(username):
     # If a username is specified, check if exists
-    user = User.from_username(username)
+    user = User.query.filter_by(username=username).first()
     if not user:
         logging.debug(f"{get_ip()} requested informations of non-existent user")
         return {"error": "User does not exist", "description": "Can't find an user with that username"}, 404
@@ -119,7 +123,9 @@ def rovoke_access_token():
     username = get_jwt_identity()
 
     # Revoke token
-    RevokedTokens(jti=jti, exp=exp).save()
+    record = RevokedTokens(jti=jti, exp=exp)
+    db.session.add(record)
+    db.session.commit()
 
     # Return an ok message
     logging.info(f"'{username}' ({get_ip()}) revoked his access token")
@@ -133,7 +139,9 @@ def revoke_refresh_token():
     username = get_jwt_identity()
 
     # Revoke token
-    RevokedTokens(jti=jti).save()
+    record = RevokedTokens(jti=jti)
+    db.session.add(record)
+    db.session.commit()
 
     # Return an ok message
     logging.info(f"'{username}' ({get_ip()}) revoked his refresh token")
@@ -146,40 +154,7 @@ def user_view():
     username = get_jwt_identity()
 
     # Get the user from the database
-    user = User.from_username(username).json()
+    user = User.query.filter_by(username=username).first().json()
 
     logging.debug(f"'{username}' ({get_ip()}) requested his informations")
     return user
-
-
-"""
-@app.route('/post', methods=['POST'])
-@jwt_required
-def post_create():
-    # Fetch parameters
-    try:
-        body = request.get_json()
-        title = body.get('title', '')
-        content = body['content']
-        tags = body.get('tags', '')
-    except (KeyError, TypeError):
-        logging.debug(f"{get_ip()} tried to register without parameters")
-        return {"msg": "Missing parameter(s)"}, 400
-
-    # Check content lenght
-    if len(content) < 20:
-        logging.debug(f"{get_ip()} tried to create an empty post")
-        return {"msg": "Post content empty or too short"}, 400
-
-    # Save the post
-    user = User.from_username(get_jwt_identity())
-    post = Post(user, title, content, tags)
-    post.save()
-
-    # Log the post creation
-    logging.info(f"{user.username} created a post (id #{post.id})")
-
-    # Return an ok message
-    return {'msg': 'Ok'}
-
-"""

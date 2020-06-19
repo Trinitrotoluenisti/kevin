@@ -8,6 +8,7 @@ import logging
 from .configs import *
 
 
+
 # Initialize Flask
 app = Flask(__name__)
 
@@ -40,9 +41,8 @@ logging.error('Loaded ' + configs)
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-
 # Import other file's content
-from .database import *
+from .models import *
 from .errors import *
 from .routes import *
 

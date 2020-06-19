@@ -70,12 +70,12 @@ class Test(unittest.TestCase):
 
     def test_login(self):
         # 400: Missing username
-        request = {"password": "password"}
+        request = {"password": "password", "username": ""}
         response = {"error": "invalid login", "description": "Missing user's username"}
         self.route("post", "/login", 400, response, body=request)
 
         # 400: Missing password
-        request = {"username": "elonmusk"}
+        request = {"username": "elonmusk", "password": ""}
         response = {"error": "invalid login", "description": "Missing user's password"}
         self.route("post", "/login", 400, response, body=request)
 
@@ -184,7 +184,7 @@ class Test(unittest.TestCase):
         response = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
         self.route("get", "/users/elonmusk", 200, response)
 
-        user = User.from_username('elonmusk')
+        user = User.query.filter_by(username='elonmusk').first()
         user.public_email = True
         db.session.commit()
 

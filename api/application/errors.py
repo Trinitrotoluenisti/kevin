@@ -16,6 +16,7 @@ def handle_internal_server_error(*args):
     error = {"error": "internal server error", "description": "The server encountered an error processing the request. We're sorry."}
     return error, 500
 
+
 @jwt.expired_token_loader
 def handle_expired_token(*args):
     error = {"error": "expired token", "description": "The given token has expired"}
