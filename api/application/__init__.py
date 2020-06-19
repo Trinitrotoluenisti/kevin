@@ -1,6 +1,8 @@
-from sys import argv
 from flask import Flask
 from flask_apscheduler import APScheduler
+from flask_jwt_extended import JWTManager
+from flask_sqlalchemy import SQLAlchemy
+from sys import argv
 import logging
 
 from .configs import *
@@ -34,13 +36,19 @@ logging.getLogger('apscheduler.executors.default').disabled = True
 logging.error('Loaded ' + configs)
 
 
+# Initialize flask_sqlalchemy and flask_jwt_extended
+db = SQLAlchemy(app)
+jwt = JWTManager(app)
+
+
 # Import other file's content
 from .database import *
+from .errors import *
 from .routes import *
 
 
 # Initialize scheduler
 scheduler = APScheduler()
 scheduler.init_app(app)
-scheduler.add_job(id='blacklist_clean', func=RevokedTokens.clean, trigger='interval', **app.config['JWT_BLACKLIST_CLEANING'])
+scheduler.add_job(id='blacklist_cleaner', func=RevokedTokens.clean, trigger='interval', **app.config['JWT_BLACKLIST_CLEANING'])
 scheduler.start()

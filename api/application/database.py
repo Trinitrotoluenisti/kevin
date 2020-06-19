@@ -1,14 +1,11 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import OperationalError
 from datetime import datetime
 from json import dump as json_dump
 from os import mkdir
 
-from . import app, logging
+from . import app, db, logging
 from .passwords import hash_password
 
-
-db = SQLAlchemy(app)
 
 # Initialize the databases
 class User(db.Model):
@@ -57,13 +54,10 @@ class User(db.Model):
         password = hash_password(password)
         user = User.from_username(username)
 
-        if not user:
-            raise ValueError("There are no registered users with that username")
+        if not user or not user.password == password:
+            return False
 
-        if not user.password == password:
-            raise ValueError("Wrong password")
-
-        return user
+        return True
 
     @staticmethod
     def from_username(username):
@@ -80,7 +74,7 @@ class User(db.Model):
 
                 "username": self.username,
                 "email": self.email,
-                "public_email": self.public_email,
+                "isEmailPublic": self.public_email,
 
                 "name": self.name,
                 "surname": self.surname,

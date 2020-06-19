@@ -38,14 +38,14 @@ def login():
 
             # set access token's cookie
             response = make_response(redirect("/", code=302))
-            response.set_cookie('access_token', r["access_token"], max_age=tokens_age)
+            response.set_cookie('accessToken', r["accessToken"], max_age=tokens_age)
 
             # If "keep me logged in" was enabled, set the refresh token's expiration
             # for one month, otherwise it will expire once the session is closed
             if persistent:
-                response.set_cookie('refresh_token', r["refresh_token"], max_age=2628000)
+                response.set_cookie('refreshToken', r["refreshToken"], max_age=2628000)
             else:
-                response.set_cookie('refresh_token', r["refresh_token"])
+                response.set_cookie('refreshToken', r["refreshToken"])
 
             return response
 
@@ -79,14 +79,14 @@ def register():
 
             # set access token's cookie
             response = make_response(redirect("/", code=302))
-            response.set_cookie('access_token', r["access_token"], max_age=tokens_age)
+            response.set_cookie('accessToken', r["accessToken"], max_age=tokens_age)
 
             # If "keep me logged in" was enabled, set the refresh token's expiration
             # for one month, otherwise it will expire once the session is closed
             if persistent:
-                response.set_cookie('refresh_token', r["refresh_token"], max_age=2628000)
+                response.set_cookie('refreshToken', r["refreshToken"], max_age=2628000)
             else:
-                response.set_cookie('refresh_token', r["refresh_token"])
+                response.set_cookie('refreshToken', r["refreshToken"])
 
             return response
 
@@ -97,25 +97,25 @@ def register():
 @app.route('/logout', methods=["GET"])
 def logout():
     # revoke access token
-    access = request.cookies.get('access_token')
+    access = request.cookies.get('accessToken')
     if access:
         try:
-            api("post", "/logout/access", auth=access)
+            api("delete", "/token/access", auth=access)
         except APIError:
             pass
 
     # revoke refresh token
-    refresh = request.cookies.get('refresh_token')
+    refresh = request.cookies.get('refreshToken')
     if refresh:
         try:
-            api("post", "/logout/refresh", auth=refresh)
+            api("delete", "/token/refresh", auth=refresh)
         except APIError:
             pass
 
     # Delete cookies
     response = make_response(redirect("/", code=302))
-    response.set_cookie('access_token', "", expires=0)
-    response.set_cookie('refresh_token', "", expires=0)
+    response.set_cookie('accessToken', "", expires=0)
+    response.set_cookie('refreshToken', "", expires=0)
 
     return response
 
@@ -128,7 +128,7 @@ def user(username=''):
     if username:
         # Try to return his profile
         try:
-            user = api("get", "/user/" + username)
+            user = api("get", "/users/" + username)
             return render_template('/user.html', user=user)
 
         # (if errors are encountered it returns them in an alert box)
@@ -139,14 +139,14 @@ def user(username=''):
     else:
         try:
             # Check if the client is logged in
-            access_token, response = check_token()
+            accessToken, response = check_token()
 
             # (if tokens are not valid redirect to the index page and delete them)
-            if not access_token:
+            if not accessToken:
                 return response
 
             # Return the user
-            user = api("get", "/user", auth=access_token)
+            user = api("get", "/user", auth=accessToken)
             response.data = render_template('/user.html', user=user, owner=True)
             return response
 
@@ -174,9 +174,9 @@ def settings():
 # Admin
 @app.route('/admin')
 def admin():
-    access_token = request.cookies.get('access_token')
+    accessToken = request.cookies.get('accessToken')
     try:
-        user = api("get", "/user", auth = access_token)
+        user = api("get", "/user", auth = accessToken)
         perms = user ["perms"]
         if perms >= 10:     #TODO: ricorda di cambiare il numero per il max perms (admin)
             return render_template('admin/admin.html', user = user)

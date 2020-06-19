@@ -14,7 +14,7 @@ script:
 
 after_success:
   - pip install coverage codacy-coverage
-  - coverage run --source application/ unittests.py
+  - coverage run --source application/routes.py unittests.py
   - coverage xml
   - python-codacy-coverage -r coverage.xml
   - rm coverage.xml .coverage

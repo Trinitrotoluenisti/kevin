@@ -8,141 +8,62 @@ info:
 servers:
   - url: 'http://localhost:8080'
 paths:
-  /ping:
-    get:
-      summary: Ping
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                required:
-                  - msg
-              examples:
-                Working:
-                  value:
-                    msg: Working
-      operationId: get-ping
-      description: Test if the server is running
-  /login:
-    post:
-      summary: Login
-      operationId: post-login
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                  access_token:
-                    type: string
-                  refresh_token:
-                    type: string
-                required:
-                  - msg
-                  - access_token
-                  - refresh_token
-              examples:
-                Ok:
-                  value:
-                    msg: Ok
-                    access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDczNTgsIm5iZiI6MTU5MDc0NzM1OCwianRpIjoiMWU4MWNhOGEtYmY5ZC00YzQyLWIzOGUtNWU2OWNlZWVlZWRmIiwiZXhwIjoxNTkwNzUwMDU4LCJpZGVudGl0eSI6InVzZXJuYW1lNyIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.bL_UNbfyb-Oh4YXt8RoBgY5h-OWk4o5LwfuFmLYxrVg
-                    refresh_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDczNTgsIm5iZiI6MTU5MDc0NzM1OCwianRpIjoiYWQ0MjYxYjQtYTlmNy00MjdmLTg4MzAtNjBiNzE0ZDU4MGEyIiwiZXhwIjoxNTkzMzM5MzU4LCJpZGVudGl0eSI6InVzZXJuYW1lNyIsInR5cGUiOiJyZWZyZXNoIn0.G0EDenDOzYhb1FQBIQh2z5j3wop6PRSUQ6n5OWR8Dr0
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                required:
-                  - msg
-              examples:
-                Missing parameter(s):
-                  value:
-                    msg: Missing parameter(s)
-                Wrong username or password:
-                  value:
-                    msg: Wrong username or password
-      description: Make the login process with the given credentials
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                password:
-                  type: string
-              required:
-                - username
-                - password
   /register:
     post:
       summary: Register
-      operationId: post-register
+      tags: []
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  msg:
+                  accessToken:
                     type: string
-                  access_token:
-                    type: string
-                  refresh_token:
+                  refreshToken:
                     type: string
                 required:
-                  - msg
-                  - access_token
-                  - refresh_token
+                  - accessToken
+                  - refreshToken
               examples:
-                Ok:
+                Done:
                   value:
-                    msg: Ok
-                    access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDcyNjYsIm5iZiI6MTU5MDc0NzI2NiwianRpIjoiODdlMGQ2NDgtYmRmOC00NWQyLWI1YjMtMjBiNmIzNTY5MGQxIiwiZXhwIjoxNTkwNzQ5OTY2LCJpZGVudGl0eSI6InVzZXJuYW1lNyIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.kct7WyWU5teG8oCQyEWKQOKo0jmqoSw7w9sYAhdS3Zc
-                    refresh_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDcyNjYsIm5iZiI6MTU5MDc0NzI2NiwianRpIjoiZjdlOGUwNTUtODNlMi00MjJlLWJmZWYtYmI3ODhkZjlhMmM3IiwiZXhwIjoxNTkzMzM5MjY2LCJpZGVudGl0eSI6InVzZXJuYW1lNyIsInR5cGUiOiJyZWZyZXNoIn0.5-VZg4hMDqxtkssYTyA0xowrNHGdFVBVx5y8foju-HA
+                    accessToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTI1NTk1NTEsIm5iZiI6MTU5MjU1OTU1MSwianRpIjoiZTc1MTJiZTMtNWM2OC00OGRmLTkxZTktOWMwOGViNGUxM2I1IiwiZXhwIjoxNTkyNTYyMjUxLCJpZGVudGl0eSI6ImdpYW5sdXBhcnJpMDMiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ir-LoRDfpFnoHBoKeV_efxp_QqCbw5NK1bA2gC-zn_E
+                    refreshToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTI1NTk1NTEsIm5iZiI6MTU5MjU1OTU1MSwianRpIjoiNjc1NGQwOWUtZTlkZS00ODI2LTk1ODItZWYzMDkxNTNhNDRiIiwiaWRlbnRpdHkiOiJnaWFubHVwYXJyaTAzIiwidHlwZSI6InJlZnJlc2gifQ.QGgw1B-CoGALXMezu3UHu4wmRMSIyc4IfbFMb3oBHpo
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                required:
-                  - msg
+                $ref: '#/components/schemas/Error'
               examples:
-                Missing parameter(s):
+                Missing Name:
                   value:
-                    msg: Missing parameter(s)
-                Username and/or password too short:
+                    error: invalid user
+                    description: "Missing user's name"
+                Username too short:
                   value:
-                    msg: Username and/or password too short
-                Invalid email:
+                    error: invalid user
+                    description: "User's username is too short"
+                Invalid Email:
                   value:
-                    msg: Invalid email
-                Already registered:
+                    error: invalid user
+                    description: "User's email is not an email"
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Already Used Data:
                   value:
-                    msg: Already registered
+                    error: user already exists
+                    description: "Some user's data have already been used"
+      operationId: post-register
+      description: Create a new user
       requestBody:
         content:
           application/json:
@@ -155,28 +76,20 @@ paths:
                   type: string
                 surname:
                   type: string
-                email:
-                  type: string
                 password:
                   type: string
-                public_email:
-                  type: boolean
-                  default: false
-                bio:
+                email:
                   type: string
-                  default: ''
               required:
                 - username
                 - name
                 - surname
-                - email
                 - password
-        description: ''
-      description: Create a new user and add it into the database
-  /refresh:
+            examples: {}
+  /login:
     post:
-      summary: Refresh
-      operationId: post-refresh
+      summary: Login
+      tags: []
       responses:
         '200':
           description: OK
@@ -185,72 +98,65 @@ paths:
               schema:
                 type: object
                 properties:
-                  msg:
+                  accessToken:
                     type: string
-                  access_token:
+                  refreshToken:
                     type: string
                 required:
-                  - msg
-                  - access_token
+                  - accessToken
+                  - refreshToken
               examples:
-                Ok:
+                Logged In:
                   value:
-                    msg: Ok
-                    access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTA3NDc1ODMsIm5iZiI6MTU5MDc0NzU4MywianRpIjoiOGM0ZDU1ZjAtZmE3MC00YmM0LWIzYjQtNjJhMzc3MmEzYTUyIiwiZXhwIjoxNTkwNzUwMjgzLCJpZGVudGl0eSI6InVzZXJuYW1lNyIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.DXhFXtL5UP1VmiUM9wiLy0PCdJ7F8wtcxeOUktUcug8
-      parameters: []
-      security:
-        - Refresh Token: []
-      description: Generate a new access token from refresh token
-  /logout/access:
-    post:
-      summary: LogoutAccess
-      operationId: post-logout-access
-      responses:
-        '200':
-          description: OK
+                    accessToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTI1NTk1NTEsIm5iZiI6MTU5MjU1OTU1MSwianRpIjoiZTc1MTJiZTMtNWM2OC00OGRmLTkxZTktOWMwOGViNGUxM2I1IiwiZXhwIjoxNTkyNTYyMjUxLCJpZGVudGl0eSI6ImdpYW5sdXBhcnJpMDMiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ir-LoRDfpFnoHBoKeV_efxp_QqCbw5NK1bA2gC-zn_E
+                    refreshToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTI1NTk1NTEsIm5iZiI6MTU5MjU1OTU1MSwianRpIjoiNjc1NGQwOWUtZTlkZS00ODI2LTk1ODItZWYzMDkxNTNhNDRiIiwiaWRlbnRpdHkiOiJnaWFubHVwYXJyaTAzIiwidHlwZSI6InJlZnJlc2gifQ.QGgw1B-CoGALXMezu3UHu4wmRMSIyc4IfbFMb3oBHpo
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                required:
-                  - msg
+                $ref: '#/components/schemas/Error'
               examples:
-                Ok:
+                Missing Username:
                   value:
-                    msg: Ok
-      description: Revoke the access token
-      security:
-        - Access Token: []
-  /logout/refresh:
-    post:
-      summary: LogoutRefresh
-      operationId: post-logout-refresh
-      responses:
-        '200':
-          description: OK
+                    error: invalid login
+                    description: "Missing user's password"
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                required:
-                  - msg
+                $ref: '#/components/schemas/Error'
               examples:
-                Ok:
+                Wrong username or password:
                   value:
-                    msg: Ok
-      description: Revoke the refresh token
-      security:
-        - Refresh Token: []
-  /user:
+                    error: invalid login
+                    description: Wrong username or password
+      operationId: post-login
+      description: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+  '/users/{username}':
+    parameters:
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
     get:
-      summary: User
-      operationId: get-user
+      summary: UsersView
+      tags: []
       responses:
         '200':
           description: OK
@@ -259,44 +165,108 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
                   username:
                     type: string
                   name:
                     type: string
                   surname:
                     type: string
-                  email:
-                    type: string
                   perms:
+                    type: integer
+                  id:
                     type: integer
                   bio:
                     type: string
-                  public_email:
+                  isEmailPublic:
                     type: boolean
+                  email:
+                    type: string
                 required:
-                  - id
                   - username
                   - name
                   - surname
-                  - email
                   - perms
+                  - id
                   - bio
-                  - public_email
+                  - isEmailPublic
               examples:
-                Ok:
+                Private Email:
                   value:
-                    id: 1
-                    username: username
-                    name: name
-                    surname: surname
-                    email: email@email.com
+                    username: elonmusk
+                    name: Elon
+                    surname: Musk
                     perms: 0
-      description: Returns your informations
+                    id: 1
+                    bio: ''
+                    isEmailPublic: false
+                Public Email:
+                  value:
+                    username: elonmusk
+                    name: Elon
+                    surname: Musk
+                    email: elon@tesla.com
+                    perms: 0
+                    id: 1
+                    bio: ''
+                    isEmailPublic: true
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Not Found:
+                  value:
+                    error: User does not exist
+                    description: "Can't find an user with that username"
+      operationId: get-users-username
+      description: Get public infos of an user
+  /token:
+    put:
+      summary: TokenRefresh
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+              examples:
+                Generated:
+                  value:
+                    accessToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTI1NTk1NTEsIm5iZiI6MTU5MjU1OTU1MSwianRpIjoiZTc1MTJiZTMtNWM2OC00OGRmLTkxZTktOWMwOGViNGUxM2I1IiwiZXhwIjoxNTkyNTYyMjUxLCJpZGVudGl0eSI6ImdpYW5sdXBhcnJpMDMiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ir-LoRDfpFnoHBoKeV_efxp_QqCbw5NK1bA2gC-zn_E
+      operationId: put-token
+      description: Generate a new access token with the refresh token
+      security:
+        - Refresh Token: []
+  /token/access:
+    delete:
+      summary: TokenRevokeAccess
+      tags: []
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-token-access
+      description: Revoke the access token
       security:
         - Access Token: []
-  '/user/{username}':
+  /token/refresh:
+    delete:
+      summary: TokenRevokeRefresh
+      tags: []
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-token-refresh
+      description: Revoke the refresh token
+      security:
+        - Refresh Token: []
+  /user:
     get:
       summary: UserView
       tags: []
@@ -308,8 +278,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
                   username:
                     type: string
                   name:
@@ -318,106 +286,119 @@ paths:
                     type: string
                   perms:
                     type: integer
-                  email:
-                    type: string
-                  public_email:
-                    type: boolean
+                  id:
+                    type: integer
                   bio:
                     type: string
+                  isEmailPublic:
+                    type: boolean
+                  email:
+                    type: string
                 required:
-                  - id
                   - username
                   - name
                   - surname
                   - perms
-                  - public_email
+                  - id
                   - bio
+                  - isEmailPublic
+                  - email
               examples:
-                Ok:
+                User:
+                  username: elonmusk
+                  name: Elon
+                  surname: Musk
+                  email: elon@tesla.com
+                  perms: 0
+                  id: 1
+                  bio: ''
+                  isEmailPublic: false
                   value:
-                    id: 1
-                    username: username
-                    email: email@email.com
+                    username: elonmusk
+                    name: Elon
+                    surname: Musk
+                    email: elon@tesla.com
                     perms: 0
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                required:
-                  - msg
-              examples:
-                User does not exist:
-                  value:
-                    msg: User does not exist
-      operationId: get-user-username
-      description: Returns informations about the given username
-    parameters:
-      - schema:
-          type: string
-        name: username
-        in: path
-        required: true
-  /post:
-    post:
-      summary: Post
-      operationId: post-post
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                required:
-                  - msg
-              examples:
-                Ok:
-                  value:
-                    msg: Ok
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-                required:
-                  - msg
-              examples:
-                Post content empty or too short:
-                  value:
-                    msg: Post content empty or too short
-      description: Create a post
+                    id: 1
+                    bio: ''
+                    isEmailPublic: true
+      operationId: get-user
+      description: "View all the infos about the user you're logged in"
       security:
         - Access Token: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                content:
-                  type: string
-                tags:
-                  type: array
-                  items:
-                    type: string
-              required:
-                - content
 components:
-  schemas: {}
+  schemas:
+    User:
+      title: User
+      type: object
+      description: An User
+      x-examples:
+        Elon Musk:
+          username: elonmusk
+          name: Elon
+          surname: Musk
+          email: elon@tesla.com
+          perms: 0
+          id: 1
+          bio: ''
+          isEmailPublic: false
+      properties:
+        id:
+          type: number
+        perms:
+          type: number
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        public_email:
+          type: boolean
+        name:
+          type: string
+        surname:
+          type: string
+        bio:
+          type: string
+        written_posts:
+          type: string
+        approved_posts:
+          type: string
+      required:
+        - id
+        - perms
+        - username
+        - password
+        - email
+        - public_email
+        - name
+        - surname
+    Error:
+      title: Error
+      type: object
+      properties:
+        error:
+          type: string
+        description:
+          type: string
+      required:
+        - error
+        - description
+      description: An error raised by the APIs
+      x-examples:
+        Method not allowed:
+          error: method not allowed
+          description: "The resource you are looking for doesn't allow that method"
+        Not Found:
+          error: not found
+          description: "The resource you are looking for hasn't been found"
+        Internal Server Error:
+          error: internal server error
+          description: "The server encountered an error processing the request. We're sorry."
+        Expired token:
+          error: expired token
+          description: The given token has expired
   securitySchemes:
     Access Token:
       type: http

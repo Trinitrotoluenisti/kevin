@@ -1,9 +1,7 @@
 import unittest
-from datetime import timedelta
-from os import mkdir
 from sys import argv
 
-# An ugly import
+# Import app
 argv.append('-t')
 from application import app, db, User
 argv.remove('-t')
@@ -11,41 +9,23 @@ argv.remove('-t')
 
 class Test(unittest.TestCase):
     def setUp(self):
-        # Creating app
+        # Create app
         self.app = app.test_client()
 
         # Recreate database
         db.drop_all()
         db.create_all()
 
-        # create some tersting users
-        self.testing_user = {
-                             'username': 'baobab',
-                             'name': 'Paolo',
-                             'surname': 'Barbieri',
-                             'email': 'paolobarbieri@libero.it',
-                             'password': 'paoloba69'
-                            }
-        r = self.app.post('/register', json=self.testing_user)
+        # Add a testing user
+        self.user = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'password': 'password'}
+        r = self.app.post('/register', json=self.user)
 
         # save tokens
-        self.access = r.json['access_token']
-        self.refresh = r.json['refresh_token']
+        self.access = r.json['accessToken']
+        self.refresh = r.json['refreshToken']
     
-    def route(self, path, method, expected_sc, response, json=None, auth=None, equal=True):
-        """
-        Test a route.
-
-        path:        the route's path
-        method:      GET or POST
-        expected_sc: the expected status code
-        response:    the expected response
-        json:        the form json
-        auth:        the access/refresh token
-        equal:       if true, the expected response must be
-                     perfectly equal to the gotten
-        """
-
+    def route(self, method, path, code, response, auth=None, body=None, ignored=[]):
+        # Add auth header if it exists
         if auth:
             auth = {'Authorization': f'Bearer {auth}'}
 
@@ -53,174 +33,165 @@ class Test(unittest.TestCase):
         if method.lower() == 'get':
             r = self.app.get(path, headers=auth)
         elif method.lower() == 'post':
-            r = self.app.post(path, json=json, headers=auth)
+            r = self.app.post(path, json=body, headers=auth)
+        elif method.lower() == 'delete':
+            r = self.app.delete(path, headers=auth)
+        elif method.lower() == 'put':
+            r = self.app.put(path, headers=auth)
         else:
             raise ValueError("Undefined method")
 
         # Check status code
-        self.assertEqual(r.status_code, expected_sc)
+        self.assertEqual(r.status_code, code)
 
-        # Check response
-        if equal:
-            self.assertEqual(r.json, response)
-        else:
-            for key in response:
+        # If the expected response is None, check if the given is None
+        if not response:
+            self.assertFalse(r.data)
+            return
+
+        # Check body's keys
+        self.assertEqual(set(r.json.keys()), set(response.keys()))
+
+        # Compare pairs (and skip ignored ones)
+        for key in response:
+            if key not in ignored:
                 self.assertEqual(r.json[key], response[key])
 
         return r.json
 
-    def auth(self, auth, real=True):
-        """
-        Check if access_token is valid or not
-        """
+    def check_token(self, token, type, valid):
+        code = 200 if valid else 401
+        headers = {'Authorization': f'Bearer {token}'}
 
-        r = self.app.get("/user", headers={'Authorization': f'Bearer {auth}'})
-
-        # Check status code
-        if real:
-            self.assertEqual(r.status_code, 200)
-        else:
-            self.assertEqual(r.status_code, 401)
+        if type == 'access':
+            self.assertEqual(self.app.get("/user", headers=headers).status_code, code)
+        elif type == 'refresh':
+            self.assertEqual(self.app.put("/token", headers=headers).status_code, code)
 
     def test_login(self):
-        # without parameters
-        response = {"msg": "Missing parameter(s)"}
-        self.route('/login', 'POST', 400, response)
-        self.route('/login', 'POST', 400, response, json={'username': self.testing_user['username']})
-        self.route('/login', 'POST', 400, response, json={'password': self.testing_user['password']})
+        # 400: Missing username
+        request = {"password": "password"}
+        response = {"error": "invalid login", "description": "Missing user's username"}
+        self.route("post", "/login", 400, response, body=request)
 
-        # with wrong credentials
-        response = {"msg": "Wrong username or password"}
-        self.route('/login', 'POST', 400, response, json={'username': self.testing_user['username'], 'password': ''})
-        self.route('/login', 'POST', 400, response, json={'username': '', 'password': self.testing_user['password']})
+        # 400: Missing password
+        request = {"username": "elonmusk"}
+        response = {"error": "invalid login", "description": "Missing user's password"}
+        self.route("post", "/login", 400, response, body=request)
 
-        # with right parameters
-        token = self.route('/login', 'POST', 200, {"msg": "Ok"}, json=self.testing_user, equal=False)['access_token']
-        self.auth(token)
+        # 401: Wrong username or password
+        request = {"username": "elonmusk", "password": "password?"}
+        response = {"error": "invalid login", "description": "Wrong username or password"}
+        self.route("post", "/login", 401, response, body=request)
+
+        # 200: Correct
+        request = {"username": "elonmusk", "password": "password"}
+        response = {"accessToken": "", "refreshToken": ""}
+        json = self.route("post", "/login", 200, response, body=request, ignored=("accessToken", "refreshToken"))
+
+        # Assert that the access and refresh token are valid
+        self.check_token(json['accessToken'], 'access', True)
+        self.check_token(json['refreshToken'], 'refresh', True)
 
     def test_register(self):
-        # without parameters
-        response = {"msg": "Missing parameter(s)"}
-        self.route('/register', 'POST', 400, response)
+        # 400: Missing username
+        request = {"name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "Missing user's username"}
+        self.route("post", "/register", 400, response, body=request)
 
-        # already registered
-        user = self.testing_user
-        response = {"msg": "Already registered"}
-        self.route('/register', 'POST', 400, response, json=user)
+        # 400: Username too short
+        request = {"username": "dent", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "User's username is too short"}
+        self.route("post", "/register", 400, response, body=request)
 
-        # too long parameters
-        user = dict(zip(user.keys(), [''] * len(user)))
-        response = {"msg": "Username and/or password too short"}
-        self.route('/register', 'POST', 400, response, json=user)
+        # 400: Password too short
+        request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "fenny"}
+        response = {"error": "invalid user", "description": "User's password is too short"}
+        self.route("post", "/register", 400, response, body=request)
 
-        # invalid email
-        user = dict(zip(user.keys(), user.keys()))
-        response = {"msg": "Invalid email"}
-        self.route('/register', 'POST', 400, response, json=user)
+        # 400: Email is not an email
+        request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "sandwich!", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "User's email is not an email"}
+        self.route("post", "/register", 400, response, body=request)
 
-        # try with a new user
-        user['email'] = 'email@email.it'
-        token = self.route('/register', 'POST', 200, {"msg": "Ok"}, json=user, equal=False)['access_token']
+        # 409: Email already used
+        request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "elon@tesla.com", "password": "ILoveFenchurch"}
+        response = {"error": "user already exists", "description": "Some user's data have already been used"}
+        self.route("post", "/register", 409, response, body=request)
 
-        # try token
-        self.auth(token)
+        # 200: Correct user
+        request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"accessToken": "", "refreshToken": ""}
+        json = self.route("post", "/register", 201, response, body=request, ignored=("accessToken", "refreshToken"))
 
-        # check if user is in the db
-        self.route('/login', 'POST', 200, {"msg": "Ok"}, json=user, equal=False)
+        # Assert that the access and refresh token are valid
+        self.check_token(json['accessToken'], 'access', True)
+        self.check_token(json['refreshToken'], 'refresh', True)
 
-    def test_refresh(self):
-        # without header
-        self.route('/refresh', 'POST', 401, {"msg": "Missing Authorization Header"})
+    def test_token_refresh(self):
+        # 422: Only refresh tokens are allowed
+        response = {"error": "invalid token", 'description': 'Only refresh tokens are allowed'}
+        self.route("put", "/token", 422, response, auth=self.access)
 
-        # with wrong header
-        self.route('/refresh', 'POST', 422, {'msg': "Only refresh tokens are allowed"}, auth=self.access)
+        # 200: Ok
+        response = {"accessToken": ""}
+        json = self.route("put", "/token", 200, response, auth=self.refresh, ignored=("accessToken"))
 
-        # with right refresh
-        token = self.route('/refresh', 'POST', 200, {'msg': "Ok"}, auth=self.refresh, equal=False)['access_token']
+        # Assert that the access is valid
+        self.check_token(json['accessToken'], 'access', True)
 
-        # check token
-        self.auth(token)
+    def test_token_revoke_access(self):
+        # 422: Only access tokens are allowed
+        response = {"error": "invalid token", 'description': 'Only access tokens are allowed'}
+        self.route("delete", "/token/access", 422, response, auth=self.refresh)
 
-    def test_logouts(self):
-        self.auth(self.access)
+        # 204: No content
+        self.route("delete", "/token/access", 204, {}, auth=self.access)
 
-        # revoke access token
-        self.app.post('/logout/access', headers={'Authorization': f'Bearer {self.access}'})
+        # Assert that the access token isn't valid
+        self.check_token(self.access, 'access', False)
 
-        # make sure it's revoked
-        self.auth(self.access, real=False)
+    def test_token_revoke_refresh(self):
+        # 422: Only refresh tokens are allowed
+        response = {"error": "invalid token", 'description': 'Only refresh tokens are allowed'}
+        self.route("delete", "/token/refresh", 422, response, auth=self.access)
 
-        # try generating a new access
-        access = self.route('/refresh', 'POST', 200, {'msg': "Ok"}, auth=self.refresh, equal=False)['access_token']
-        self.auth(access)
+        # 204: No content
+        self.route("delete", "/token/refresh", 204, {}, auth=self.refresh)
 
-        # revoke refresh
-        self.app.post('/logout/refresh', headers={'Authorization': f'Bearer {self.refresh}'})
-
-        # make sure it's revoked
-        self.route('/refresh', 'POST', 401, {'msg': "Token has been revoked"}, auth=self.refresh)
-
-        # try without headers
-        self.route('/logout/access', 'POST', 401, {'msg': "Missing Authorization Header"})
-        self.route('/logout/refresh', 'POST', 401, {'msg': "Missing Authorization Header"})
-
-        # try with wrong tokens
-        self.route('/logout/access', 'POST', 422, {'msg': "Only access tokens are allowed"}, auth=self.refresh)
-        self.route('/logout/refresh', 'POST', 422, {'msg': "Only refresh tokens are allowed"}, auth=self.access)
-
-        # try with revoked tokens
-        self.route('/logout/access', 'POST', 401, {'msg': "Token has been revoked"}, auth=self.access)
-        self.route('/logout/refresh', 'POST', 401, {'msg': "Token has been revoked"}, auth=self.refresh)
+        # Assert that the refresh token isn't valid
+        self.check_token(self.refresh, 'refresh', False)
 
     def test_user_view(self):
-        # no username is specified but there is the access token
-        response = self.testing_user.copy()
-        response.update({'perms': 0, 'id': 1, 'public_email': False, 'bio': ''})
-        del response['password']
-        self.route('/user', 'GET', 200, response, auth=self.access)
+        # 401: Only access tokens are allowed
+        response = {"error": "unauthorized", 'description': 'Missing Authorization Header'}
+        self.route("get", "/user", 401, response)
 
-        # no username is specified and there isn't any token
-        self.route('/user', 'GET', 401, {'msg': "Missing Authorization Header"})
+        # 422: Only access tokens are allowed
+        response = {"error": "invalid token", 'description': 'Only access tokens are allowed'}
+        self.route("get", "/user", 422, response, auth=self.refresh)
 
-        # try to fetch data of an unexistent user
-        self.route('/user/friend', 'GET', 404, {'msg': "User does not exist"})
+        # 200: Ok
+        response = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
+        self.route("get", "/user", 200, response, auth=self.access)
 
-        # add an user
-        user = dict(zip(self.testing_user.keys(), self.testing_user.keys()))
-        user['email'] = 'email@email.com'
-        self.app.post('/register', json=user)
+    def test_users_view(self):
+        # 404: Not Found
+        response = {"error": "User does not exist", "description": "Can't find an user with that username"}
+        self.route("get", "/users/spongebob", 404, response)
 
-        # try to fetch his data
-        del user['password'], user['email']
-        user.update({'perms': 0, 'id': 2, 'public_email': False, 'bio': ''})        
-        self.route('/user/username', 'GET', 200, user)
+        # 200: Email NOT public
+        response = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
+        self.route("get", "/users/elonmusk", 200, response)
 
-        # set public_email=True
-        User.query.filter_by(username='username').first().public_email = True
+        user = User.from_username('elonmusk')
+        user.public_email = True
         db.session.commit()
 
-        # retry to fetch his data
-        user['public_email'] = True
-        user['email'] = 'email@email.com'         
-        self.route('/user/username', 'GET', 200, user)
+        # 200: Email public
+        response = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': True}
+        self.route("get", "/users/elonmusk", 200, response)
 
-    def test_post_creation(self):
-        # without authorization
-        self.route('/post', 'POST', 401, {'msg': "Missing Authorization Header"})
-
-        # with empty content
-        data = {}
-        response = {'msg': "Missing parameter(s)"}
-        self.route('/post', 'POST', 400, response, json=data, auth=self.access)
-
-        # too short content
-        data['content'] = "a"
-        response = {'msg': 'Post content empty or too short'}
-        self.route('/post', 'POST', 400, response, json=data, auth=self.access)
-
-        # good post
-        data['content'] = "a" * 21
-        self.route('/post', 'POST', 200, {'msg': 'Ok'}, json=data, auth=self.access)
 
 if __name__ == "__main__":
     unittest.main()
