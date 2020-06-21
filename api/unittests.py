@@ -23,8 +23,8 @@ class Test(unittest.TestCase):
         # save tokens
         self.access = r.json['accessToken']
         self.refresh = r.json['refreshToken']
-    
-    def route(self, method, path, code, response, auth=None, body=None, ignored=[]):
+
+    def route(self, method, path, code, response, auth=None, body=None, ignored=()):
         # Add auth header if it exists
         if auth:
             auth = {'Authorization': f'Bearer {auth}'}
@@ -37,7 +37,7 @@ class Test(unittest.TestCase):
         elif method.lower() == 'delete':
             r = self.app.delete(path, headers=auth)
         elif method.lower() == 'put':
-            r = self.app.put(path, headers=auth)
+            r = self.app.put(path, json=body, headers=auth)
         else:
             raise ValueError("Undefined method")
 
@@ -59,24 +59,24 @@ class Test(unittest.TestCase):
 
         return r.json
 
-    def check_token(self, token, type, valid):
+    def check_token(self, token, token_type, valid):
         code = 200 if valid else 401
         headers = {'Authorization': f'Bearer {token}'}
 
-        if type == 'access':
+        if token_type == 'access':
             self.assertEqual(self.app.get("/user", headers=headers).status_code, code)
-        elif type == 'refresh':
+        elif token_type == 'refresh':
             self.assertEqual(self.app.put("/token", headers=headers).status_code, code)
 
     def test_login(self):
         # 400: Missing username
-        request = {"password": "password", "username": ""}
-        response = {"error": "invalid login", "description": "Missing user's username"}
+        request = {"password": "password"}
+        response = {"error": "invalid request", "description": "Missing username"}
         self.route("post", "/login", 400, response, body=request)
 
         # 400: Missing password
-        request = {"username": "elonmusk", "password": ""}
-        response = {"error": "invalid login", "description": "Missing user's password"}
+        request = {"username": "elonmusk"}
+        response = {"error": "invalid request", "description": "Missing password"}
         self.route("post", "/login", 400, response, body=request)
 
         # 401: Wrong username or password
@@ -96,22 +96,22 @@ class Test(unittest.TestCase):
     def test_register(self):
         # 400: Missing username
         request = {"name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "invalid user", "description": "Missing user's username"}
+        response = {"error": "invalid request", "description": "Missing username"}
         self.route("post", "/register", 400, response, body=request)
 
-        # 400: Username too short
-        request = {"username": "dent", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "invalid user", "description": "User's username is too short"}
+        # 400: Username contains invalid character(s)
+        request = {"username": "dent!", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "Username contains invalid character(s)"}
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Password too short
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "fenny"}
-        response = {"error": "invalid user", "description": "User's password is too short"}
+        response = {"error": "invalid user", "description": "Password too short"}
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Email is not an email
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "sandwich!", "password": "ILoveFenchurch"}
-        response = {"error": "invalid user", "description": "User's email is not an email"}
+        response = {"error": "invalid user", "description": "Email is not an email"}
         self.route("post", "/register", 400, response, body=request)
 
         # 409: Email already used
@@ -128,7 +128,7 @@ class Test(unittest.TestCase):
         self.check_token(json['accessToken'], 'access', True)
         self.check_token(json['refreshToken'], 'refresh', True)
 
-    def test_token_refresh(self):
+    def test_refresh_token(self):
         # 422: Only refresh tokens are allowed
         response = {"error": "invalid token", 'description': 'Only refresh tokens are allowed'}
         self.route("put", "/token", 422, response, auth=self.access)
@@ -140,7 +140,7 @@ class Test(unittest.TestCase):
         # Assert that the access is valid
         self.check_token(json['accessToken'], 'access', True)
 
-    def test_token_revoke_access(self):
+    def test_revoke_access_token(self):
         # 422: Only access tokens are allowed
         response = {"error": "invalid token", 'description': 'Only access tokens are allowed'}
         self.route("delete", "/token/access", 422, response, auth=self.refresh)
@@ -151,7 +151,7 @@ class Test(unittest.TestCase):
         # Assert that the access token isn't valid
         self.check_token(self.access, 'access', False)
 
-    def test_token_revoke_refresh(self):
+    def test_revoke_refresh_token(self):
         # 422: Only refresh tokens are allowed
         response = {"error": "invalid token", 'description': 'Only refresh tokens are allowed'}
         self.route("delete", "/token/refresh", 422, response, auth=self.access)
@@ -161,9 +161,9 @@ class Test(unittest.TestCase):
 
         # Assert that the refresh token isn't valid
         self.check_token(self.refresh, 'refresh', False)
-
-    def test_user_view(self):
-        # 401: Only access tokens are allowed
+    
+    def test_view_user(self):
+        # 401: Unauthorized
         response = {"error": "unauthorized", 'description': 'Missing Authorization Header'}
         self.route("get", "/user", 401, response)
 
@@ -175,7 +175,77 @@ class Test(unittest.TestCase):
         response = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
         self.route("get", "/user", 200, response, auth=self.access)
 
-    def test_users_view(self):
+    def test_delete_user(self):
+        # 401: Unauthorized
+        response = {"error": "unauthorized", 'description': 'Missing Authorization Header'}
+        self.route("delete", "/user", 401, response)
+
+        # 204: No content
+        self.route("delete", "/user", 204, {}, auth=self.access)
+
+        self.assertFalse(User.query.filter_by(username='elonmusk').first())
+
+    def test_edit_user(self):
+        # 401: Unauthorized
+        response = {"error": "unauthorized", 'description': 'Missing Authorization Header'}
+        self.route("put", "/user/username", 401, response)
+
+        # 404: Not found
+        response = {"error": "not found", 'description': "The field to edit has not been found"}
+        self.route("put", "/user/perms", 404, response, auth=self.access)
+
+        User(username="TheSandwichMaker", email="arthurdent@gmail.com", password="ILoveFenchurch", name="Arthur", surname="Dent").save()
+
+        # 409: Username already taken
+        request = {"value": "TheSandwichMaker"}
+        response = {"error": "user already exists", "description": "username has already been used"}
+        self.route("put", "/user/username", 409, response, body=request, auth=self.access)
+        
+        # 200: Ok (username)
+        request = {"value": "hpotter"}
+        response = {'username': 'hpotter', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
+        self.route("put", "/user/username", 200, response, body=request, auth=self.access)
+
+        # 200: Ok (password)
+        request = {"value": "LordVoldemort"}
+        response = {'username': 'hpotter', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
+        self.route("put", "/user/password", 200, response, body=request, auth=self.access)
+
+        # 200: Ok (name)
+        request = {"value": "Harry"}
+        response = {'username': 'hpotter', 'name': 'Harry', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
+        self.route("put", "/user/name", 200, response, body=request, auth=self.access)
+
+        # 200: Ok (surname)
+        request = {"value": "Potter"}
+        response = {'username': 'hpotter', 'name': 'Harry', 'surname': 'Potter', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
+        self.route("put", "/user/surname", 200, response, body=request, auth=self.access)
+
+        # 200: Ok (email)
+        request = {"value": "harrypotter@hedwig.uk"}
+        response = {'username': 'hpotter', 'name': 'Harry', 'surname': 'Potter', 'email': 'harrypotter@hedwig.uk', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
+        self.route("put", "/user/email", 200, response, body=request, auth=self.access)
+
+        # 200: Ok (bio)
+        request = {"value": "Hey!\nThis is Harry Potter!"}
+        response = {'username': 'hpotter', 'name': 'Harry', 'surname': 'Potter', 'email': 'harrypotter@hedwig.uk', 'perms': 0, 'id': 1, 'bio': "Hey!\nThis is Harry Potter!", 'isEmailPublic': False}
+        self.route("put", "/user/bio", 200, response, body=request, auth=self.access)
+
+        # 200: Ok (isEmailPublic)
+        request = {"value": True}
+        response = {'username': 'hpotter', 'name':'Harry', 'surname': 'Potter', 'email': 'harrypotter@hedwig.uk', 'perms': 0, 'id': 1, 'bio': "Hey!\nThis is Harry Potter!", 'isEmailPublic': True}
+        self.route("put", "/user/isEmailPublic", 200, response, body=request, auth=self.access)
+
+        # Try to login with new credentials
+        request = {"username": "hpotter", "password": "LordVoldemort"}
+        response = {"accessToken": "", "refreshToken": ""}
+        json = self.route("post", "/login", 200, {'accessToken': '', 'refreshToken': ''}, body=request, ignored=("accessToken", "refreshToken"))
+
+        # Check new infos
+        response = {'username': 'hpotter', 'name': 'Harry', 'surname': 'Potter', 'email': 'harrypotter@hedwig.uk', 'perms': 0, 'id': 1, 'bio': "Hey!\nThis is Harry Potter!", 'isEmailPublic': True}
+        self.route("get", "/user", 200, response, auth=json['accessToken'])
+
+    def test_view_users(self):
         # 404: Not Found
         response = {"error": "User does not exist", "description": "Can't find an user with that username"}
         self.route("get", "/users/spongebob", 404, response)
@@ -186,7 +256,7 @@ class Test(unittest.TestCase):
 
         user = User.query.filter_by(username='elonmusk').first()
         user.public_email = True
-        db.session.commit()
+        user.save()
 
         # 200: Email public
         response = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': True}

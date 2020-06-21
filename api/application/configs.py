@@ -23,9 +23,6 @@ class ProductionConfigs(object):
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=45)
     JWT_REFRESH_TOKEN_EXPIRES = False
 
-    # Logs
-    LOGS_FILENAME = 'api.log'
-
 
 class DebugConfigs(ProductionConfigs):
     DEBUG = True
@@ -33,9 +30,6 @@ class DebugConfigs(ProductionConfigs):
     # Constant secret keys
     SECRET_KEY = token_hex(16)
     JWT_SECRET_KEY = 'constant-key'
-
-    # Temporary logs
-    LOGS_FILENAME = '/tmp/kevin.log'
 
 
 class TestingConfigs(ProductionConfigs):
@@ -47,8 +41,5 @@ class TestingConfigs(ProductionConfigs):
     DATABASE_PATH = f'/tmp/kevin-{dt}/'
 
     # Expirations fastened
-    JWT_BLACKLIST_CLEANING = {'seconds': 3}
+    JWT_BLACKLIST_CLEANING = {'minutes': 10}
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=3)
-
-    # No logs
-    LOGS_FILENAME = '/dev/null'

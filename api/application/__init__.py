@@ -3,7 +3,6 @@ from flask_apscheduler import APScheduler
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from sys import argv
-import logging
 
 from .configs import *
 
@@ -23,19 +22,6 @@ elif argv[-1] == '-t':
 else:
     configs = 'ProductionConfigs'
     app.config.from_object(ProductionConfigs)
-
-# Configure logging
-logging.basicConfig(level=logging.INFO,
-                    filename=app.config['LOGS_FILENAME'],
-                    format='%(asctime)s %(levelname)s - %(message)s',
-                    datefmt='[%d/%m/%y %H:%M:%S]')
-logging.getLogger('werkzeug').disabled = True
-logging.getLogger('apscheduler.scheduler').disabled = True
-logging.getLogger('apscheduler.executors.default').disabled = True
-
-# Log the configs' type
-logging.error('Loaded ' + configs)
-
 
 # Initialize flask_sqlalchemy and flask_jwt_extended
 db = SQLAlchemy(app)

@@ -1,6 +1,7 @@
 from flask import request
 
 from . import jwt
+from .errors import ContentTypeError, MissingFieldError
 from .models import RevokedTokens
 
 
@@ -11,16 +12,11 @@ def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
     return bool(RevokedTokens.query.filter_by(jti=jti).first())
 
-def get_ip():
-    # Return the ip of the client that made the request
-    return request.headers.get('X-Forwarded-For', request.remote_addr)
-
 def get_from_body(*args):
     """
     Try to return the given arguments by looking for them
     in the request body.
-    Can raise a ValueError (body isn't encoded in application/json)
-    or a KeyError (field not found).
+    The possible errors will be automatically handled.
     """
 
     # Fetch the request's body
@@ -28,18 +24,14 @@ def get_from_body(*args):
 
     # Raise a ValueError if it isn't encoded in application/json
     if not body:
-        raise ValueError("Request's body is not in application/json")
+        raise ContentTypeError()
 
-    # Prepare the fields' list
+    # Try to get each field
     fields = []
-
-    # Try to get every field
     for key in args:
-        field = body[key]
+        if not key in body:
+            raise MissingFieldError(key)
 
-        if not field:
-            raise KeyError(key)
-
-        fields.append(field)
+        fields.append(body[key])
 
     return fields

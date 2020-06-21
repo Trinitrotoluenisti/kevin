@@ -326,6 +326,105 @@ paths:
       description: "View all the infos about the user you're logged in"
       security:
         - Access Token: []
+    delete:
+      summary: UserDelete
+      operationId: delete-user
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Unauthorized:
+                  value:
+                    error: unauthorized
+                    description: Missing Authorization Header
+      description: Delete the user
+      security:
+        - Access Token: []
+  '/user/{field}':
+    parameters:
+      - schema:
+          type: string
+        name: field
+        in: path
+        required: true
+    put:
+      summary: UserEdit
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Ok:
+                  value:
+                    username: hpotter
+                    name: Harry
+                    surname: Potter
+                    email: harrypotter@hedwig.uk
+                    perms: 0
+                    id: 1
+                    bio: |-
+                      Hey!
+                      This is Harry Potter!
+                    isEmailPublic: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Unauthorized:
+                  value:
+                    error: unauthorized
+                    description: Missing Authorization Header
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Field not found:
+                  value:
+                    error: not found
+                    description: The field to edit has not been found
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Conflict Username:
+                  value:
+                    error: user already exists
+                    description: username has already been used
+      operationId: put-user-field
+      description: |-
+        Edit a field of the user.
+        The available fields are username, password, email, name, surname, bio, isEmailPublic
+      security:
+        - Access Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+              required:
+                - value
 components:
   schemas:
     User:
