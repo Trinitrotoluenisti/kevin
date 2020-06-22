@@ -267,21 +267,66 @@ class Test(unittest.TestCase):
         response = {'communities': []}
         self.route('get', '/communities', 200, response)
 
-        Community(name='Science').save()
+        Community(name='ScienceThings').save()
 
         # 200: A community
-        response = {'communities': [{'name': 'Science', 'id': 1}]}
+        response = {'communities': [{'name': 'ScienceThings', 'id': 1}]}
         self.route('get', '/communities', 200, response)
 
         # 200: Logged in but not following
-        response = {'communities': [{'name': 'Science', 'id': 1, 'following': False}]}
+        response = {'communities': [{'name': 'ScienceThings', 'id': 1, 'following': False}]}
         self.route('get', '/communities', 200, response, auth=self.access)
 
         Follow(follower_id=1, community_id=1).save()
 
         # 200: Logged in and following
-        response = {'communities': [{'name': 'Science', 'id': 1, 'following': True}]}
+        response = {'communities': [{'name': 'ScienceThings', 'id': 1, 'following': True}]}
         self.route('get', '/communities', 200, response, auth=self.access)
+
+    def test_create_community(self):
+        # 403: Forbidden
+        response = {"error": "can't create community", "description": "Only admins can create communities"}
+        self.route('post', '/communities', 403, response, auth=self.access)
+
+        user = User.query.filter_by(id=1).first()
+        user.perms = 2
+        user.save()
+
+        # 400: Invalid name
+        request = {"name": "AMA!"}
+        response = {"error": "invalid community", "description": "Name too short"}
+        self.route('post', '/communities', 400, response, body=request, auth=self.access)
+
+        # 201: Created
+        request = {"name": "ScienceThings"}
+        response = {"name": "ScienceThings", "id": 1}
+        self.route('post', '/communities', 201, response, body=request, auth=self.access)
+
+        # 409: Conflict
+        request = {"name": "ScienceThings"}
+        response = {"error": "community already exists", "description": "Some community's data have already been used"}
+        self.route('post', '/communities', 409, response, body=request, auth=self.access)
+
+    def test_get_community(self):
+        # 404: Not found
+        response = {"error": "Community does not exist", "description": "Can't find a community with that name"}
+        self.route('get', '/communities/ScienceThings', 404, response)
+
+        Community(name='ScienceThings').save()
+
+        # 200: Found
+        response = {'name': 'ScienceThings', 'id': 1}
+        self.route('get', '/communities/ScienceThings', 200, response)
+
+        # 200: Logged in but not following
+        response = {'name': 'ScienceThings', 'id': 1, 'following': False}
+        self.route('get', '/communities/ScienceThings', 200, response, auth=self.access)
+
+        Follow(follower_id=1, community_id=1).save()
+
+        # 200: Logged in and following
+        response = {'name': 'ScienceThings', 'id': 1, 'following': True}
+        self.route('get', '/communities/ScienceThings', 200, response, auth=self.access)
 
 if __name__ == "__main__":
     unittest.main()

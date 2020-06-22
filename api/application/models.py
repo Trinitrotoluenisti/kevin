@@ -37,7 +37,7 @@ class User(db.Model):
 
     def check(self):
         """
-        Check if the user fields are valid. if they aren't, it returns the reason,
+        Check if the user's fields are valid. if they aren't, it returns the reason,
         otherwise returns None.
         """
 
@@ -78,8 +78,8 @@ class User(db.Model):
         elif len(self.surname) > 15:
             return "Surname too long"
 
-        # Bio (length <= 50)
-        elif len(self.bio) > 50:
+        # Bio (length <= 200)
+        elif len(self.bio) > 200:
             return "Bio too long"
 
 
@@ -94,6 +94,21 @@ class Community(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+    def check(self):
+        """
+        Check if the community's name is valid. if it isn't, it returns the reason,
+        otherwise returns None.
+        Name's length must be between 5 and 20. Its character must be included in
+        the ranges A-Z, a-z, 0-9, "_".
+        """
+
+        if len(self.name) < 5:
+            return "Name too short"
+        elif len(self.name) > 20:
+            return "Name too long"
+        elif not all(ord(c) in (*range(48, 58), *range(65, 91), 95, *range(97, 123)) for c in self.name):
+            return "Name contains invalid character(s)"
 
 
 class Post(db.Model):

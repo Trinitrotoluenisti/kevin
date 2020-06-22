@@ -457,6 +457,100 @@ paths:
       description: 'Get the list of communities. If an authentication is provided, it returns the community with a following field.'
       security:
         - Access Token: []
+    post:
+      summary: CreateCommunity
+      operationId: post-communities
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Community'
+              examples:
+                ScienceThings:
+                  value:
+                    name: ScienceThings
+                    id: 1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Name too short:
+                  value:
+                    error: invalid community
+                    description: Name too short
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing perms:
+                  value:
+                    error: "can't create community"
+                    description: Only admins can create communities
+      description: |-
+        Create  a new community.
+        NB: only admins (perms > 2) can create a new community.
+      security:
+        - Access Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+  '/communities/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+    get:
+      summary: ViewCommunity
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Community'
+              examples:
+                Not Logged:
+                  value:
+                    name: ScienceThings
+                    id: 1
+                Logged:
+                  value:
+                    name: Science
+                    id: 1
+                    following: true
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Not Found:
+                  value:
+                    error: Community does not exist
+                    description: "Can't find a community with that name"
+      operationId: get-communities-name
+      description: 'Return that community. If an authentication is provided, it returns it with a following field.'
+      security:
+        - Access Token: []
 components:
   schemas:
     User:

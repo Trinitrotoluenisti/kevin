@@ -54,7 +54,7 @@ def register():
     return {"accessToken": access, "refreshToken": refresh}, 201
 
 @app.route('/users/<string:username>')
-def users_view(username):
+def view_users(username):
     # If a username is specified, check if exists
     user = User.query.filter_by(username=username).first()
     if not user:
@@ -70,7 +70,7 @@ def users_view(username):
 
 @app.route('/communities')
 @jwt_optional
-def get_communities():
+def list_communities():
     # Get the list of communities
     communities = list(map(lambda c: c.json(), Community.query.all()))
 
@@ -79,11 +79,32 @@ def get_communities():
     if user_id:
         # Check if the user is following that community
         for community in communities:
-            follows = Follow.query.filter_by(follower_id=user_id, community_id=community['id']).all()
+            follows = Follow.query.filter_by(follower_id=user_id, community_id=community['id']).first()
             community['following'] = bool(follows)
 
 
     return {'communities': communities}
+
+@app.route('/communities/<string:name>')
+@jwt_optional
+def get_communities(name):
+    # Try to get the community
+    community = Community.query.filter_by(name=name).first()
+
+    # Return 404 if it doesn't exists
+    if not community:
+        return {"error": "Community does not exist", "description": "Can't find a community with that name"}, 404
+
+    community = community.json()
+
+    # If there is an authentication check if the user is following it
+    user_id = get_jwt_identity()
+    if user_id:
+        follow = Follow.query.filter_by(follower_id=user_id, community_id=community['id']).first()
+        community['following'] = bool(follow)
+
+
+    return community
 
 
 # PROTECTED
@@ -179,3 +200,29 @@ def edit_user(field):
         return {"error": "user already exists", "description": f"{field} has already been used"}, 409
 
     return user.json()
+
+
+@app.route('/communities', methods=['POST'])
+@jwt_required
+def create_community():
+    # Fetch the user from the dat
+    user = User.query.filter_by(id=get_jwt_identity()).first()
+
+    # Assert that the user is an admin
+    if user.perms < 2:
+        return {"error": "can't create community", "description": "Only admins can create communities"}, 403
+
+    # Check if the community is valid
+    community = Community(name=get_from_body('name')[0])
+    error = community.check()
+    if error:
+        return {"error": "invalid community", "description": error}, 400
+
+    # Try to save the community
+    try:
+        community.save()
+    except IntegrityError:
+        db.session.rollback()
+        return {"error": "community already exists", "description": "Some community's data have already been used"}, 409
+
+    return community.json(), 201
