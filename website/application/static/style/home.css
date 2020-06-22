@@ -3,8 +3,10 @@ main {
     justify-content: center;
 }
 
+/* Post */
+
 .post-container {
-	max-width: 50%;
+	max-width: 100%;
 	background-color: #ddeced;
 	border-radius: 8px;
     padding: 1vw;
