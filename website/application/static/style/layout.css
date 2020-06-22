@@ -21,12 +21,13 @@ main {
 .navbar-toggler {
     font-family: 'Roboto', sans-serif;
 }
+
 .topnav {
-    background-color: #345DA7 !important;
+    background-color: #345DA7;
 }
 
 .menu:hover, .navbtn:hover {
-    background-color: #3B8AC4 !important;
+    background-color: #3B8AC4;
 }
 
 .logged_buttons, .unlogged_buttons {
@@ -36,10 +37,10 @@ main {
 
 /* Dropdown */
 .dropdown-menu {
-    background-color: #4BB4DE !important;
-    margin-top: 0px !important;
-    padding: 0px !important;
-    border: 5px solid #4BB4DE !important;
+    background-color: #4BB4DE;
+    margin-top: 0px;
+    padding: 0px;
+    border: 5px solid #4BB4DE;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -47,13 +48,13 @@ main {
 }
 
 .ddbtn {
-    background-color: #4BB4DE !important;
-    margin: 1px 0vh !important;
-    border-radius: 5px !important;
+    background-color: #4BB4DE;
+    margin: 1px 0vh;
+    border-radius: 5px;
 }
 
 .ddbtn:hover {
-    background-color: #3B8AC4 !important;
+    background-color: #3B8AC4;
 }
 
 
@@ -81,7 +82,7 @@ main {
 }
 
 
-/* Cookie Popup */
+/* Cookie Popup
 #popup-box {
     position: fixed;
     width: 100%;
@@ -122,7 +123,7 @@ main {
     border: 1px solid #ffecb3;
     color: #ffecb3;
     cursor: pointer;
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 #popup-buttons a {
@@ -133,6 +134,7 @@ main {
     background-color: #ffecb3;
     color: #4BB4DE;
 }
+*/
 
 .fa-ellipsis-h:hover {
     transform: rotate(90deg);

@@ -32,26 +32,21 @@ def login():
         password = request.form["password"]
         persistent = bool(request.form.get("keep_logged", ""))
 
-        try:
-            # make a requets to the apis
-            r = api("post", "/login", data={"username": username, "password": password})
+        # make a requets to the apis
+        r = api("post", "/login", data={"username": username, "password": password})
 
-            # set access token's cookie
-            response = make_response(redirect("/", code=302))
-            response.set_cookie('accessToken', r["accessToken"], max_age=tokens_age)
+        # set access token's cookie
+        response = make_response(redirect("/", code=302))
+        response.set_cookie('accessToken', r["accessToken"], max_age=tokens_age)
 
-            # If "keep me logged in" was enabled, set the refresh token's expiration
-            # for one month, otherwise it will expire once the session is closed
-            if persistent:
-                response.set_cookie('refreshToken', r["refreshToken"], max_age=2628000)
-            else:
-                response.set_cookie('refreshToken', r["refreshToken"])
+        # If "keep me logged in" was enabled, set the refresh token's expiration
+        # for one month, otherwise it will expire once the session is closed
+        if persistent:
+            response.set_cookie('refreshToken', r["refreshToken"], max_age=2628000)
+        else:
+            response.set_cookie('refreshToken', r["refreshToken"])
 
-            return response
-
-        # If errors occourred, write them in an alert box
-        except APIError as e:
-            return render_template("login.html", alert=e.args[0], nav=False), e.args[1]
+        return response
 
 @app.route('/register', methods=["GET", "POST"])
 def register():

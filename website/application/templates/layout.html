@@ -24,7 +24,9 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		<script src="https://kit.fontawesome.com/2e6be9a3fe.js" crossorigin="anonymous"></script>
 		{% if (nav | default("there", false)) %} <script src="{{ url_for('static', filename='script/navbar.js') }}"></script> {% endif %}
+		<!-- Popup
 		<script src="{{ url_for('static', filename='script/cookie_popup.js') }}" defer></script>
+		-->
 		{% block js %}{% endblock %}
 		{% if alert %} <script> alert("{{ alert }}"); </script> {% endif %}
 	</head>
@@ -123,6 +125,7 @@
 
 		<main>{% block content %}{% endblock %}</main>
 
+		<!-- Popup
 		<div id="popup-box">
 			<div id="cookie-popup">
 				<div id="popup-content">
@@ -135,6 +138,7 @@
 				</div>
 			</div>
 		</div>
+		-->
 
 		{% if (footer | default("there", false)) %}
 			<footer class="foot fixed-bottom">

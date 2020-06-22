@@ -1,6 +1,6 @@
 from . import app, server, tokens_age
 
-from flask import request, make_response
+from flask import request, make_response, render_template
 import requests
 
 
@@ -25,11 +25,12 @@ def api(method, path, data={}, auth=''):
         raise KeyError("Unknown method")
 
     # If the code isn't 200 (ok), raise an APIError
-    if not r.status_code == 200:
-        raise APIError(r.json()['msg'], r.status_code)
-
-    # Otherwise return the body of the response formatted as json
-    return r.json()
+    if not r.status_code in range(199, 300):
+        json = r.json()
+        raise APIError(json["error"], json["description"], r.status_code)
+    elif r.status_code != 204:
+        # Otherwise return the body of the response formatted as json
+        return r.json()
 
 def check_token():
     # Create a blank response
@@ -59,4 +60,6 @@ def check_token():
 
 @app.errorhandler(APIError)
 def handle_apierror(e):
-    return render_template("home.html", alert=e.args[0]), e.args[1]
+    error, description, code = e.args
+    message = error.capitalize() + ": " + description
+    return render_template("home.html", alert=message), code
