@@ -73,26 +73,22 @@ def register():
         user = {"username": username, "name": name, "surname": surname,
                 "password": password, "email": email}
 
-        try:
-            # make a requets to the apis
-            r = api("post", "/register", data=user)
+        # make a requets to the apis
+        r = api("post", "/register", data=user)
 
-            # set access token's cookie
-            response = make_response(redirect("/", code=302))
-            response.set_cookie('accessToken', r["accessToken"], max_age=tokens_age)
+        # set access token's cookie
+        response = make_response(redirect("/", code=302))
+        response.set_cookie('accessToken', r["accessToken"], max_age=tokens_age)
 
-            # If "keep me logged in" was enabled, set the refresh token's expiration
-            # for one month, otherwise it will expire once the session is closed
-            if persistent:
-                response.set_cookie('refreshToken', r["refreshToken"], max_age=2628000)
-            else:
-                response.set_cookie('refreshToken', r["refreshToken"])
+        # If "keep me logged in" was enabled, set the refresh token's expiration
+        # for one month, otherwise it will expire once the session is closed
+        if persistent:
+            response.set_cookie('refreshToken', r["refreshToken"], max_age=2628000)
+        else:
+            response.set_cookie('refreshToken', r["refreshToken"])
 
-            return response
+        return response
 
-        # If errors occourred, write them in an alert box
-        except APIError as e:
-            return render_template("register.html", alert=e.args[0], nav=False), e.args[1]
 
 @app.route('/logout', methods=["GET"])
 def logout():
@@ -127,32 +123,22 @@ def user(username=''):
     # If a username is specified
     if username:
         # Try to return his profile
-        try:
-            user = api("get", "/users/" + username)
-            return render_template('/user.html', user=user)
-
-        # (if errors are encountered it returns them in an alert box)
-        except APIError as e:
-            return render_template('/home.html', alert=e.args[0]), e.args[1]
+        user = api("get", "/users/" + username)
+        return render_template('/user.html', user=user)
 
     # If there isn't an username
     else:
-        try:
-            # Check if the client is logged in
-            accessToken, response = check_token()
+        # Check if the client is logged in
+        accessToken, response = check_token()
 
-            # (if tokens are not valid redirect to the index page and delete them)
-            if not accessToken:
-                return response
-
-            # Return the user
-            user = api("get", "/user", auth=accessToken)
-            response.data = render_template('/user.html', user=user, owner=True)
+        # (if tokens are not valid redirect to the index page and delete them)
+        if not accessToken:
             return response
 
-        # (if errors are encountered it returns them in an alert box)
-        except APIError as e:
-            return render_template('/home.html', alert=e.args[0]), e.args[1]
+        # Return the user
+        user = api("get", "/user", auth=accessToken)
+        response.data = render_template('/user.html', user=user, owner=True)
+        return response
 
 # Posts
 @app.route('/post')
@@ -175,14 +161,10 @@ def settings():
 @app.route('/admin')
 def admin():
     accessToken = request.cookies.get('accessToken')
-    try:
-        user = api("get", "/user", auth = accessToken)
-        perms = user ["perms"]
-        if perms >= 10:     #TODO: ricorda di cambiare il numero per il max perms (admin)
-            return render_template('admin/admin.html', user = user)
-        else:
-            #return abort(404)
-            return render_template('/home.html', alert="non hai permessi")
-    except APIError as e:
+    user = api("get", "/user", auth = accessToken)
+    perms = user ["perms"]
+    if perms >= 10:     #TODO: ricorda di cambiare il numero per il max perms (admin)
+        return render_template('admin/admin.html', user = user)
+    else:
         #return abort(404)
-        return render_template('/home.html', alert=e.args[0]), e.args[1]
+        return render_template('/home.html', alert="non hai permessi")

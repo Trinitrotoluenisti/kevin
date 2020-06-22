@@ -1,7 +1,14 @@
-from . import server, tokens_age
+from . import app, server, tokens_age
 
 from flask import request, make_response
 import requests
+
+
+
+class APIError(Exception):
+    """
+    An error returned by the API
+    """
 
 
 def api(method, path, data={}, auth=''):
@@ -50,7 +57,6 @@ def check_token():
         response.set_cookie('refreshToken', "", expires=0)
         return None, response
 
-class APIError(Exception):
-    """
-    An error returned by the API
-    """
+@app.errorhandler(APIError)
+def handle_apierror(e):
+    return render_template("home.html", alert=e.args[0]), e.args[1]
