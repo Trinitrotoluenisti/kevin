@@ -3,7 +3,7 @@ from sys import argv
 
 # Import app
 argv.append('-t')
-from application import app, db, User
+from application import app, db, User, Community, Follow
 argv.remove('-t')
 
 
@@ -161,7 +161,7 @@ class Test(unittest.TestCase):
 
         # Assert that the refresh token isn't valid
         self.check_token(self.refresh, 'refresh', False)
-    
+
     def test_view_user(self):
         # 401: Unauthorized
         response = {"error": "unauthorized", 'description': 'Missing Authorization Header'}
@@ -262,6 +262,26 @@ class Test(unittest.TestCase):
         response = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': True}
         self.route("get", "/users/elonmusk", 200, response)
 
+    def test_get_communities(self):
+        # 200: Empty list
+        response = {'communities': []}
+        self.route('get', '/communities', 200, response)
+
+        Community(name='Science').save()
+
+        # 200: A community
+        response = {'communities': [{'name': 'Science', 'id': 1}]}
+        self.route('get', '/communities', 200, response)
+
+        # 200: Logged in but not following
+        response = {'communities': [{'name': 'Science', 'id': 1, 'following': False}]}
+        self.route('get', '/communities', 200, response, auth=self.access)
+
+        Follow(follower_id=1, community_id=1).save()
+
+        # 200: Logged in and following
+        response = {'communities': [{'name': 'Science', 'id': 1, 'following': True}]}
+        self.route('get', '/communities', 200, response, auth=self.access)
 
 if __name__ == "__main__":
     unittest.main()

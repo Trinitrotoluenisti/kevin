@@ -97,8 +97,6 @@ You can easily run apis just by typing `python3 run.py`, once loaded the venv.
 
 > For default, it loads `ProductionConfigs`: to load `DebugConfigs` or `TestingConfigs` add a `-d` or a `-t` respectively (for more informations see [api/application/configs.py](/api/application/configs.py)).
 
-If you also want to see APIs logs, use `python3 log_visualizer.py`.
-
 ### Running Website
 
 `python3 run.py`. Rememer to activate the venv first.

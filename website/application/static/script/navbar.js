@@ -2,7 +2,7 @@ function update_navbar() {
 	var to_remove;
 	var to_show;
 
-	if (document.cookie.includes('access_token') && document.cookie.includes('refresh_token')) {
+	if (document.cookie.includes('accessToken') && document.cookie.includes('refreshToken')) {
 		to_remove = '.unlogged_buttons';
 		to_show = '.logged_buttons';
 	} else {

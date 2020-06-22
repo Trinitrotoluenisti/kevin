@@ -425,6 +425,38 @@ paths:
                   type: string
               required:
                 - value
+  /communities:
+    get:
+      summary: ListCommunities
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  communities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Community'
+              examples:
+                Not Logged In:
+                  value:
+                    communities:
+                      - name: Science
+                        id: 1
+                Logged In:
+                  value:
+                    communities:
+                      - name: Science
+                        id: 1
+                        following: true
+      operationId: get-communities
+      description: 'Get the list of communities. If an authentication is provided, it returns the community with a following field.'
+      security:
+        - Access Token: []
 components:
   schemas:
     User:
@@ -498,6 +530,18 @@ components:
         Expired token:
           error: expired token
           description: The given token has expired
+    Community:
+      title: Community
+      type: object
+      description: A place where to save posts
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
   securitySchemes:
     Access Token:
       type: http

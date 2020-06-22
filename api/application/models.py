@@ -159,7 +159,6 @@ class RevokedTokens(db.Model):
     @staticmethod
     def clean():
         # Fetch current informations
-        number = len(RevokedTokens.query.all())
         now = datetime.now().timestamp()
 
         # Delete all the expired tokens

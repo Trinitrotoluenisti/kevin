@@ -68,6 +68,23 @@ def users_view(username):
 
     return user
 
+@app.route('/communities')
+@jwt_optional
+def get_communities():
+    # Get the list of communities
+    communities = list(map(lambda c: c.json(), Community.query.all()))
+
+    # If there is an authentication
+    user_id = get_jwt_identity()
+    if user_id:
+        # Check if the user is following that community
+        for community in communities:
+            follows = Follow.query.filter_by(follower_id=user_id, community_id=community['id']).all()
+            community['following'] = bool(follows)
+
+
+    return {'communities': communities}
+
 
 # PROTECTED
 @app.route('/token', methods=['PUT'])
