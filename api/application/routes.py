@@ -9,10 +9,6 @@ from .passwords import hash_password
 
 
 # UNPROTECTED
-@app.route('/')
-def ping():
-    return {"message": "AUDP APIs working!", "version": "dev"}
-
 @app.route('/login', methods=['POST'])
 def login():
     # Fetch request's body

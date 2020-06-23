@@ -23,7 +23,7 @@ def get_from_body(*args):
     body = request.get_json()
 
     # Raise a ValueError if it isn't encoded in application/json
-    if not body:
+    if not isinstance(body, dict):
         raise ContentTypeError()
 
     # Try to get each field

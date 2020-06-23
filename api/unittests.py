@@ -68,6 +68,20 @@ class Test(unittest.TestCase):
         elif token_type == 'refresh':
             self.assertEqual(self.app.put("/token", headers=headers).status_code, code)
 
+    def test_error_handlers(self):
+        # 400: Invalid content type
+        request = "Hello, it's me"
+        response = {'error': 'invalid request', 'description': "Content-Type must be application/json"}
+        self.route('post', '/register', 400, response, body=request)
+
+        # 404: Not found
+        response = {"error": "not found", "description": "The resource you are looking for hasn't been found"}
+        self.route('post', '/nil', 404, response)
+
+        # 405: Method not allowed
+        response = {"error": "method not allowed", "description": "The resource you are looking for doesn't allow that method"}
+        self.route('get', '/login', 405, response)
+
     def test_login(self):
         # 400: Missing username
         request = {"password": "password"}
@@ -104,9 +118,29 @@ class Test(unittest.TestCase):
         response = {"error": "invalid user", "description": "Username contains invalid character(s)"}
         self.route("post", "/register", 400, response, body=request)
 
+        # 400: Username too short
+        request = {"username": "a", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "Username too short"}
+        self.route("post", "/register", 400, response, body=request)
+
+        # 400: Username too long
+        request = {"username": "globglowgabgalabglobw", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "Username too long"}
+        self.route("post", "/register", 400, response, body=request)
+
         # 400: Password too short
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "fenny"}
         response = {"error": "invalid user", "description": "Password too short"}
+        self.route("post", "/register", 400, response, body=request)
+
+        # 400: Password too long
+        request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "gfhdnfhcndjsmckvhfngorithgnfithguryt"}
+        response = {"error": "invalid user", "description": "Password too long"}
+        self.route("post", "/register", 400, response, body=request)
+
+        # 400: Password contains invalid character(s)
+        request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurchà"}
+        response = {"error": "invalid user", "description": "Password contains invalid character(s)"}
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Email is not an email
@@ -119,6 +153,26 @@ class Test(unittest.TestCase):
         response = {"error": "user already exists", "description": "Some user's data have already been used"}
         self.route("post", "/register", 409, response, body=request)
 
+        # 400: Name too short
+        request = {"username": "TheSandwichMaker", "name": "A", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "Name too short"}
+        self.route("post", "/register", 400, response, body=request)
+
+        # 400: Name too long
+        request = {"username": "TheSandwichMaker", "name": "Aaaaaaaaarthurrr", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "Name too long"}
+        self.route("post", "/register", 400, response, body=request)
+
+        # 400: Surname too short
+        request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "D", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "Surname too short"}
+        self.route("post", "/register", 400, response, body=request)
+
+        # 400: Surname too long
+        request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Deeeeeeeeeeeeent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
+        response = {"error": "invalid user", "description": "Surname too long"}
+        self.route("post", "/register", 400, response, body=request)
+
         # 200: Correct user
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
         response = {"accessToken": "", "refreshToken": ""}
@@ -129,10 +183,6 @@ class Test(unittest.TestCase):
         self.check_token(json['refreshToken'], 'refresh', True)
 
     def test_refresh_token(self):
-        # 422: Only refresh tokens are allowed
-        response = {"error": "invalid token", 'description': 'Only refresh tokens are allowed'}
-        self.route("put", "/token", 422, response, auth=self.access)
-
         # 200: Ok
         response = {"accessToken": ""}
         json = self.route("put", "/token", 200, response, auth=self.refresh, ignored=("accessToken"))
@@ -141,10 +191,6 @@ class Test(unittest.TestCase):
         self.check_token(json['accessToken'], 'access', True)
 
     def test_revoke_access_token(self):
-        # 422: Only access tokens are allowed
-        response = {"error": "invalid token", 'description': 'Only access tokens are allowed'}
-        self.route("delete", "/token/access", 422, response, auth=self.refresh)
-
         # 204: No content
         self.route("delete", "/token/access", 204, {}, auth=self.access)
 
@@ -152,10 +198,6 @@ class Test(unittest.TestCase):
         self.check_token(self.access, 'access', False)
 
     def test_revoke_refresh_token(self):
-        # 422: Only refresh tokens are allowed
-        response = {"error": "invalid token", 'description': 'Only refresh tokens are allowed'}
-        self.route("delete", "/token/refresh", 422, response, auth=self.access)
-
         # 204: No content
         self.route("delete", "/token/refresh", 204, {}, auth=self.refresh)
 
@@ -166,10 +208,6 @@ class Test(unittest.TestCase):
         # 401: Unauthorized
         response = {"error": "unauthorized", 'description': 'Missing Authorization Header'}
         self.route("get", "/user", 401, response)
-
-        # 422: Only access tokens are allowed
-        response = {"error": "invalid token", 'description': 'Only access tokens are allowed'}
-        self.route("get", "/user", 422, response, auth=self.refresh)
 
         # 200: Ok
         response = {'username': 'elonmusk', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}
@@ -200,6 +238,16 @@ class Test(unittest.TestCase):
         request = {"value": "TheSandwichMaker"}
         response = {"error": "user already exists", "description": "username has already been used"}
         self.route("put", "/user/username", 409, response, body=request, auth=self.access)
+
+        # 400: isEmailPublic is not a bool
+        request = {"value": "TheSandwichMaker"}
+        response = {"error": "invalid isEmailPublic", "description": "isEmailPublic is not a bool"}
+        self.route("put", "/user/isEmailPublic", 400, response, body=request, auth=self.access)
+
+        # 400: Bio too long
+        request = {"value": "a" * 201}
+        response = {"error": "invalid bio", "description": "Bio too long"}
+        self.route("put", "/user/bio", 400, response, body=request, auth=self.access)
 
         # 200: Ok (username)
         request = {"value": "hpotter"}
@@ -263,10 +311,6 @@ class Test(unittest.TestCase):
         self.route("get", "/users/elonmusk", 200, response)
 
     def test_get_communities(self):
-        # 200: Empty list
-        response = {'communities': []}
-        self.route('get', '/communities', 200, response)
-
         Community(name='ScienceThings').save()
 
         # 200: A community
@@ -292,9 +336,19 @@ class Test(unittest.TestCase):
         user.perms = 2
         user.save()
 
-        # 400: Invalid name
-        request = {"name": "AMA!"}
+        # 400: Name too short
+        request = {"name": "AMA"}
         response = {"error": "invalid community", "description": "Name too short"}
+        self.route('post', '/communities', 400, response, body=request, auth=self.access)
+
+        # 400: Name too long
+        request = {"name": "AMAMAMAMAMAMAMAMAMAMA"}
+        response = {"error": "invalid community", "description": "Name too long"}
+        self.route('post', '/communities', 400, response, body=request, auth=self.access)
+
+        # 400: Name contains invalid character(s)
+        request = {"name": "AMALAPIZZA!"}
+        response = {"error": "invalid community", "description": "Name contains invalid character(s)"}
         self.route('post', '/communities', 400, response, body=request, auth=self.access)
 
         # 201: Created

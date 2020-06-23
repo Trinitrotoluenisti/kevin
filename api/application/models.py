@@ -63,7 +63,6 @@ class User(db.Model):
 
         # isEmailPublic (in True, False)
         elif not (self.public_email in (True, False)):
-            print(self.public_email, type(self.public_email))
             return "isEmailPublic is not a bool"
 
         # Name (2 < length <= 15)
@@ -183,11 +182,6 @@ class RevokedTokens(db.Model):
 
 try:
     mkdir(app.config['DATABASE_PATH'])
-except FileExistsError:
-    pass
-
-try:
-    mkdir(app.config['DATABASE_PATH'] + '/posts')
 except FileExistsError:
     pass
 
