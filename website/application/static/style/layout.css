@@ -38,13 +38,13 @@ main {
 /* Dropdown */
 .dropdown-menu {
     background-color: #4BB4DE;
-    margin-top: 0px;
-    padding: 0px;
+    margin-top: 0;
+    padding: 0;
     border: 5px solid #4BB4DE;
 }
 
 .dropdown:hover .dropdown-menu {
-    display: block
+    display: block;
 }
 
 .ddbtn {

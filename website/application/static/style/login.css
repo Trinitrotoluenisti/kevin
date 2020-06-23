@@ -2,7 +2,7 @@ main {
 	margin-top: 6vh;
 	display: flex;
 	flex-direction: column;
-} 
+}
 
 body {
 	align-items: center;
@@ -26,10 +26,10 @@ form, .redirect {
 	min-width: 200px;
 }
 
-.center{
+.center {
 	align-self: center;
 }
 
-.cbox{
+.cbox {
 	margin: 10px;
 }

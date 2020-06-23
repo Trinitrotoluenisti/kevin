@@ -26,7 +26,7 @@
 #infos {
 	display: flex;
 	flex-direction: column;
-	min-width: 20vw;	
+	min-width: 20vw;
 }
 
 #username {
@@ -35,7 +35,7 @@
 }
 
 #username-text {
-	margin-right: .5vw;
+	margin-right: 0.5vw;
 	font-size: 1.8em;
 	font-weight: bold;
 }
@@ -65,7 +65,7 @@
 
 #bio {
 	margin-bottom: 2vh;
-	font-size: .9em;
+	font-size: 0.9em;
 }
 
 .button {
@@ -92,5 +92,5 @@
 }
 
 .button i {
-	margin-right: 1vw; 
+	margin-right: 1vw;
 }
