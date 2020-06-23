@@ -3,7 +3,6 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-
 	margin: 4vh 20% 4vh 20%;
 	border-bottom: 1px solid #bdbdbd;
 	padding-bottom: 6vh;
@@ -44,7 +43,7 @@
 	height: min-content;
 	border-radius: 3px;
 	padding: 5px 8px 5px 8px;
-	color: white;	
+	color: white;
 }
 
 #mod {
@@ -73,12 +72,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	margin-top: 1vh;
 	border-radius: 9px;
-
 	font-size: 1.3em;
-
 	background-color: #345DA7;
 	color: white;
 }

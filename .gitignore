@@ -20,4 +20,4 @@ env
 *.coverage
 
 # Folders
-graficis/*
+graficis

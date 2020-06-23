@@ -200,7 +200,7 @@ class Test(unittest.TestCase):
         request = {"value": "TheSandwichMaker"}
         response = {"error": "user already exists", "description": "username has already been used"}
         self.route("put", "/user/username", 409, response, body=request, auth=self.access)
-        
+
         # 200: Ok (username)
         request = {"value": "hpotter"}
         response = {'username': 'hpotter', 'name': 'Elon', 'surname': 'Musk', 'email': 'elon@tesla.com', 'perms': 0, 'id': 1, 'bio': '', 'isEmailPublic': False}

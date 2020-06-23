@@ -14,7 +14,7 @@
 	border-radius: 5px !important;
 }
 
-.hvr-bounce-to-right:before {
+.hvr-bounce-to-right::before {
 	content: "";
 	position: absolute;
 	z-index: -1;
