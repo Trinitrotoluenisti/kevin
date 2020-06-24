@@ -141,25 +141,47 @@ def view_post():
     # Return post.html
     return render_template('post.html')
 
-@app.route('/create_post')
+@app.route('/create-post')
 def create_post():
+    # Check if the client is logged in
+    accessToken, response = check_token()
+
+    # (if tokens are not valid redirect to the index page and delete them)
+    if not accessToken:
+        return response
+
+    response.data = render_template('create_post.html')
+
     # Return create_post.html
-    return render_template('create_post.html')
+    return response
 
 # Settings
 @app.route('/settings')
 def settings():
+    # Check if the client is logged in
+    accessToken, response = check_token()
+
+    # (if tokens are not valid redirect to the index page and delete them)
+    if not accessToken:
+        return response
+
+    response.data = render_template('settings.html')
+
     # Return settings.html
-    return render_template('settings.html')
+    return response
+
+@app.route('/settings/edit-user')
+def edit_user():
+    pass
 
 # Admin
 @app.route('/admin')
 def admin():
     accessToken = request.cookies.get('accessToken')
-    user = api("get", "/user", auth = accessToken)
+    user = api("get", "/user", auth=accessToken)
     perms = user ["perms"]
     if perms >= 10:     #TODO: ricorda di cambiare il numero per il max perms (admin)
-        return render_template('admin/admin.html', user = user)
+        return render_template('admin/admin.html', user=user)
     else:
         #return abort(404)
         return render_template('/home.html', alert="non hai permessi")
