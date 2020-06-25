@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Edit profile{% endblock %}
+
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/edit_profile.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div id="header">Edit profile</div>
+
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username" value="{{user['username']}}" minlength="5" maxlength="20" required><br>
+        
+        <input type="email" name="email" placeholder="Email" value="{{user['email']}}" required><br>
+        
+        <input type="text" name="name" placeholder="Name" value="{{user['name']}}" minlength="2" maxlenght="15" required><br>
+        
+        <input type="text" name="surname" placeholder="Surname" value="{{user['surname']}}" minlenght="2" maxlenght="15" required><br>
+        
+        <textarea name="bio" placeholder="Bio" maxlength="200">{{user['bio']}}</textarea><br>
+        
+        <div class="section-content flex">
+            <input name="isEmailPublic" {% if user['isEmailPublic'] %} checked {% endif %} type="checkbox">
+            <div class="option-label">email visible to the public</div>
+        </div>
+        
+        <input type="submit" value="Submit changes" class="push-btn" id="btn">
+    </form>
+{% endblock %}

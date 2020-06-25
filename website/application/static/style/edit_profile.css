@@ -1,0 +1,47 @@
+#header {
+    font-size: 3em;
+    color: #345DA7;
+    text-align: center;
+    margin-top: -1.5vh;
+}
+
+textarea {
+    resize: none;
+    width: 20vw;
+    min-width: 20vw;
+    margin: 1vh 0 1vh 0;
+    border: 1px solid #757575;
+    border-radius: 5px;
+    padding: 1vh;
+    color: #757575;
+}
+
+textarea::placeholder {
+    color: #8e8e8e;
+}
+
+textarea:focus {
+    border: 1px solid #345DA7;
+    color: #345DA7;
+}
+
+.section-content {
+    margin-bottom: 4vh;
+}
+
+.flex {
+    display: flex;
+}
+
+.option-label {
+    font-size: 1.2em;
+    margin-left: 0.4vw;
+}
+
+#btn {
+    color: white;
+}
+
+#btn:hover {
+    color: #345DA7;
+}

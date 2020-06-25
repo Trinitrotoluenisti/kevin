@@ -36,7 +36,7 @@ def check_token():
     response = make_response()
 
     # Fetch access and refresh tokens
-    access_token = request.cookies.get('accesToken')
+    access_token = request.cookies.get('accessToken')
     refresh_token = request.cookies.get('refreshToken')
 
     # If there are both, return access token and a blank response
@@ -46,7 +46,6 @@ def check_token():
     # If there is only the refresh token, generate a new access
     # token and return it with a blank response that sets the cookie
     elif refresh_token:
-        print('a', tokens_age)
         access_token = api("put", "/token", auth=refresh_token)['accessToken']
         response.set_cookie('accessToken', access_token, max_age=tokens_age)
         return access_token, response

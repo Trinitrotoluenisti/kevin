@@ -143,20 +143,23 @@ def view_post():
 
 @app.route('/create-post')
 def create_post():
-    # Check if the client is logged in
-    accessToken, response = check_token()
+    if request.method == 'GET':
+        # Check if the client is logged in
+        accessToken, response = check_token()
 
-    # (if tokens are not valid redirect to the index page and delete them)
-    if not accessToken:
+        # (if tokens are not valid redirect to the index page and delete them)
+        if not accessToken:
+            return response
+
+        response.data = render_template('create_post.html')
+
+        # Return create_post.html
         return response
-
-    response.data = render_template('create_post.html')
-
-    # Return create_post.html
-    return response
+    elif request.method == 'POST':
+        pass
 
 # Settings
-@app.route('/settings')
+@app.route('/user/settings')
 def settings():
     # Check if the client is logged in
     accessToken, response = check_token()
@@ -170,9 +173,39 @@ def settings():
     # Return settings.html
     return response
 
-@app.route('/settings/edit-user')
-def edit_user():
-    pass
+@app.route('/user/settings/edit-profile', methods=['GET', 'POST'])
+def edit_profile():
+    # Check if the client is logged in
+    accessToken, response = check_token()
+
+    # (if tokens are not valid redirect to the index page and delete them)
+    if not accessToken:
+        return response
+
+    if request.method == 'GET':
+        user = api('get', '/user', auth=accessToken)
+
+        response.data = render_template('edit_profile.html', user=user)
+
+        # Return edit_profile.html
+        return response
+    elif request.method == 'POST':
+        old = api('get', '/user', auth=accessToken)
+        del old['perms'], old['id']
+        
+        new = dict(request.form)
+        new['isEmailPublic'] = {'on':True, 'off':False}[new.get('isEmailPublic', 'off').lower()]
+        
+        changed = []
+
+        for k, v in old.items():
+            if new.get(k) != v:
+                changed.append(k)
+
+        for field in changed:
+            api('put', '/user/' + field, auth=accessToken, data={'value':new[field]})
+
+        return redirect('/user/settings')
 
 # Admin
 @app.route('/admin')

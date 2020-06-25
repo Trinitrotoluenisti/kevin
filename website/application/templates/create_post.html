@@ -8,7 +8,7 @@
 
 {% block content %}
 	<h1 id="title">Create post</h1>
-	<form method="GET" action="/create_post">
+	<form method="POST" action="/create_post">
 		<textarea name="post_title" placeholder="Post Title (optional)" maxlength="100" col="127" id="post-title"></textarea>
 		<textarea name="post_body" placeholder="Post text" required maxlength="3000" id="post-body"></textarea>
 		<button class="push-btn">Post <i class="fas fa-arrow-up"></i></button>

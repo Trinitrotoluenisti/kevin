@@ -25,14 +25,14 @@
 			<div id="bio">{{ user['bio'] }}</div>
 
 			{% if owner %}
-				<a class="button" href="/settings"><i class="fas fa-user-cog"></i> <span>Settings</span></a>
+				<a class="button" href="/user/settings"><i class="fas fa-user-cog"></i> <span>Settings</span></a>
 			{% elif following %}
 				<a class="button" href="#"><i class="fas fa-bell-slash"></i> <span>Remove from feed</span></a>
 			{% else %}
 				<a class="button" href="#"><i class="fas fa-bell"></i> <span>Add to feed</span></a>
 			{% endif %}
 
-			{% if not owner and user['public_email'] %}
+			{% if not owner and user['isEmailPublic'] %}
 				<a class="button" href="mailto:{{ user['email'] }}" target="_blank"><i class="fas fa-envelope"></i> <span>Contact</span></a>
 			{% endif %}
 		</div>

@@ -6,25 +6,18 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/settings.css') }}" >
 {% endblock %}
 
-{% block js %}
-    <script src="{{ url_for('static', filename='script/change_data.js') }}" defer></script>
-{% endblock %}
-
 {% block content %}
     <div id="header">Settings</div>
 
     <div class="section-title">Preferences:</div>
     <div class="section-content flex">
         <input type="checkbox">
-        <div class="option-label">email visibile al pubblico</div>
+        <div class="option-label">email visible to the public</div>
     </div>
 
-    <div class="section-title">Change:</div>
+    <div class="section-title">Edit user:</div>
     <div class="section-content">
-        <button class="push-btn">Username</button><br>
-        <button class="push-btn">Password</button><br>
-        <button class="push-btn">E-mail</button><br>
-        <button class="push-btn">Name & Surname</button>
+        <button class="push-btn" onclick="window.location.href = '/user/settings/edit-profile'">Edit your profile</button>
     </div>
 
     <div class="section-title" id="danger-days">Danger Zone:</div>
