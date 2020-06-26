@@ -192,7 +192,7 @@ def edit_profile():
     elif request.method == 'POST':
         old = api('get', '/user', auth=accessToken)
         del old['perms'], old['id']
-        
+
         new = dict(request.form)
         new['isEmailPublic'] = {'on':True, 'off':False}[new.get('isEmailPublic', 'off').lower()]
         

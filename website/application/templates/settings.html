@@ -9,15 +9,20 @@
 {% block content %}
     <div id="header">Settings</div>
 
-    <div class="section-title">Preferences:</div>
-    <div class="section-content flex">
-        <input type="checkbox">
-        <div class="option-label">email visible to the public</div>
-    </div>
+    <div class="section-title">Change password:</div>
+    <form method="POST" class="section-content">
+        <input type="password" name="old_pw" placeholder="Old password" minlenght="8" maxlenght="35" required><br>
+        
+        <input type="password" name="new_pw" placeholder="New password" minlenght="8" maxlenght="35" required><br>
+        
+        <input type="password" name="conf_pw" placeholder="Confirm Password" minlenght="8" maxlenght="35" required><br>
+
+        <input type="submit" value="Submit changes" class="push-btn" id="btn">
+    </form>
 
     <div class="section-title">Edit user:</div>
     <div class="section-content">
-        <button class="push-btn" onclick="window.location.href = '/user/settings/edit-profile'">Edit your profile</button>
+        <button class="push-btn" onclick="window.location.href='/user/settings/edit-profile'">Edit your profile</button>
     </div>
 
     <div class="section-title" id="danger-days">Danger Zone:</div>
