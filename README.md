@@ -43,7 +43,7 @@ source env/bin/activate
 pip install -r requirements.txt
 
 # Create a fake password hasher (WARNING: this one keeps passwords in plain text, it's just for testing)
-printf 'def hash_password(password):\n    return password\n' > application/passwords.py
+printf 'hash_password = lambda p: p' > application/passwords.py
 ```
 
 **Example Installation (Windows):**

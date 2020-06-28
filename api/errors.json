@@ -22,7 +22,7 @@
 
     "130": {
         "error": "Invalid token",
-        "description": "{}",
+        "description": "The token isn't valid",
         "id": 130,
         "status": 422
     },

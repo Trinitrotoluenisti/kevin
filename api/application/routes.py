@@ -33,7 +33,7 @@ def register():
 
     # Check if user is valid
     user = User(username=username, email=email, password=password, name=name, surname=surname, public_email=False, perms=0, bio='')
-    error = user.check()
+    user.check()
 
     # Try to add it in the database
     try:
@@ -208,7 +208,7 @@ def create_community():
 
     # Check if the community is valid
     community = Community(name=get_from_body({'name': 330})[0])
-    error = community.check()
+    community.check()
 
     # Try to save the community
     try:

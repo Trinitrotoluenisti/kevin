@@ -60,5 +60,5 @@ def check_token():
 @app.errorhandler(APIError)
 def handle_apierror(e):
     error, description, status, code = e.args
-    message = f"{error.capitalize()}: description (E{code})"
+    message = f"{error.capitalize()}: {description} (E{code})"
     return render_template("home.html", alert=message), status

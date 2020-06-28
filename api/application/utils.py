@@ -15,7 +15,7 @@ def check_if_token_in_blacklist(decrypted_token):
 def get_from_body(parameters):
     """
     Try to return the given arguments by looking for them in the request body.
-    
+
     parameters must be a dict where the keys are the fields' names,
     the values are the codes of the error to be raised if the field is not found
     """

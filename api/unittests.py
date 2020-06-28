@@ -3,7 +3,7 @@ from sys import argv
 
 # Import app
 argv.append('-t')
-from application import app, db, User, Community, Follow
+from application import app, db, User, Community, Follow, APIErrors
 argv.remove('-t')
 
 
@@ -74,31 +74,31 @@ class Test(unittest.TestCase):
     def test_error_handlers(self):
         # 400: Invalid content type
         request = "Hello, it's me"
-        response = {"error": "Invalid Content-Type", "description": "The Content-Type header must be set to application/json", "id": 140, "status": 400}
+        response = APIErrors[140].json()
         self.route('post', '/register', 400, response, body=request)
 
         # 404: Not found
-        response = {"error": "Resource not found","description": "The resource you were looking for hasn't been found","id": 100,"status": 404}
+        response = APIErrors[100].json()
         self.route('post', '/nil', 404, response)
 
         # 405: Method not allowed
-        response = {"error": "Method not allowed","description": "The resource you were looking for doesn't allow that method","id": 110,"status": 405}
+        response = APIErrors[110].json()
         self.route('get', '/login', 405, response)
 
     def test_login(self):
         # 400: Missing username
         request = {"password": "password"}
-        response = {"error": "Missing username", "description": "Missing username field in request's body", "id": 240, "status": 400}
+        response = APIErrors[240].json()
         self.route("post", "/login", 400, response, body=request)
 
         # 400: Missing password
         request = {"username": "elonmusk"}
-        response = {"error": "Missing password", "description": "Missing password field in request's body", "id": 250, "status": 400}
+        response = APIErrors[250].json()
         self.route("post", "/login", 400, response, body=request)
 
         # 401: Wrong username or password
         request = {"username": "elonmusk", "password": "password?"}
-        response = {"error": "Wrong username or password", "description": "The username and/or password are wrong", "id": 220, "status": 401}
+        response = APIErrors[220].json()
         self.route("post", "/login", 401, response, body=request)
 
         # 200: Correct
@@ -113,67 +113,67 @@ class Test(unittest.TestCase):
     def test_register(self):
         # 400: Missing username
         request = {"name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "Missing username", "description": "Missing username field in request's body", "id": 240, "status": 400}
+        response = APIErrors[240].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Username contains invalid character(s)
         request = {"username": "dent!", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "username contains invalid character(s)", "description": "username can only contain characters in ranges A-Z, a-z, 0-9, _", "id": 243, "status": 400}
+        response = APIErrors[243].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Username too short
         request = {"username": "a", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "username too short", "description": "username must be at least 5 characters long", "id": 241, "status": 400}
+        response = APIErrors[241].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Username too long
         request = {"username": "globglowgabgalabglobw", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "username too long", "description": "username can't be longer than 20 characters", "id": 242, "status": 400}
+        response = APIErrors[242].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Password too short
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "fenny"}
-        response = {"error": "password too short", "description": "password must be at least 8 characters long", "id": 251, "status": 400}
+        response = APIErrors[251].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Password too long
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "gfhdnfhcndjsmckvhfngorithgnfithguryt"}
-        response = {"error": "password too long", "description": "password can't be longer than 35 characters", "id": 252, "status": 400}
+        response = APIErrors[252].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Password contains invalid character(s)
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurchà"}
-        response = {"error": "password contains invalid character(s)", "description": "password can only contain characters in the ASCII table", "id": 253, "status": 400}
+        response = APIErrors[253].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Email is not an email
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "sandwich!", "password": "ILoveFenchurch"}
-        response = {"error": "email is not an email", "description": "email field must contain a valid email", "id": 261, "status": 400}
+        response = APIErrors[261].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Name too short
         request = {"username": "TheSandwichMaker", "name": "A", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "name too short", "description": "name must be at least 2 characters long", "id": 271, "status": 400}
+        response = APIErrors[271].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Name too long
         request = {"username": "TheSandwichMaker", "name": "Aaaaaaaaarthurrr", "surname": "Dent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "name too long", "description": "name can't be longer than 15 characters", "id": 272, "status": 400}
+        response = APIErrors[272].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Surname too short
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "D", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "surname too short", "description": "surname must be at least 2 characters long", "id": 281, "status": 400}
+        response = APIErrors[281].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 400: Surname too long
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Deeeeeeeeeeeeent", "email": "arthurdent@gmail.com", "password": "ILoveFenchurch"}
-        response = {"error": "surname too long", "description": "surname can't be longer than 15 characters", "id": 282, "status": 400}
+        response = APIErrors[282].json()
         self.route("post", "/register", 400, response, body=request)
 
         # 409: Email already used
         request = {"username": "TheSandwichMaker", "name": "Arthur", "surname": "Dent", "email": "elon@tesla.com", "password": "ILoveFenchurch"}
-        response = {"error": "User already exist", "description": "Some user's data has already been used", "id": 230, "status": 409}
+        response = APIErrors[230].json()
         self.route("post", "/register", 409, response, body=request)
 
         # 200: Valid user
@@ -209,7 +209,7 @@ class Test(unittest.TestCase):
 
     def test_view_user(self):
         # 401: Unauthorized
-        response = {"error": "Missing Authorization Header", "description": "The resource you were looking for needs a token to work", "id": 120, "status": 401}
+        response = APIErrors[120].json()
         self.route("get", "/user", 401, response)
 
         # 200: Ok
@@ -218,7 +218,7 @@ class Test(unittest.TestCase):
 
     def test_delete_user(self):
         # 401: Unauthorized
-        response = {"error": "Missing Authorization Header", "description": "The resource you were looking for needs a token to work", "id": 120, "status": 401}
+        response = APIErrors[120].json()
         self.route("delete", "/user", 401, response)
 
         # 204: No content
@@ -228,30 +228,28 @@ class Test(unittest.TestCase):
 
     def test_edit_user(self):
         # 401: Unauthorized
-        response = {"error": "Missing Authorization Header", "description": "The resource you were looking for needs a token to work", "id": 120, "status": 401}
+        response = APIErrors[120].json()
         self.route("put", "/user/username", 401, response)
 
         # 404: Not found
-        response = {"error": "Resource not found", "description": "The resource you were looking for hasn't been found", "id": 100, "status": 404}
+        response = APIErrors[100].json()
         self.route("put", "/user/perms", 404, response, auth=self.access)
 
         User(username="TheSandwichMaker", email="arthurdent@gmail.com", password="ILoveFenchurch", name="Arthur", surname="Dent").save()
 
         # 409: Username already taken
         request = {"value": "TheSandwichMaker"}
-        response = {"error": "User already exist", "description": "Some user's data has already been used", "id": 230, "status": 409}
+        response = APIErrors[230].json()
         self.route("put", "/user/username", 409, response, body=request, auth=self.access)
-    
 
         # 400: isEmailPublic is not a bool
         request = {"value": "TheSandwichMaker"}
-        response = {"error": "isEmailPublic is not a bool", "description": "isEmailPublic must be a boolean", "id": 263, "status": 400}
+        response = APIErrors[263].json()
         self.route("put", "/user/isEmailPublic", 400, response, body=request, auth=self.access)
-
 
         # 400: Bio too long
         request = {"value": "a" * 201}
-        response = {"error": "bio too long", "description": "bio can't be longer than 200 characters", "id": 291, "status": 400}
+        response = APIErrors[291].json()
         self.route("put", "/user/bio", 400, response, body=request, auth=self.access)
 
         # 200: Ok (username)
@@ -300,7 +298,7 @@ class Test(unittest.TestCase):
 
     def test_view_users(self):
         # 404: Not Found
-        response = {"error": "User does not exist", "description": "Couldn't find an user with that username", "id": 200, "status": 404}
+        response = APIErrors[200].json()
         self.route("get", "/users/spongebob", 404, response)
 
         # 200: Email NOT public
@@ -334,7 +332,7 @@ class Test(unittest.TestCase):
 
     def test_create_community(self):
         # 403: Forbidden
-        response = {"error": "Can't create community", "description": "You have to be logged in as an admin to do that", "id": 310, "status": 403}
+        response = APIErrors[310].json()
         self.route('post', '/communities', 403, response, auth=self.access)
 
         user = User.query.filter_by(id=1).first()
@@ -343,17 +341,17 @@ class Test(unittest.TestCase):
 
         # 400: Name too short
         request = {"name": "AMA"}
-        response = {"error": "name too short", "description": "name must be at least 5 characters long", "id": 331, "status": 400}
+        response = APIErrors[331].json()
         self.route('post', '/communities', 400, response, body=request, auth=self.access)
 
         # 400: Name too long
         request = {"name": "AMAMAMAMAMAMAMAMAMAMA"}
-        response = {"error": "name too long", "description": "name can't be longer than 20 characters", "id": 332, "status": 400}
+        response = APIErrors[332].json()
         self.route('post', '/communities', 400, response, body=request, auth=self.access)
 
         # 400: Name contains invalid character(s)
         request = {"name": "AMALAPIZZA!"}
-        response = {"error": "name contains invalid character(s)", "description": "name can only contain characters in ranges A-Z, a-z, 0-9, _", "id": 333, "status": 400}
+        response = APIErrors[333].json()
         self.route('post', '/communities', 400, response, body=request, auth=self.access)
 
         # 201: Created
@@ -363,12 +361,12 @@ class Test(unittest.TestCase):
 
         # 409: Conflict
         request = {"name": "ScienceThings"}
-        response = {"error": "Community already exists", "description": "Some community's data has already been used", "id": 320, "status": 409}
+        response = APIErrors[320].json()
         self.route('post', '/communities', 409, response, body=request, auth=self.access)
 
     def test_get_community(self):
         # 404: Not found
-        response = {"error": "Community does not exist", "description": "Couldn't find a community with that name", "id": 300, "status": 404}
+        response = APIErrors[300].json()
         self.route('get', '/communities/ScienceThings', 404, response)
 
         Community(name='ScienceThings').save()
