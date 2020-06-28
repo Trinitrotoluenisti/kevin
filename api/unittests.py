@@ -353,7 +353,7 @@ class Test(unittest.TestCase):
 
         # 400: Name contains invalid character(s)
         request = {"name": "AMALAPIZZA!"}
-        response = {"error": "name contains invalid character(s)", "description": "username can only contain characters in ranges A-Z, a-z, 0-9, _", "id": 333, "status": 400}
+        response = {"error": "name contains invalid character(s)", "description": "name can only contain characters in ranges A-Z, a-z, 0-9, _", "id": 333, "status": 400}
         self.route('post', '/communities', 400, response, body=request, auth=self.access)
 
         # 201: Created
