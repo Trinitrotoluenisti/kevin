@@ -1,0 +1,306 @@
+{
+    "100": {
+        "error": "Resource not found",
+        "description": "The resource you were looking for hasn't been found",
+        "id": 100,
+        "status": 404
+    },
+
+    "110": {
+        "error": "Method not allowed",
+        "description": "The resource you were looking for doesn't allow that method",
+        "id": 110,
+        "status": 405
+    },
+
+    "120": {
+        "error": "Missing Authorization Header",
+        "description": "The resource you were looking for needs a token to work",
+        "id": 120,
+        "status": 401
+    },
+
+    "130": {
+        "error": "Invalid token",
+        "description": "{}",
+        "id": 130,
+        "status": 422
+    },
+
+    "131": {
+        "error": "Expired token",
+        "description": "The token has expired",
+        "id": 131,
+        "status": 422
+    },
+
+    "132": {
+        "error": "Revoked token",
+        "description": "The token has been revoked by the user",
+        "id": 132,
+        "status": 422
+    },
+
+    "140": {
+        "error": "Invalid Content-Type",
+        "description": "The Content-Type header must be set to application/json",
+        "id": 140,
+        "status": 400
+    },
+
+    "190": {
+        "error": "Internal server error",
+        "description": "The server encountered an error during the processing of the request. We're sorry.",
+        "id": 190,
+        "status": 500
+    },
+
+
+
+    "200": {
+        "error": "User does not exist",
+        "description": "Couldn't find an user with that username",
+        "id": 200,
+        "status": 404
+    },
+
+    "210": {
+        "error": "Can't delete user",
+        "description": "You have to be logged in as that user or as an admin to do that",
+        "id": 210,
+        "status": 403
+    },
+
+    "211": {
+        "error": "Can't edit user",
+        "description": "You have to be logged in as that user to do that",
+        "id": 211,
+        "status": 403
+    },
+
+    "212": {
+        "error": "Can't use user",
+        "description": "You have to be logged in as that user to do that",
+        "id": 212,
+        "status": 403
+    },
+
+    "220": {
+        "error": "Wrong username or password",
+        "description": "The username and/or password are wrong",
+        "id": 220,
+        "status": 401
+    },
+
+    "230": {
+        "error": "User already exist",
+        "description": "Some user's data has already been used",
+        "id": 230,
+        "status": 409
+    },
+
+    "240": {
+        "error": "Missing username",
+        "description": "Missing username field in request's body",
+        "id": 240,
+        "status": 400
+    },
+
+    "241": {
+        "error": "username too short",
+        "description": "username must be at least 5 characters long",
+        "id": 241,
+        "status": 400
+    },
+
+    "242": {
+        "error": "username too long",
+        "description": "username can't be longer than 20 characters",
+        "id": 242,
+        "status": 400
+    },
+
+    "243": {
+        "error": "username contains invalid character(s)",
+        "description": "username can only contain characters in ranges A-Z, a-z, 0-9, _",
+        "id": 243,
+        "status": 400
+    },
+
+    "250": {
+        "error": "Missing password",
+        "description": "Missing password field in request's body",
+        "id": 250,
+        "status": 400
+    },
+
+    "251": {
+        "error": "password too short",
+        "description": "password must be at least 8 characters long",
+        "id": 251,
+        "status": 400
+    },
+
+    "252": {
+        "error": "password too long",
+        "description": "password can't be longer than 35 characters",
+        "id": 252,
+        "status": 400
+    },
+
+    "253": {
+        "error": "password contains invalid character(s)",
+        "description": "password can only contain characters in the ASCII table",
+        "id": 253,
+        "status": 400
+    },
+
+    "260": {
+        "error": "Missing email",
+        "description": "Missing email field in request's body",
+        "id": 260,
+        "status": 400
+    },
+
+    "261": {
+        "error": "email is not an email",
+        "description": "email field must contain a valid email",
+        "id": 261,
+        "status": 400
+    },
+
+    "262": {
+        "error": "Missing isEmailPublic",
+        "description": "Missing isEmailPublic field in request's body",
+        "id": 262,
+        "status": 400
+    },
+
+    "263": {
+        "error": "isEmailPublic is not a bool",
+        "description": "isEmailPublic must be a boolean",
+        "id": 263,
+        "status": 400
+    },
+
+    "270": {
+        "error": "Missing name",
+        "description": "Missing name field in request's body",
+        "id": 270,
+        "status": 400
+    },
+
+    "271": {
+        "error": "name too short",
+        "description": "name must be at least 2 characters long",
+        "id": 271,
+        "status": 400
+    },
+
+    "272": {
+        "error": "name too long",
+        "description": "name can't be longer than 15 characters",
+        "id": 272,
+        "status": 400
+    },
+
+    "280": {
+        "error": "Missing surname",
+        "description": "Missing surname field in request's body",
+        "id": 280,
+        "status": 400
+    },
+
+    "281": {
+        "error": "surname too short",
+        "description": "surname must be at least 2 characters long",
+        "id": 281,
+        "status": 400
+    },
+
+    "282": {
+        "error": "surname too long",
+        "description": "surname can't be longer than 15 characters",
+        "id": 282,
+        "status": 400
+    },
+
+    "290": {
+        "error": "Missing bio",
+        "description": "Missing bio field in request's body",
+        "id": 290,
+        "status": 400
+    },
+
+    "291": {
+        "error": "bio too long",
+        "description": "bio can't be longer than 200 characters",
+        "id": 291,
+        "status": 400
+    },
+
+
+
+    "300": {
+        "error": "Community does not exist",
+        "description": "Couldn't find a community with that name",
+        "id": 300,
+        "status": 404
+    },
+
+    "310": {
+        "error": "Can't create community",
+        "description": "You have to be logged in as an admin to do that",
+        "id": 310,
+        "status": 403
+    },
+
+    "311": {
+        "error": "Can't edit community",
+        "description": "You have to be logged in as an admin to do that",
+        "id": 311,
+        "status": 403
+    },
+
+    "312": {
+        "error": "Can't delete community",
+        "description": "You have to be logged in as an admin to do that",
+        "id": 312,
+        "status": 403
+    },
+
+    "320": {
+        "error": "Community already exists",
+        "description": "Some community's data has already been used",
+        "id": 320,
+        "status": 409
+    },
+
+    "330": {
+        "error": "Missing name",
+        "description": "Missing name field in request's body",
+        "id": 330,
+        "status": 400
+    },
+
+    "331": {
+        "error": "name too short",
+        "description": "name must be at least 5 characters long",
+        "id": 331,
+        "status": 400
+    },
+
+    "332": {
+        "error": "name too long",
+        "description": "name can't be longer than 20 characters",
+        "id": 332,
+        "status": 400
+    },
+
+    "333": {
+        "error": "name contains invalid character(s)",
+        "description": "name can only contain characters in ranges A-Z, a-z, 0-9, _",
+        "id": 333,
+        "status": 400
+    }
+}

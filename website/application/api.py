@@ -27,16 +27,16 @@ def api(method, path, data={}, auth=''):
     # If the code isn't 200 (ok), raise an APIError
     if not r.status_code in range(199, 300):
         json = r.json()
-        raise APIError(json["error"], json["description"], r.status_code)
-    elif r.status_code != 204:
-        # Otherwise return the body of the response formatted as json
+        raise APIError(json["error"], json["description"], json["code"], json["status"])
+
+    if r.status_code != 204:
         return r.json()
 
 def check_token():
     response = make_response()
 
     # Fetch access and refresh tokens
-    access_token = request.cookies.get('accessToken')
+    access_token = request.cookies.get('accesToken')
     refresh_token = request.cookies.get('refreshToken')
 
     # If there are both, return access token and a blank response
@@ -59,6 +59,6 @@ def check_token():
 
 @app.errorhandler(APIError)
 def handle_apierror(e):
-    error, description, code = e.args
-    message = error.capitalize() + ": " + description
-    return render_template("home.html", alert=message), code
+    error, description, status, code = e.args
+    message = f"{error.capitalize()}: description (E{code})"
+    return render_template("home.html", alert=message), status

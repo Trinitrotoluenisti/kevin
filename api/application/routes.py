@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from . import db
 from .models import *
 from .utils import *
+from .errors import APIErrors
 from .passwords import hash_password
 
 
@@ -12,12 +13,12 @@ from .passwords import hash_password
 @app.route('/login', methods=['POST'])
 def login():
     # Fetch request's body
-    username, password = get_from_body('username', 'password')
+    username, password = get_from_body({'username': 240, 'password': 250})
 
     # Check credentials
     user = User.query.filter_by(username=username).first()
     if not user or not user.password == hash_password(password):
-        return {"error": "invalid login", "description": "Wrong username or password"}, 401
+        raise APIErrors[220]
 
     # Generate tokens
     access = create_access_token(identity=user.id)
@@ -28,20 +29,18 @@ def login():
 @app.route('/register', methods=['POST'])
 def register():
     # Fetch request's body
-    username, email, password, name, surname = get_from_body('username', 'email', 'password', 'name', 'surname')
+    username, password, email, name, surname = get_from_body({'username': 240, 'password': 250, 'email': 260, 'name': 270, 'surname': 280})
 
     # Check if user is valid
     user = User(username=username, email=email, password=password, name=name, surname=surname, public_email=False, perms=0, bio='')
     error = user.check()
-    if error:
-        return {"error": "invalid user", "description": error}, 400
 
-    # Try add it in the database
+    # Try to add it in the database
     try:
         user.save()
     except IntegrityError:
         db.session.rollback()
-        return {"error": "user already exists", "description": "Some user's data have already been used"}, 409
+        raise APIErrors[230]
 
     # Generate the tokens
     access = create_access_token(identity=user.id)
@@ -54,7 +53,7 @@ def view_users(username):
     # If a username is specified, check if exists
     user = User.query.filter_by(username=username).first()
     if not user:
-        return {"error": "User does not exist", "description": "Can't find an user with that username"}, 404
+        raise APIErrors[200]
 
     user = user.json()
 
@@ -87,9 +86,9 @@ def get_communities(name):
     # Try to get the community
     community = Community.query.filter_by(name=name).first()
 
-    # Return 404 if it doesn't exists
+    # Return an error if it doesn't exists
     if not community:
-        return {"error": "Community does not exist", "description": "Can't find a community with that name"}, 404
+        raise APIErrors[300]
 
     community = community.json()
 
@@ -161,11 +160,12 @@ def delete_user():
 def edit_user(field):
     # Check if field is valid
     if not field in ('username', 'password', 'email', 'name', 'surname', 'bio', 'isEmailPublic'):
-        return {"error": "not found", 'description': "The field to edit has not been found"}, 404
+        raise APIErrors[100]
 
     # Get user and new value
     user = User.query.filter_by(id=get_jwt_identity()).first()
-    value = get_from_body('value')[0]
+    error_codes = {'username': 240, 'password': 250, 'email': 260, 'isEmailPublic': 262, 'name': 270, 'surname': 280, 'bio': 290}
+    value = get_from_body({'value': error_codes[field]})[0]
 
     # Set new value
     if field == 'username':
@@ -185,15 +185,13 @@ def edit_user(field):
 
     # Check if changes are valid
     error = user.check()
-    if error:
-        return {"error": f"invalid {field}", "description": error}, 400
 
-    # Try to save changes (can return a 409: Conflict)
+    # Try to save changes
     try:
         user.save()
     except IntegrityError:
         db.session.rollback()
-        return {"error": "user already exists", "description": f"{field} has already been used"}, 409
+        raise APIErrors[230]
 
     return user.json()
 
@@ -206,19 +204,17 @@ def create_community():
 
     # Assert that the user is an admin
     if user.perms < 2:
-        return {"error": "can't create community", "description": "Only admins can create communities"}, 403
+        raise APIErrors[310]
 
     # Check if the community is valid
-    community = Community(name=get_from_body('name')[0])
+    community = Community(name=get_from_body({'name': 330})[0])
     error = community.check()
-    if error:
-        return {"error": "invalid community", "description": error}, 400
 
     # Try to save the community
     try:
         community.save()
     except IntegrityError:
         db.session.rollback()
-        return {"error": "community already exists", "description": "Some community's data have already been used"}, 409
+        raise APIErrors[320]
 
     return community.json(), 201

@@ -4,6 +4,7 @@ from os import mkdir
 from re import search
 
 from . import app, db
+from .errors import APIErrors
 from .passwords import hash_password
 
 
@@ -37,49 +38,48 @@ class User(db.Model):
 
     def check(self):
         """
-        Check if the user's fields are valid. if they aren't, it returns the reason,
-        otherwise returns None.
+        Check if an user is valid
         """
 
         # Username (5 < lenght <= 20; chars in A-Z, a-z, 0-9, "_")
         if len(self.username) < 5:
-            return "Username too short"
+            raise APIErrors[241]
         elif len(self.username) > 20:
-            return "Username too long"
+            raise APIErrors[242]
         elif not all(ord(c) in (*range(48, 58), *range(65, 91), 95, *range(97, 123)) for c in self.username):
-            return "Username contains invalid character(s)"
+            raise APIErrors[243]
 
         # Password (8 < lenght <= 35; chars in ascii table)
         elif len(self.password) < 8:
-            return "Password too short"
+            raise APIErrors[251]
         elif len(self.password) > 35:
-            return "Password too long"
+            raise APIErrors[252]
         elif not all(ord(c) in range(33, 127) for c in self.password):
-            return "Password contains invalid character(s)"
+            raise APIErrors[253]
 
         # Email
         elif not search(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$', self.email):
-            return "Email is not an email"
+            raise APIErrors[261]
 
         # isEmailPublic (in True, False)
         elif not (self.public_email in (True, False)):
-            return "isEmailPublic is not a bool"
+            raise APIErrors[263]
 
         # Name (2 < length <= 15)
         elif len(self.name) < 2:
-            return "Name too short"
+            raise APIErrors[271]
         elif len(self.name) > 15:
-            return "Name too long"
+            raise APIErrors[272]
 
         # Surname (2 < length <= 15)
         elif len(self.surname) < 2:
-            return "Surname too short"
+            raise APIErrors[281]
         elif len(self.surname) > 15:
-            return "Surname too long"
+            raise APIErrors[282]
 
         # Bio (length <= 200)
         elif len(self.bio) > 200:
-            return "Bio too long"
+            raise APIErrors[291]
 
 
 class Community(db.Model):
@@ -96,18 +96,16 @@ class Community(db.Model):
 
     def check(self):
         """
-        Check if the community's name is valid. if it isn't, it returns the reason,
-        otherwise returns None.
-        Name's length must be between 5 and 20. Its character must be included in
-        the ranges A-Z, a-z, 0-9, "_".
+        Check if a community is valid.
         """
 
+        # Name (5 < lenght <= 20; chars in A-Z, a-z, 0-9, "_")
         if len(self.name) < 5:
-            return "Name too short"
+            raise APIErrors[331]
         elif len(self.name) > 20:
-            return "Name too long"
+            raise APIErrors[332]
         elif not all(ord(c) in (*range(48, 58), *range(65, 91), 95, *range(97, 123)) for c in self.name):
-            return "Name contains invalid character(s)"
+            raise APIErrors[333]
 
 
 class Post(db.Model):
