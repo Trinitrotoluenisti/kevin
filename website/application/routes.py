@@ -5,10 +5,9 @@ from flask import render_template, request, make_response, redirect
 
 
 # Others
-@app.errorhandler(404)
-def error_404(e):
-    # Return 404 error page
-    return render_template('/404.html'), 404
+app.errorhandler(404)(lambda *args: (render_template('/404.html'), 404))
+
+app.errorhandler(405)(lambda *args: (redirect('/'), 405))
 
 
 # Home
@@ -173,6 +172,30 @@ def settings():
     # Return settings.html
     return response
 
+@app.route('/user/settings/change-pw', methods=['POST'])
+def change_pw():
+    # Check if the client is logged in
+    accessToken, response = check_token()
+
+    # (if tokens are not valid redirect to the index page and delete them)
+    if not accessToken:
+        return response
+
+    # Get username
+    username = api('get', '/user', auth=accessToken)['username']
+    oldPassword = request.form['opassword']
+    newPassword = request.form['password']
+
+    # Check old password
+    try:
+        api('post', '/login', data={'username':username, 'password':oldPassword})
+    except APIError:
+        return render_template("settings.html", alert='Wrong old password'), 400
+
+    api('put', '/user/password', data={'value':newPassword}, auth=accessToken)
+
+    return render_template("settings.html")
+
 @app.route('/user/settings/edit-profile', methods=['GET', 'POST'])
 def edit_profile():
     # Check if the client is logged in
@@ -195,7 +218,7 @@ def edit_profile():
 
         new = dict(request.form)
         new['isEmailPublic'] = {'on':True, 'off':False}[new.get('isEmailPublic', 'off').lower()]
-        
+
         changed = []
 
         for k, v in old.items():

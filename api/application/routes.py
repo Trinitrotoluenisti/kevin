@@ -37,6 +37,7 @@ def register():
 
     # Try to add it in the database
     try:
+        user.password = hash_password(password)
         user.save()
     except IntegrityError:
         db.session.rollback()
@@ -184,17 +185,18 @@ def edit_user(field):
         user.public_email = value
 
     # Check if changes are valid
-    error = user.check()
+    user.check(password=(field == 'password'))
 
     # Try to save changes
     try:
+        if field == 'password':
+            user.password = hash_password(value)
         user.save()
     except IntegrityError:
         db.session.rollback()
         raise APIErrors[230]
 
     return user.json()
-
 
 @app.route('/communities', methods=['POST'])
 @jwt_required

@@ -26,9 +26,10 @@ Kevin:tm:, a brand new social!
 Once gone to `/api`, you just have to create a python venv, install dependencies and create a new file, `application/passwords.py`, which must contain a function called `hash_password`, that requires a string and returns another, like this:
 
 ```python
+from hashlib import sha256
+
 def hash_password(password):
-	# things
-	return password
+    return sha256(password.encode('utf-8')).hexdigest()
 ```
 
 **Example Installation (Linux):**
@@ -43,7 +44,7 @@ source env/bin/activate
 pip install -r requirements.txt
 
 # Create a fake password hasher (WARNING: this one keeps passwords in plain text, it's just for testing)
-printf 'hash_password = lambda p: p' > application/passwords.py
+printf "from hashlib import sha256\n\ndef hash_password(password):    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 ```
 
 **Example Installation (Windows):**
@@ -58,7 +59,7 @@ env\\Scripts\\activate.bat
 pip install -r requirements.txt
 
 # Create a fake password hasher (WARNING: this one keeps passwords in plain text, it's just for testing)
-printf 'def hash_password(password):\n    return password\n' > application/passwords.py
+printf "from hashlib import sha256\n\ndef hash_password(password):    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 ```
 
 ### Installing Website

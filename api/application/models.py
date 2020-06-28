@@ -25,18 +25,10 @@ class User(db.Model):
         return {"id": self.id, "perms": self.perms, "username": self.username, "email": self.email, "isEmailPublic": self.public_email, "name": self.name, "surname": self.surname, "bio": self.bio}
 
     def save(self):
-        # Hash password
-        old_password = self.password
-        self.password = hash_password(self.password)
-
-        # Save user in the db
         db.session.add(self)
         db.session.commit()
 
-        # "unhash" password
-        self.password = old_password
-
-    def check(self):
+    def check(self, password=True):
         """
         Check if an user is valid
         """
@@ -50,11 +42,11 @@ class User(db.Model):
             raise APIErrors[243]
 
         # Password (8 < lenght <= 35; chars in ascii table)
-        elif len(self.password) < 8:
+        elif password and len(self.password) < 8:
             raise APIErrors[251]
-        elif len(self.password) > 35:
+        elif password and len(self.password) > 35:
             raise APIErrors[252]
-        elif not all(ord(c) in range(33, 127) for c in self.password):
+        elif password and not all(ord(c) in range(33, 127) for c in self.password):
             raise APIErrors[253]
 
         # Email

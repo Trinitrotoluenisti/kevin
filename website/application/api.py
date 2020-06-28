@@ -18,16 +18,13 @@ def api(method, path, data={}, auth=''):
     if auth:
         headers["Authorization"] = f"Bearer {auth}"
 
-    # Make the request (raise KeyError if the method is unknown)
-    try:
-        r = requests.__dict__[method](server + path, json=data, headers=headers)
-    except KeyError:
-        raise KeyError("Unknown method")
+    # Make the request
+    r = requests.__dict__[method](server + path, json=data, headers=headers)
 
     # If the code isn't 200 (ok), raise an APIError
     if not r.status_code in range(199, 300):
         json = r.json()
-        raise APIError(json["error"], json["description"], json["code"], json["status"])
+        raise APIError(json["id"],json["error"], json["description"], json["status"])
 
     if r.status_code != 204:
         return r.json()
@@ -59,6 +56,6 @@ def check_token():
 
 @app.errorhandler(APIError)
 def handle_apierror(e):
-    error, description, status, code = e.args
-    message = f"{error.capitalize()}: {description} (E{code})"
+    id, error, description, status = e.args
+    message = f"{error.capitalize()}: {description} (E{id})"
     return render_template("home.html", alert=message), status
