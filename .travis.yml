@@ -7,7 +7,7 @@ python:
 before_install:
   - cd api/
   - pip install -r requirements.txt
-  - printf "from hashlib import sha256\n\ndef hash_password(password):    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
+  - printf "from hashlib import sha256\n\ndef hash_password(password):\n    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 
 script:
   - python3 unittests.py

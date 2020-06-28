@@ -44,7 +44,7 @@ source env/bin/activate
 pip install -r requirements.txt
 
 # Create a fake password hasher (WARNING: this one keeps passwords in plain text, it's just for testing)
-printf "from hashlib import sha256\n\ndef hash_password(password):    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
+printf "from hashlib import sha256\n\ndef hash_password(password):\n    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 ```
 
 **Example Installation (Windows):**
@@ -59,7 +59,7 @@ env\\Scripts\\activate.bat
 pip install -r requirements.txt
 
 # Create a fake password hasher (WARNING: this one keeps passwords in plain text, it's just for testing)
-printf "from hashlib import sha256\n\ndef hash_password(password):    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
+printf "from hashlib import sha256\n\ndef hash_password(password):\n    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 ```
 
 ### Installing Website
