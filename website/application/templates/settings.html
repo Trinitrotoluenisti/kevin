@@ -12,25 +12,28 @@
 
 {% block content %}
     <div id="header">Settings</div>
+    <br>
 
-    <div class="section-title">Change password:</div>
-    <form method="POST" class="section-content" onsubmit="return check_passwords(this)" action="/user/settings/change-pw">
-        <input type="password" name="opassword" placeholder="Old password" minlenght="8" maxlenght="35" required><br>
-        
-        <input type="password" name="password" placeholder="New password" minlenght="8" maxlenght="35" required><br>
-        
-        <input type="password" name="cpassword" placeholder="Confirm Password" minlenght="8" maxlenght="35" required><br>
+    <div id="settings">
+        <div class="section-title">Change pass:</div>
+        <form method="POST" class="section-content" onsubmit="return check_passwords(this)" action="/user/settings/change-pw">
+            <input type="password" name="opassword" placeholder="Old password" minlenght="8" maxlenght="35" required><br>
 
-        <input type="submit" value="Submit changes" class="push-btn" id="btn">
-    </form>
+            <input type="password" name="password" placeholder="New password" minlenght="8" maxlenght="35" required><br>
 
-    <div class="section-title">Edit user:</div>
-    <div class="section-content">
-        <button class="push-btn" onclick="window.location.href='/user/settings/edit-profile'">Edit your profile</button>
-    </div>
+            <input type="password" name="cpassword" placeholder="Confirm Password" minlenght="8" maxlenght="35" required><br>
 
-    <div class="section-title" id="danger-days">Danger Zone:</div>
-    <div>
-        <button class="push-btn del">Delete my Kevin account</button>
+            <input type="submit" value="Submit changes" class="push-btn" id="btn">
+        </form>
+
+        <div class="section-title">Edit user:</div>
+        <div class="section-content">
+            <button class="push-btn" onclick="window.location.href='/user/settings/edit-profile'">Edit your profile</button>
+        </div>
+
+        <div class="section-title" id="danger-days">Danger Zone:</div>
+        <div>
+            <button class="push-btn del">Delete my Kevin account</button>
+        </div>
     </div>
 {% endblock %}

@@ -1,12 +1,26 @@
+main {
+	display: flex;
+	flex-direction: column;
+}
+
+body {
+	align-items: center;
+}
+
 #header {
     font-size: 3em;
     color: #345DA7;
     text-align: center;
-    margin-top: -1.5vh;
+}
+
+#settings{
+    display: flex;
+	flex-direction: column;
+	align-self: center;
 }
 
 .section-title {
-    font-size: 1.8em;
+    font-size: 1.7em;
     color: #345DA7;
     margin: 1vh 0 1vh 0;
 }
@@ -15,8 +29,15 @@
     margin-bottom: 4vh;
 }
 
+.push-btn{
+    width: 20vw;
+	min-width: 200px;
+}
+
 #btn {
     color: white;
+    height: 5vh;
+    min-height: 50px;
 }
 
 #btn:hover {

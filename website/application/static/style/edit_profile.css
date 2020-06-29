@@ -1,14 +1,28 @@
+main {
+	display: flex;
+	flex-direction: column;
+}
+
+body{
+    align-items: center;
+}
+
 #header {
     font-size: 3em;
     color: #345DA7;
     text-align: center;
-    margin-top: -1.5vh;
 }
 
-textarea {
+form{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+textarea{
     resize: none;
     width: 20vw;
-    min-width: 20vw;
+    min-width: 200px;
     margin: 1vh 0 1vh 0;
     border: 1px solid #757575;
     border-radius: 5px;
@@ -25,12 +39,12 @@ textarea:focus {
     color: #345DA7;
 }
 
-.section-content {
-    margin-bottom: 4vh;
+.center {
+	align-self: center;
 }
 
-.flex {
-    display: flex;
+.cbox {
+	margin: 10px;
 }
 
 .option-label {
@@ -40,6 +54,10 @@ textarea:focus {
 
 #btn {
     color: white;
+    width: 20vw;
+    min-width: 200px;
+    height: 5vh;
+    min-height: 50px;
 }
 
 #btn:hover {
