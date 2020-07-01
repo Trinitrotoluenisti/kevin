@@ -23,11 +23,11 @@
 			<input type="checkbox" name="keep_logged" id="checkbox">
 			<label for="checkbox">Keep me logged in</label>
 		</span>
-		<button class="push-btn fbtn center">Register!</button>
+		<input type="submit" value="Register!" class="push-btn fbtn center">
 	</form>
 	<br>
 	<div class="redirect">
 		<div class="center">Already a member?</div>
-		<a href="../login"><button class="push-btn fbtn">Login now!</button></a>
+		<button onclick="window.location.href='/login'" class="push-btn fbtn">Login now!</button>
 	</div>
 {% endblock %}

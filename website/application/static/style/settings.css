@@ -1,22 +1,17 @@
 main {
-	display: flex;
-	flex-direction: column;
-}
-
-body {
-	align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 #header {
     font-size: 3em;
     color: #345DA7;
     text-align: center;
+    margin-bottom: 2vh;
 }
 
-#settings{
-    display: flex;
-	flex-direction: column;
-	align-self: center;
+#settings {
+    align-self: center;
 }
 
 .section-title {
@@ -29,32 +24,15 @@ body {
     margin-bottom: 4vh;
 }
 
-.push-btn{
-    width: 20vw;
-	min-width: 200px;
-}
-
-#btn {
-    color: white;
-    height: 5vh;
-    min-height: 50px;
-}
-
-#btn:hover {
-    color: #345DA7;
-}
-
 #danger-days {
     color: #f91307;
 }
 
 .del {
     background-color: #f91307;
-    color: white;
 }
 
 .del:hover {
     border: 1px solid #f91307;
     color: #f91307;
-    background-color: white;
 }

@@ -3,23 +3,19 @@ main {
 	flex-direction: column;
 }
 
-body{
-    align-items: center;
-}
-
 #header {
     font-size: 3em;
     color: #345DA7;
     text-align: center;
 }
 
-form{
+form {
     display: flex;
     flex-direction: column;
     align-self: center;
 }
 
-textarea{
+textarea {
     resize: none;
     width: 20vw;
     min-width: 200px;
@@ -50,16 +46,4 @@ textarea:focus {
 .option-label {
     font-size: 1.2em;
     margin-left: 0.4vw;
-}
-
-#btn {
-    color: white;
-    width: 20vw;
-    min-width: 200px;
-    height: 5vh;
-    min-height: 50px;
-}
-
-#btn:hover {
-    color: #345DA7;
 }
