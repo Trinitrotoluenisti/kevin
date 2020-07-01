@@ -5,16 +5,14 @@ from flask import render_template, request, make_response, redirect
 
 
 # Others
-app.errorhandler(404)(lambda *args: (render_template('/404.html'), 404))
-
+app.errorhandler(404)(lambda *args: (render_template('/404.html', username=check_token()[1]), 404))
 app.errorhandler(405)(lambda *args: (redirect('/'), 405))
 
 
 # Home
 @app.route('/')
 def home():
-    # Return home.html
-    return render_template('home.html')
+    return render_template('home.html', username=check_token()[1])
 
 
 # Login / Register / Logout
@@ -111,46 +109,36 @@ def logout():
 
 
 # User
-@app.route('/user')
-@app.route('/user/<string:username>')
-def user(username=''):
-    # If a username is specified
-    if username:
-        # Try to return his profile
-        user = api("get", "/users/" + username)
-        return render_template('/user.html', user=user)
+@app.route('/users/<string:username>')
+def view_user(username=''):
+    accessToken, logged_username, response = check_token()
 
-    # If there isn't an username
+    # Fetch the user from the api
+    if accessToken:
+        user = api("get", "/users/" + username, auth=accessToken)
     else:
-        # Check if the client is logged in
-        accessToken, response = check_token()
+        user = api("get", "/users/" + username)
 
-        # (if tokens are not valid redirect to the index page and delete them)
-        if not accessToken:
-            return response
-
-        # Return the user
-        user = api("get", "/user", auth=accessToken)
-        response.data = render_template('/user.html', user=user, owner=True)
-        return response
+    # Create and return the response
+    response.data = render_template('/user.html', username=logged_username, user=user, owner=(username == logged_username))    
+    return response
 
 # Posts
 @app.route('/post')
 def view_post():
-    # Return post.html
-    return render_template('post.html')
+    return render_template('post.html', username=check_token()[1])
 
 @app.route('/create-post')
 def create_post():
     if request.method == 'GET':
         # Check if the client is logged in
-        accessToken, response = check_token()
+        accessToken, username, response = check_token()
 
         # (if tokens are not valid redirect to the index page and delete them)
         if not accessToken:
             return response
 
-        response.data = render_template('create_post.html')
+        response.data = render_template('create_post.html', username=username)
 
         # Return create_post.html
         return response
@@ -161,13 +149,13 @@ def create_post():
 @app.route('/user/settings')
 def settings():
     # Check if the client is logged in
-    accessToken, response = check_token()
+    accessToken, username, response = check_token()
 
     # (if tokens are not valid redirect to the index page and delete them)
     if not accessToken:
         return response
 
-    response.data = render_template('settings.html')
+    response.data = render_template('settings.html', username=username)
 
     # Return settings.html
     return response
@@ -175,49 +163,49 @@ def settings():
 @app.route('/user/settings/change-pw', methods=['POST'])
 def change_pw():
     # Check if the client is logged in
-    accessToken, response = check_token()
+    accessToken, username, response = check_token()
 
     # (if tokens are not valid redirect to the index page and delete them)
     if not accessToken:
         return response
 
     # Get username
-    username = api('get', '/user', auth=accessToken)['username']
+    username = api('get', '/users/' + username, auth=accessToken)['username']
     oldPassword = request.form['opassword']
     newPassword = request.form['password']
 
     # Check old password
     try:
-        api('post', '/login', data={'username':username, 'password':oldPassword})
+        api('post', '/login', data={'username': username, 'password': oldPassword})
     except APIError:
-        return render_template("settings.html", alert='Wrong old password'), 400
+        return render_template("settings.html", alert='Wrong old password', username=username), 400
 
-    api('put', '/user/password', data={'value':newPassword}, auth=accessToken)
+    api('put', f'/users/{username}/password', data={'value': newPassword}, auth=accessToken)
 
-    return render_template("settings.html")
+    return render_template("settings.html", username=username)
 
 @app.route('/user/settings/edit-profile', methods=['GET', 'POST'])
 def edit_profile():
     # Check if the client is logged in
-    accessToken, response = check_token()
+    accessToken, username, response = check_token()
 
     # (if tokens are not valid redirect to the index page and delete them)
     if not accessToken:
         return response
 
     if request.method == 'GET':
-        user = api('get', '/user', auth=accessToken)
+        user = api('get', '/users/' + username, auth=accessToken)
 
-        response.data = render_template('edit_profile.html', user=user)
+        response.data = render_template('edit_profile.html', username=username, user=user)
 
         # Return edit_profile.html
         return response
     elif request.method == 'POST':
-        old = api('get', '/user', auth=accessToken)
+        old = api('get', '/users/' + username, auth=accessToken)
         del old['perms'], old['id']
 
         new = dict(request.form)
-        new['isEmailPublic'] = {'on':True, 'off':False}[new.get('isEmailPublic', 'off').lower()]
+        new['isEmailPublic'] = {'on': True, 'off': False}[new.get('isEmailPublic', 'off').lower()]
 
         changed = []
 
@@ -226,18 +214,23 @@ def edit_profile():
                 changed.append(k)
 
         for field in changed:
-            api('put', '/user/' + field, auth=accessToken, data={'value':new[field]})
+            api('put', f'/users/{username}/{field}', auth=accessToken, data={'value':new[field]})
 
         return redirect('/user/settings')
 
 # Admin
 @app.route('/admin')
 def admin():
-    accessToken = request.cookies.get('accessToken')
-    user = api("get", "/user", auth=accessToken)
-    perms = user ["perms"]
-    if perms >= 10:     #TODO: ricorda di cambiare il numero per il max perms (admin)
-        return render_template('admin/admin.html', user=user)
+    # Check if the client is logged in
+    accessToken, username, response = check_token()
+
+    # (if tokens are not valid redirect to the index page and delete them)
+    if not accessToken:
+        return response
+
+    user = api("get", f"/users/{username}", auth=accessToken)
+
+    if user["perms"] >= 2:
+        return render_template('admin/admin.html', username=username, user=user)
     else:
-        #return abort(404)
-        return render_template('/home.html', alert="non hai permessi")
+        return render_template('/home.html', username=username), 403

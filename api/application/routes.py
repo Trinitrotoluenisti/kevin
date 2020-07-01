@@ -50,19 +50,21 @@ def register():
     return {"accessToken": access, "refreshToken": refresh}, 201
 
 @app.route('/users/<string:username>')
-def view_users(username):
-    # If a username is specified, check if exists
-    user = User.query.filter_by(username=username).first()
-    if not user:
+@jwt_optional
+def view_user(username):
+    target_user = User.query.filter_by(username=username).first()
+    logged_user = User.query.filter_by(id=get_jwt_identity()).first()
+
+    if not target_user:
         raise APIErrors[200]
 
-    user = user.json()
+    target_user = target_user.json()
 
-    # Check if user's email is public
-    if not user["isEmailPublic"]:
-        del user["email"]
+    # Keep the mail only if the user is logged in or the email is public
+    if (not logged_user or not target_user == logged_user.json()) and not target_user["isEmailPublic"]:
+        del target_user["email"]
 
-    return user
+    return target_user
 
 @app.route('/communities')
 @jwt_optional
@@ -113,6 +115,12 @@ def refresh_token():
     # Return an ok message
     return {'accessToken': create_access_token(identity=user_id)}
 
+@app.route('/token')
+@jwt_required
+def get_token():
+    logged_user = User.query.filter_by(id=get_jwt_identity()).first()
+    return {'username': logged_user.username}
+
 @app.route('/token/access', methods=['DELETE'])
 @jwt_required
 def revoke_access_token():
@@ -138,65 +146,79 @@ def revoke_refresh_token():
     # Return an ok message
     return {}, 204
 
-@app.route('/user')
+@app.route('/users/<string:username>', methods=['DELETE'])
 @jwt_required
-def view_user():
-    # Get the user from the database
-    user = User.query.filter_by(id=get_jwt_identity()).first()
+def delete_user(username):
+    target_user = User.query.filter_by(username=username).first()
+    logged_user = User.query.filter_by(id=get_jwt_identity()).first()
 
-    return user.json()
+    # If a username is specified, check if exists
+    if not target_user:
+        raise APIErrors[200]
 
-@app.route('/user', methods=['DELETE'])
-@jwt_required
-def delete_user():
+    # Raise an error if the user isn't logged in and there aren't enough perms
+    if not target_user == logged_user and logged_user.perms < 2:
+        raise APIErrors[210]
+
     # Get the user from the database and delete him
-    user = User.query.filter_by(id=get_jwt_identity()).first()
-    db.session.delete(user)
+    db.session.delete(target_user)
     db.session.commit()
 
     return {}, 204
 
-@app.route('/user/<string:field>', methods=['PUT'])
+@app.route('/users/<string:username>/<string:field>', methods=['PUT'])
 @jwt_required
-def edit_user(field):
+def edit_user(username, field):
+    target_user = User.query.filter_by(username=username).first()
+    logged_user = User.query.filter_by(id=get_jwt_identity()).first()
+
+    # If a username is specified, check if exists
+    if not target_user:
+        raise APIErrors[200]
+
     # Check if field is valid
-    if not field in ('username', 'password', 'email', 'name', 'surname', 'bio', 'isEmailPublic'):
+    elif not field in ('username', 'password', 'email', 'name', 'surname', 'bio', 'isEmailPublic'):
         raise APIErrors[100]
 
+    # Raise an error if the user isn't logged in
+    elif not target_user == logged_user:
+        raise APIErrors[211]
+
     # Get user and new value
-    user = User.query.filter_by(id=get_jwt_identity()).first()
     error_codes = {'username': 240, 'password': 250, 'email': 260, 'isEmailPublic': 262, 'name': 270, 'surname': 280, 'bio': 290}
     value = get_from_body({'value': error_codes[field]})[0]
 
     # Set new value
     if field == 'username':
-        user.username = value
+        target_user.username = value
     elif field == 'password':
-        user.password = value
+        target_user.password = value
     elif field == 'email':
-        user.email = value
+        target_user.email = value
     elif field == 'name':
-        user.name = value
+        target_user.name = value
     elif field == 'surname':
-        user.surname = value
+        target_user.surname = value
     elif field == 'bio':
-        user.bio = value
+        target_user.bio = value
     elif field == 'isEmailPublic':
-        user.public_email = value
+        target_user.public_email = value
 
     # Check if changes are valid
-    user.check(password=(field == 'password'))
+    target_user.check(password=(field=='password'))
+
+    # Hash password
+    if field == 'password':
+        target_user.password = hash_password(value)
 
     # Try to save changes
     try:
-        if field == 'password':
-            user.password = hash_password(value)
-        user.save()
+        target_user.save()
     except IntegrityError:
         db.session.rollback()
         raise APIErrors[230]
 
-    return user.json()
+    return target_user.json()
 
 @app.route('/communities', methods=['POST'])
 @jwt_required

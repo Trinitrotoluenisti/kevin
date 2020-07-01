@@ -5,21 +5,20 @@ from re import search
 
 from . import app, db
 from .errors import APIErrors
-from .passwords import hash_password
 
 
 
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
-    perms = db.Column("perms", db.SmallInteger)
+    perms = db.Column("perms", db.SmallInteger, default=0)
     username = db.Column("username", db.String, unique=True, nullable=False)
     email = db.Column("email", db.String, unique=True, nullable=False)
-    public_email = db.Column("public_email", db.Boolean)
+    public_email = db.Column("public_email", db.Boolean, default=False)
     password = db.Column("password", db.String, nullable=False)
     name = db.Column("name", db.String, nullable=False)
     surname = db.Column("surname", db.String, nullable=False)
-    bio = db.Column("bio", db.String)
+    bio = db.Column("bio", db.String, default="")
 
     def json(self):
         return {"id": self.id, "perms": self.perms, "username": self.username, "email": self.email, "isEmailPublic": self.public_email, "name": self.name, "surname": self.surname, "bio": self.bio}

@@ -39,19 +39,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Missing Name:
+                E270:
                   value:
                     error: Missing name
                     description: "Missing name field in request's body"
                     id: 270
                     status: 400
-                Username too short:
+                E241:
                   value:
                     error: username too short
                     description: username must be at least 5 characters long
                     id: 241
                     status: 400
-                Invalid Email:
+                E261:
                   value:
                     error: email is not an email
                     description: email field must contain a valid email
@@ -64,10 +64,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Already Used Data:
+                E230:
                   value:
-                    error: user already exists
-                    description: "Some user's data have already been used"
+                    error: User already exist
+                    description: "Some user's data has already been used"
+                    id: 230
+                    status: 409
       operationId: post-register
       description: Create a new user
       requestBody:
@@ -123,7 +125,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Missing Username:
+                E240:
                   value:
                     error: Missing username
                     description: "Missing username field in request's body"
@@ -136,7 +138,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Wrong username or password:
+                E220:
                   value:
                     error: Wrong username or password
                     description: The username and/or password are wrong
@@ -165,7 +167,7 @@ paths:
         in: path
         required: true
     get:
-      summary: UsersView
+      summary: ViewUser
       tags: []
       responses:
         '200':
@@ -173,32 +175,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                  name:
-                    type: string
-                  surname:
-                    type: string
-                  perms:
-                    type: integer
-                  id:
-                    type: integer
-                  bio:
-                    type: string
-                  isEmailPublic:
-                    type: boolean
-                  email:
-                    type: string
-                required:
-                  - username
-                  - name
-                  - surname
-                  - perms
-                  - id
-                  - bio
-                  - isEmailPublic
+                $ref: '#/components/schemas/User'
               examples:
                 Private Email:
                   value:
@@ -219,6 +196,16 @@ paths:
                     id: 1
                     bio: ''
                     isEmailPublic: true
+                Logged In:
+                  value:
+                    username: elonmusk
+                    name: Elon
+                    surname: Musk
+                    email: elon@tesla.com
+                    perms: 0
+                    id: 1
+                    bio: ''
+                    isEmailPublic: true
         '404':
           description: Not Found
           content:
@@ -226,17 +213,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Not Found:
+                E200:
                   value:
                     error: User does not exist
                     description: "Couldn't find an user with that username"
                     id: 200
                     status: 404
       operationId: get-users-username
-      description: Get public infos of an user
+      description: |-
+        Get user's data.
+        Email will be shown only if it's public or the user is logged in.
+      security:
+        - Access Token: []
+    delete:
+      summary: DeleteUser
+      operationId: delete-users-username
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                E210:
+                  value:
+                    error: "Can't delete user"
+                    description: You have to be logged in as that user or as an admin to do that
+                    id: 210
+                    status: 403
+      description: Delete an user
+      security:
+        - Access Token: []
   /token:
     put:
-      summary: TokenRefresh
+      summary: RefreshToken
       tags: []
       responses:
         '200':
@@ -252,10 +265,58 @@ paths:
                 Generated:
                   value:
                     accessToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTI1NTk1NTEsIm5iZiI6MTU5MjU1OTU1MSwianRpIjoiZTc1MTJiZTMtNWM2OC00OGRmLTkxZTktOWMwOGViNGUxM2I1IiwiZXhwIjoxNTkyNTYyMjUxLCJpZGVudGl0eSI6ImdpYW5sdXBhcnJpMDMiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ir-LoRDfpFnoHBoKeV_efxp_QqCbw5NK1bA2gC-zn_E
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                E120:
+                  value:
+                    error: Missing Authorization Header
+                    description: The resource you were looking for needs a token to work
+                    id: 120
+                    status: 401
       operationId: put-token
       description: Generate a new access token with the refresh token
       security:
         - Refresh Token: []
+    get:
+      summary: ViewToken
+      operationId: get-token
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                required:
+                  - username
+              examples:
+                elonmusk:
+                  value:
+                    username: elonmusk
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                E120:
+                  value:
+                    error: Missing Authorization Header
+                    description: The resource you were looking for needs a token to work
+                    id: 120
+                    status: 401
+      description: Return the username of the user linked to the token
+      security:
+        - Access Token: []
   /token/access:
     delete:
       summary: TokenRevokeAccess
@@ -278,97 +339,20 @@ paths:
       description: Revoke the refresh token
       security:
         - Refresh Token: []
-  /user:
-    get:
-      summary: UserView
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                  name:
-                    type: string
-                  surname:
-                    type: string
-                  perms:
-                    type: integer
-                  id:
-                    type: integer
-                  bio:
-                    type: string
-                  isEmailPublic:
-                    type: boolean
-                  email:
-                    type: string
-                required:
-                  - username
-                  - name
-                  - surname
-                  - perms
-                  - id
-                  - bio
-                  - isEmailPublic
-                  - email
-              examples:
-                User:
-                  username: elonmusk
-                  name: Elon
-                  surname: Musk
-                  email: elon@tesla.com
-                  perms: 0
-                  id: 1
-                  bio: ''
-                  isEmailPublic: false
-                  value:
-                    username: elonmusk
-                    name: Elon
-                    surname: Musk
-                    email: elon@tesla.com
-                    perms: 0
-                    id: 1
-                    bio: ''
-                    isEmailPublic: true
-      operationId: get-user
-      description: "View all the infos about the user you're logged in"
-      security:
-        - Access Token: []
-    delete:
-      summary: UserDelete
-      operationId: delete-user
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Unauthorized:
-                  value:
-                    error: Missing Authorization Header
-                    description: The resource you were looking for needs a token to work
-                    id: 120
-                    status: 401
-      description: Delete the user
-      security:
-        - Access Token: []
-  '/user/{field}':
+  '/users/{username}/{field}':
     parameters:
       - schema:
           type: string
         name: field
         in: path
         required: true
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
     put:
-      summary: UserEdit
+      summary: EditUser
       tags: []
       responses:
         '200':
@@ -397,12 +381,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Unauthorized:
+                E120:
                   value:
                     error: Missing Authorization Header
                     description: The resource you were looking for needs a token to work
                     id: 120
                     status: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                E211:
+                  value:
+                    error: "Can't edit user"
+                    description: You have to be logged in as that user to do that
+                    id: 211
+                    status: 403
         '404':
           description: Not Found
           content:
@@ -410,7 +407,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Resource not found:
+                E404:
                   value:
                     error: Resource not found
                     description: "The resource you were looking for hasn't been found"
@@ -423,7 +420,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Conflict Username:
+                E230:
                   value:
                     error: User already exist
                     description: "Some user's data has already been used"
@@ -567,7 +564,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Not Found:
+                E300:
                   value:
                     error: Community does not exist
                     description: "Couldn't find a community with that name"
