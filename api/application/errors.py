@@ -1,6 +1,6 @@
 from json import load
-from . import app, jwt
 
+from . import app, jwt
 
 
 # APIError
@@ -14,9 +14,6 @@ class APIError(Exception):
 
     def json(self):
         return {"error": self.error, "description": self.description, "id": self.id, "status": self.status}
-
-    def boom(self,*args):
-        raise self
 
 
 # Load errors from errors.json

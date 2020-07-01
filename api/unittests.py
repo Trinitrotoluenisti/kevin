@@ -3,7 +3,7 @@ from sys import argv
 
 # Import app
 argv.append('-t')
-from application import app, db, User, Community, Follow, APIErrors, hash_password
+from application import *
 argv.remove('-t')
 
 

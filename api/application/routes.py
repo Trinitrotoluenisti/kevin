@@ -1,9 +1,8 @@
 from flask_jwt_extended import *
 from sqlalchemy.exc import IntegrityError
 
-from . import db
 from .models import *
-from .utils import *
+from .utils import get_from_body
 from .errors import APIErrors
 from .passwords import hash_password
 

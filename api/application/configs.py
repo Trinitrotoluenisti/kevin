@@ -24,14 +24,6 @@ class ProductionConfigs(object):
     JWT_REFRESH_TOKEN_EXPIRES = False
 
 
-class DebugConfigs(ProductionConfigs):
-    DEBUG = True
-
-    # Constant secret keys
-    SECRET_KEY = token_hex(16)
-    JWT_SECRET_KEY = 'constant-key'
-
-
 class TestingConfigs(ProductionConfigs):
     TESTING = True
 

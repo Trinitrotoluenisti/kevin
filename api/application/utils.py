@@ -6,6 +6,7 @@ from .models import RevokedTokens
 
 
 
+
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
     # Return True if the token has been revoked

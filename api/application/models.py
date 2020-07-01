@@ -1,11 +1,10 @@
-from sqlalchemy.exc import OperationalError
-from datetime import datetime
-from os import mkdir
 from re import search
+from os import mkdir
+from datetime import datetime
+from sqlalchemy.exc import OperationalError
 
 from . import app, db
 from .errors import APIErrors
-
 
 
 class User(db.Model):
@@ -72,7 +71,6 @@ class User(db.Model):
         elif len(self.bio) > 200:
             raise APIErrors[291]
 
-
 class Community(db.Model):
     __tablename__ = "communities"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
@@ -98,7 +96,6 @@ class Community(db.Model):
         elif not all(ord(c) in (*range(48, 58), *range(65, 91), 95, *range(97, 123)) for c in self.name):
             raise APIErrors[333]
 
-
 class Post(db.Model):
     __tablename__ = "posts"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
@@ -115,7 +112,6 @@ class Post(db.Model):
         db.session.add(self)
         db.session.commit()
 
-
 class Like(db.Model):
     __tablename__ = "likes"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
@@ -130,7 +126,6 @@ class Like(db.Model):
         db.session.add(self)
         db.session.commit()
 
-
 class Follow(db.Model):
     __tablename__ = "follows"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
@@ -144,7 +139,6 @@ class Follow(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
 
 class RevokedTokens(db.Model):
     __tablename__ = "revoked_tokens"
@@ -169,6 +163,7 @@ class RevokedTokens(db.Model):
         db.session.commit()
 
 
+# Create the database path if it doesn't exist
 try:
     mkdir(app.config['DATABASE_PATH'])
 except FileExistsError:
@@ -180,5 +175,5 @@ try:
 except OperationalError:
     pass
 
-# create the db if it doesn't exist
+# Create the db if it doesn't exist
 db.create_all()

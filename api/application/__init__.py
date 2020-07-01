@@ -13,10 +13,7 @@ app = Flask(__name__)
 
 
 # Load configurations from configs.py
-if argv[-1] == '-d':
-    configs = 'DebugConfigs'
-    app.config.from_object(DebugConfigs)
-elif argv[-1] == '-t':
+if argv[-1] == '-t':
     configs = 'TestingConfigs'
     app.config.from_object(TestingConfigs)
 else:

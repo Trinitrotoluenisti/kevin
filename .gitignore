@@ -3,7 +3,7 @@ api/application/database/*
 !api/application/database/.keep
 api/application/passwords.py
 api/api.log
-api/Endpoints.md
+api/todo.md
 
 # IDEs
 *.sublime-*
