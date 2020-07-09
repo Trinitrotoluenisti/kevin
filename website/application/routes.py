@@ -120,7 +120,7 @@ def view_user(username=''):
         user = api("get", "/users/" + username)
 
     # Create and return the response
-    response.data = render_template('/user.html', username=logged_username, user=user, owner=(username == logged_username))    
+    response.data = render_template('/user.html', username=logged_username, user=user, owner=(username == logged_username))
     return response
 
 # Posts

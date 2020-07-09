@@ -34,4 +34,3 @@ from .routes import *
 scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.add_job(id='blacklist_cleaner', func=RevokedTokens.clean, trigger='interval', **app.config['JWT_BLACKLIST_CLEANING'])
-scheduler.start()

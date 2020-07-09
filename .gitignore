@@ -1,6 +1,5 @@
 # APIs
-api/application/database/*
-!api/application/database/.keep
+api/application/database/database.db
 api/application/passwords.py
 api/api.log
 api/todo.md
