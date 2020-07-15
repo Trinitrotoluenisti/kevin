@@ -43,7 +43,7 @@ python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 
-# Create a fake password hasher (WARNING: this one keeps passwords in plain text, it's just for testing)
+# Create a password hasher
 printf "from hashlib import sha256\n\ndef hash_password(password):\n    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 ```
 
@@ -58,7 +58,7 @@ python3 -m venv env
 env\\Scripts\\activate.bat
 pip install -r requirements.txt
 
-# Create a fake password hasher (WARNING: this one keeps passwords in plain text, it's just for testing)
+# Create a password hasher
 printf "from hashlib import sha256\n\ndef hash_password(password):\n    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 ```
 
@@ -96,7 +96,7 @@ pip install -r requirements.txt
 
 You can easily run apis just by typing `python3 run.py`, once loaded the venv.
 
-> For default, it loads `ProductionConfigs`: to load `DebugConfigs` or `TestingConfigs` add a `-d` or a `-t` respectively (for more informations see [api/application/configs.py](/api/application/configs.py)).
+> For default, it loads `ProductionConfigs`: to load `TestingConfigs` just set the `TESTING` variable to `true` (for more informations see [api/application/configs.py](/api/application/configs.py)).
 
 ### Running Website
 

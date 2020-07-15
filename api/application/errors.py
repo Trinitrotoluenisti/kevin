@@ -1,9 +1,7 @@
 from json import load
-
 from . import app, jwt
 
 
-# APIError
 class APIError(Exception):
     def __init__(self, id, error, description, status):
         self.id = id
@@ -16,11 +14,12 @@ class APIError(Exception):
         return {"error": self.error, "description": self.description, "id": self.id, "status": self.status}
 
 
-# Load errors from errors.json
+# Load APIErrors from errors.json
 with open('errors.json') as f:
     APIErrors = dict(map(lambda e: (e['id'], APIError(**e)), load(f).values()))
 
-# Error handlers
+
+# Register them
 handle_apierror = lambda e: (e.json(), e.status)
 app.errorhandler(APIError)(handle_apierror)
 app.errorhandler(404)(lambda *args: handle_apierror(APIErrors[100]))

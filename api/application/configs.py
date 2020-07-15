@@ -4,8 +4,6 @@ from datetime import timedelta, datetime
 
 class ProductionConfigs(object):
     # Things
-    DEBUG = False
-    TESTING = False
     SECRET_KEY = token_hex(16)
     HOST = "0.0.0.0"
     PORT = 8080
@@ -23,7 +21,6 @@ class ProductionConfigs(object):
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=45)
     JWT_REFRESH_TOKEN_EXPIRES = False
 
-
 class TestingConfigs(ProductionConfigs):
     TESTING = True
 
@@ -33,5 +30,4 @@ class TestingConfigs(ProductionConfigs):
     DATABASE_PATH = f'/tmp/kevin-{dt}/'
 
     # Expirations fastened
-    JWT_BLACKLIST_CLEANING = {'minutes': 10}
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=3)

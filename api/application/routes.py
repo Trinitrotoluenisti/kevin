@@ -1,14 +1,15 @@
 from flask_jwt_extended import *
 from sqlalchemy.exc import IntegrityError
 
-from .models import *
-from .utils import get_from_body
+from . import app, db
 from .errors import APIErrors
+from .utils import get_from_body
+from .models import User, Community, Follow, RevokedTokens
 from .passwords import hash_password
 
 
 
-# UNPROTECTED
+# Not Protected
 @app.route('/login', methods=['POST'])
 def login():
     # Fetch request's body
@@ -104,7 +105,7 @@ def get_communities(name):
     return community
 
 
-# PROTECTED
+# Protected
 @app.route('/token', methods=['PUT'])
 @jwt_refresh_token_required
 def refresh_token():

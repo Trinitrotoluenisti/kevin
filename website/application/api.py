@@ -55,9 +55,9 @@ def check_token(required=True):
         response.set_cookie('accessToken', "", expires=0)
         response.set_cookie('refreshToken', "", expires=0)
         return None, None, response
-    
+
     else:
-        return None, None, make_response()
+        return None, None, response
 
 @app.errorhandler(APIError)
 def handle_apierror(e):

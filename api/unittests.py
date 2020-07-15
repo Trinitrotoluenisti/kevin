@@ -1,10 +1,13 @@
 import unittest
-from sys import argv
+from os import environ
 
-# Import app
-argv.append('-t')
+
+# Assert that the TESTING variable is set to True
+old_testing = bool(environ.get('TESTING'))
+if not old_testing:
+    environ['TESTING'] = 'true'
+
 from application import *
-argv.remove('-t')
 
 
 class Test(unittest.TestCase):
@@ -427,5 +430,8 @@ class Test(unittest.TestCase):
         response = {'name': 'ScienceThings', 'id': 1, 'following': True}
         self.route('get', '/communities/ScienceThings', 200, response, auth=access_token)
 
-if __name__ == "__main__":
-    unittest.main()
+# Run unittests
+unittest.main()
+
+# Set the TESTING variable to the previous value
+environ['TESTING'] = old_testing
