@@ -29,7 +29,7 @@ def api(method, path, data={}, auth=''):
     if r.status_code != 204:
         return r.json()
 
-def check_token():
+def check_token(required=True):
     response = make_response()
 
     # Fetch access and refresh tokens
@@ -50,11 +50,14 @@ def check_token():
         return access_token, username, response
 
     # In all the other cases redirect to the home page and reset all cookies
-    else:
+    elif required:
         response = make_response(redirect("/", code=302))
         response.set_cookie('accessToken', "", expires=0)
         response.set_cookie('refreshToken', "", expires=0)
         return None, None, response
+    
+    else:
+        return None, None, make_response()
 
 @app.errorhandler(APIError)
 def handle_apierror(e):

@@ -13,27 +13,33 @@
 			<div id="username">
 				<span id="username-text">{{ '@' + user['username'] }}</span>
 				{% if user["perms"] == 1 %}
-  					<span class="flag" id="mod">Moderator</span>
+  					<span class="username-flag" id="mod">Moderator</span>
 				{% elif user["perms"] == 2 %}
-	  				<span class="flag" id="admin">Admin</span>
+	  				<span class="username-flag" id="admin">Admin</span>
 				{% elif user["perms"] == 3 %}
-	  				<span class="flag" id="dev">Kevin's Dev</span>
+	  				<span class="username-flag" id="dev">Kevin's Dev</span>
 				{% endif %}
 			</div>
+
+            <div id="num-info">
+                <div class="num-el"><span class="num-val">1k</span> posts</div>
+                <div class="num-el"><span class="num-val">22k</span> followers</div>
+                <div class="num-el"><span class="num-val">18k</span> followed</div>
+            </div> 
 
 			<div id="name">{{ user['name'] + ' ' + user['surname'] }}</div>
 			<div id="bio">{{ user['bio'] }}</div>
 
 			{% if owner %}
-				<a class="button" href="/user/settings"><i class="fas fa-user-cog"></i> <span>Settings</span></a>
+				<button class="push-btn" onclick="window.location.href='/user/settings'"><i class="fas fa-user-cog"></i> Settings</button>
 			{% elif following %}
-				<a class="button" href="#"><i class="fas fa-bell-slash"></i> <span>Remove from feed</span></a>
+                <button class="push-btn" onclick="window.location.href='#'"><i class="fas fa-bell-slash"></i> Remove from feed</button>
 			{% else %}
-				<a class="button" href="#"><i class="fas fa-bell"></i> <span>Add to feed</span></a>
+                <button class="push-btn" onclick="window.location.href='#'"><i class="fas fa-bell"></i> Add to feed</button>
 			{% endif %}
 
 			{% if not owner and user['isEmailPublic'] %}
-				<a class="button" href="mailto:{{ user['email'] }}" target="_blank"><i class="fas fa-envelope"></i> <span>Contact</span></a>
+                <button class="push-btn" onclick="window.location.href='mailto:{{ user['email'] }}';" target="_blank"><i class="fas fa-envelope"></i> Contact</button>
 			{% endif %}
 		</div>
 	</div>

@@ -6,7 +6,7 @@ html, body {
 body {
     height: auto;
     background-color: #f9fcff;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 main {
@@ -19,7 +19,7 @@ main {
 }
 
 .navbar-toggler {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 .topnav {

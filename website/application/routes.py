@@ -3,7 +3,6 @@ from .api import api, check_token, APIError
 from flask import render_template, request, make_response, redirect
 
 
-
 # Others
 app.errorhandler(404)(lambda *args: (render_template('/404.html', username=check_token()[1]), 404))
 app.errorhandler(405)(lambda *args: (redirect('/'), 405))
@@ -111,7 +110,7 @@ def logout():
 # User
 @app.route('/users/<string:username>')
 def view_user(username=''):
-    accessToken, logged_username, response = check_token()
+    accessToken, logged_username, response = check_token(required=False)
 
     # Fetch the user from the api
     if accessToken:

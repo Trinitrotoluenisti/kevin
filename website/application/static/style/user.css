@@ -8,18 +8,11 @@
 	padding-bottom: 6vh;
 }
 
-@media (orientation: portrait) {
-	#user {
-		flex-direction: column;
-		margin: 4vh 10% 4vh 10%;
-	}
-}
-
 #propic {
-	height: 23vh;
-	width: auto;
-	margin-right: 3vw;
-	border-radius: 50%;
+    height: 24vh;
+    width: auto;
+    margin-right: 3vw;
+    border-radius: 50%;
 }
 
 #infos {
@@ -34,9 +27,8 @@
 }
 
 #username-text {
-	margin-right: 0.5vw;
-	font-size: 1.8em;
-	font-weight: bold;
+	font-size: 2em;
+    margin-right: 0.5vw;
 }
 
 .username-flag {
@@ -55,38 +47,37 @@
 }
 
 #dev {
-	background-color: #cc4100;
+	background-color: #DF6E00;
+}
+
+#num-info {
+    display: flex;
+    margin-top: 1vh;
+}
+
+.num-el {
+    margin-right: 2vw;
+    font-size: 1.2em;
+}
+
+.num-val {
+    font-weight: bold;
 }
 
 #name {
-	font-size: 1.2em;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 1.5vh;
 }
 
 #bio {
-	margin-bottom: 2vh;
-	font-size: 0.9em;
+    font-size: 1.2em;
+    margin-bottom: 1vh;
 }
 
-.button {
-	height: 7vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 1vh;
-	border-radius: 9px;
-	font-size: 1.3em;
-	background-color: #345DA7;
-	color: white;
-}
-
-.button:hover {
-	border: 1px solid #345DA7;
-	background-color: white;
-	color: #345DA7;
-	cursor: pointer;
-	text-decoration: none;
-}
-
-.button i {
-	margin-right: 1vw;
+@media (orientation: portrait) {
+    #user {
+        flex-direction: column;
+        margin: 4vh 10% 4vh 10%;
+    }
 }
