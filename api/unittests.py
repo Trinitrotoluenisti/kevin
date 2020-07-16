@@ -2,42 +2,65 @@ import unittest
 from os import environ
 
 
-# Assert that the TESTING variable is set to True
-old_testing = bool(environ.get('TESTING'))
-if not old_testing:
-    environ['TESTING'] = 'true'
+
+# Asserts that the TESTING variable is set to True
+if __name__ == '__main__':
+    old_testing = bool(environ.get('TESTING'))
+    if not old_testing:
+        environ['TESTING'] = 'true'
 
 from application import *
 
 
 class Test(unittest.TestCase):
     def setUp(self):
-        # Create app
+        """
+        Recreate the database before each suite is run.
+        """
+
+        # Creates app
         self.app = app.test_client()
 
-        # Recreate database
+        # Recreates database
         db.drop_all()
         db.create_all()
 
-        # Create things
+        # Creates things
         User(username="elonmusk", email="elon@tesla.com", password=hash_password("password"), name="Elon", surname="Musk").save()
         User(username="therock", email="therock@hollywood.com", password=hash_password("password"), name="Dwayne", surname="Johnson", perms=2).save()
         Community(name="ScienceThings").save()
 
     def login(self, username='elonmusk', password='password'):
-        user = {'username': username, 'password': password}
-        r = self.app.post('/login', json=user)
+        """
+        Generates a new pair of tokens.
 
+        - username (str): username
+        - password (str): password
+        """
+
+        r = self.app.post('/login', json={'username': username, 'password': password})
         self.assertEqual(r.status_code, 200)
 
         return r.json['accessToken'], r.json['refreshToken']
 
     def route(self, method, path, code, response, auth=None, body=None, ignored=()):
-        # Add auth header if it exists
+        """
+        Tests an endpoint.
+
+        - method (str): the http method used
+        - path (str): the endpoint's method. It must start with '/'
+        - code (int): the expected status code
+        - auth (str): access or refresh token
+        - body (dict): the request's body
+        - response (dict): the expected response
+        - ignored (list): a list of items in response that shouldn't be compared
+        """
+
+        # Adds authorization header
         if auth:
             auth = {'Authorization': f'Bearer {auth}'}
 
-        # Make request
+        # Makes the request
         if method.lower() == 'get':
             r = self.app.get(path, headers=auth)
         elif method.lower() == 'post':
@@ -49,18 +72,18 @@ class Test(unittest.TestCase):
         else:
             raise ValueError("Undefined method")
 
-        # Check status code
+        # Comapres status code
         self.assertEqual(r.status_code, code)
 
-        # If the expected response is None, check if the given is None
+        # If the expected response is None, checks if the given response is None
         if not response:
             self.assertFalse(r.data)
             return
 
-        # Check body's keys
+        # Compares body's keys
         self.assertEqual(set(r.json.keys()), set(response.keys()))
 
-        # Compare pairs (and skip ignored ones)
+        # Compares pairs (and skips ignored ones)
         for key in response:
             if key not in ignored:
                 self.assertEqual(r.json[key], response[key])
@@ -68,6 +91,14 @@ class Test(unittest.TestCase):
         return r.json
 
     def check_token(self, token, token_type, valid):
+        """
+        Check if the given token is valid.
+
+        - token (str): the token to be tested
+        - token_type (str): "access" or "refresh"
+        - valid (bool): true if the token should be valid
+        """
+
         headers = {'Authorization': f'Bearer {token}'}
 
         if token_type == 'access':
@@ -430,8 +461,11 @@ class Test(unittest.TestCase):
         response = {'name': 'ScienceThings', 'id': 1, 'following': True}
         self.route('get', '/communities/ScienceThings', 200, response, auth=access_token)
 
-# Run unittests
-unittest.main()
 
-# Set the TESTING variable to the previous value
-environ['TESTING'] = old_testing
+
+if __name__ =='__main__':
+    # Runs unittests
+    unittest.main()
+
+    # Sets the TESTING variable to the previous value
+    environ['TESTING'] = old_testing

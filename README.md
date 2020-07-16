@@ -36,14 +36,14 @@ def hash_password(password):
 ```bash
 cd api/
 
-# Create venv
+# Creates venv
 python3 -m venv env
 
-# Install dependencies
+# Installs dependencies
 source env/bin/activate
 pip install -r requirements.txt
 
-# Create a password hasher
+# Creates a password hasher
 printf "from hashlib import sha256\n\ndef hash_password(password):\n    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 ```
 
@@ -51,14 +51,14 @@ printf "from hashlib import sha256\n\ndef hash_password(password):\n    return s
 ```batch
 cd api/
 
-# Create venv
+# Creates venv
 python3 -m venv env
 
-# Install dependencies
+# Installs dependencies
 env\\Scripts\\activate.bat
 pip install -r requirements.txt
 
-# Create a password hasher
+# Creates a password hasher
 printf "from hashlib import sha256\n\ndef hash_password(password):\n    return sha256(password.encode('utf-8')).hexdigest()\n" > application/passwords.py
 ```
 
@@ -70,10 +70,10 @@ Again, the commands to run are still the same: create a venv and install depende
 ```bash
 cd website/
 
-# Create venv
+# Creates venv
 python3 -m venv env
 
-# Install dependencies
+# Installs dependencies
 source env/bin/activate
 pip install -r requirements.txt
 ```
@@ -82,10 +82,10 @@ pip install -r requirements.txt
 ```batch
 cd website/
 
-# Create venv
+# Creates venv
 python3 -m venv env
 
-# Install dependencies
+# Installs dependencies
 env\\Scripts\\activate.bat
 pip install -r requirements.txt
 ```

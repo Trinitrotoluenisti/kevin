@@ -2,8 +2,22 @@ from json import load
 from . import app, jwt
 
 
+
 class APIError(Exception):
+    """
+    An error from the APIs. The full list can be seen on api/errors.json.
+    """
+
     def __init__(self, id, error, description, status):
+        """
+        Initialize a new APIError.
+
+        - id (int): the unique id for that error
+        - error (str): a short title
+        - description (str): a not-too-long description for the error
+        - status (int): the http status code associated with that error
+        """
+
         self.id = id
         self.error = error
         self.description = description
@@ -11,6 +25,10 @@ class APIError(Exception):
         super().__init__(id)
 
     def json(self):
+        """
+        Return the error as a dictionary
+        """
+
         return {"error": self.error, "description": self.description, "id": self.id, "status": self.status}
 
 

@@ -7,7 +7,21 @@ from . import app, db
 from .errors import APIErrors
 
 
+
 class User(db.Model):
+    """
+    A person that is registered in the kevin's database.
+
+    - username (str): that thing that starts with @
+    - email (str): the email that the user used to register
+    - public_email (bool): if True, anyone can see user's email
+    - password (str): that thing used to login
+    - name (str): the user's first name
+    - surname (str): the user's surname
+    - bio (str): the user's bio
+    - perms (int): indicates the authorizations that the user has (0 => common user; 1 => moderator; 2 => admin)
+    """
+
     __tablename__ = "users"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
     perms = db.Column("perms", db.SmallInteger, default=0)
@@ -20,15 +34,33 @@ class User(db.Model):
     bio = db.Column("bio", db.String, default="")
 
     def json(self):
-        return {"id": self.id, "perms": self.perms, "username": self.username, "email": self.email, "isEmailPublic": self.public_email, "name": self.name, "surname": self.surname, "bio": self.bio}
+        """
+        Returns the user as a dict
+        """
+
+        return {"id": self.id,
+                "perms": self.perms,
+                "username": self.username,
+                "email": self.email,
+                "isEmailPublic": self.public_email,
+                "name": self.name,
+                "surname": self.surname,
+                "bio": self.bio}
 
     def save(self):
+        """
+        Saves the user in the database
+        """
+
         db.session.add(self)
         db.session.commit()
 
     def check(self, password=True):
         """
-        Check if an user is valid
+        Checks if an user is valid, otherwise raise an APIError.
+
+        - password (bool): if True, it checks also user's password.
+                           If the password is already hashed, it must be set to False.
         """
 
         # Username (5 < lenght <= 20; chars in A-Z, a-z, 0-9, "_")
@@ -72,20 +104,35 @@ class User(db.Model):
             raise APIErrors[291]
 
 class Community(db.Model):
+    """
+    A place where users write posts.
+
+    - id (int): community's unique id
+    - name (str): the name of the community
+    """
+
     __tablename__ = "communities"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
     name = db.Column("name", db.String, nullable=False, unique=True)
 
     def json(self):
+        """
+        Returns the community as a dict.
+        """
+
         return {"id": self.id, "name": self.name}
 
     def save(self):
+        """
+        Saves the community in the database.
+        """
+
         db.session.add(self)
         db.session.commit()
 
     def check(self):
         """
-        Check if a community is valid.
+        Checks if a community is valid, otherwise raises an APIError.
         """
 
         # Name (5 < lenght <= 20; chars in A-Z, a-z, 0-9, "_")
@@ -97,64 +144,137 @@ class Community(db.Model):
             raise APIErrors[333]
 
 class Post(db.Model):
+    """
+    A thing written by an user in a community.
+
+    - id (int): post's unique identifier
+    - author_id (int): the id of the user who wrote the post
+    - community_id (int): the id of the community where the post has been published
+    - title (str): the title of the post
+    - content (str): the content of the post
+    - timestamp (datetime.datetime): the time at which the post has been published
+    """
+
     __tablename__ = "posts"
     id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
     author_id = db.Column("author_id", db.Integer, nullable=False)
+    community_id = db.Column("community_id", db.Integer, nullable=False)
     title = db.Column("title", db.String)
     content = db.Column("content", db.String, nullable=False)
-    datetime = db.Column("datetime", db.DateTime, nullable=False)
-    community_id = db.Column("community_id", db.Integer, nullable=False)
+    timestamp = db.Column("timestamp", db.DateTime, nullable=False)
 
     def json(self):
-        return {"id": self.id, "authorId": self.author_id, "title": self.title, "content": self.content, "datetime": self.datetime, "communityId": self.community_id}
+        """
+        Returns the post as a dict.
+        """
+
+        return {"id": self.id,
+                "authorId": self.author_id,
+                "communityId": self.community_id,
+                "title": self.title,
+                "content": self.content,
+                "timestamp": self.timestamp}
 
     def save(self):
+        """
+        Saves the post in the database.
+        """
+
         db.session.add(self)
         db.session.commit()
 
 class Like(db.Model):
+    """
+    A like or a dislike left on a post.
+
+    - value (int): +1 for like and -1 for dislike
+    - user_id (int): the id of the user who put the like
+    - post_id (int): the id of the post where the like has been left
+    """
+
     __tablename__ = "likes"
-    id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
-    value = db.Column("value", db.Integer, nullable=False)
-    user_id = db.Column("user_id", db.Integer, nullable=False)
+    user_id = db.Column("user_id", db.Integer, primary_key=True, unique=False, nullable=False)
     post_id = db.Column("post_id", db.Integer, nullable=False)
+    value = db.Column("value", db.Integer, nullable=False)
 
     def json(self):
-        return {"id": self.id, "value": self.value, "userId": self.user_id, "postId": self.post_id}
+        """
+        Return the like as a dict.
+        """
+
+        return {"value": self.value, "userId": self.user_id, "postId": self.post_id}
 
     def save(self):
+        """
+        Saves the like in the database.
+        """
+
         db.session.add(self)
         db.session.commit()
 
 class Follow(db.Model):
+    """
+    When an user follows another user or a community.
+
+    - follower_id (int): the id of the user who followed an user/community
+    - user_id (int): the id of the followed user (0 if a community has been followed)
+    - community_id (int): the id of the followed community (0 if an user has been followed)
+    """
+
     __tablename__ = "follows"
-    id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
-    follower_id = db.Column("follower_id", db.Integer, nullable=False)
+    follower_id = db.Column("follower_id", db.Integer,  primary_key=True, unique=False)
     user_id = db.Column("user_id", db.Integer)
     community_id = db.Column("community_id", db.Integer)
 
     def json(self):
-        return {"id": self.id, "followerId": self.follower_id, "userId": self.user_id, "communityId": self.community_id}
+        """
+        Returns the follow as a dict.
+        """
+
+        return {"followerId": self.follower_id, "userId": self.user_id, "communityId": self.community_id}
 
     def save(self):
+        """
+        Saves the follow in the db.
+        """
+
         db.session.add(self)
         db.session.commit()
 
 class RevokedTokens(db.Model):
+    """
+    A token that has been revoked by the user.
+
+    - jti (str): the unique token's id
+    - exp (int): the timestamp at which the token will expire
+    """
+
     __tablename__ = "revoked_tokens"
-    id = db.Column("id", db.Integer, autoincrement=True, primary_key=True, unique=True)
-    jti = db.Column("jti", db.Integer, unique=True, nullable=False)
-    exp = db.Column("exp", db.Integer, nullable=True)
+    jti = db.Column("jti", db.String, primary_key=True)
+    exp = db.Column("exp", db.Integer)
 
     def json(self):
-        return {"id": self.id , "jti": self.jti, "exp": self.exp}
+        """
+        Returns the token as a dict.
+        """
+
+        return {"jti": self.jti, "exp": self.exp}
 
     def save(self):
+        """
+        Saves the token in the database.
+        """
+
         db.session.add(self)
         db.session.commit()
 
     @staticmethod
     def clean():
+        """
+        Removes from the database all the tokens revoked by
+        the user that has also been expired.
+        """
+
         # Fetch current informations
         now = datetime.now().timestamp()
 

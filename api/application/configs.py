@@ -2,6 +2,7 @@ from secrets import token_hex
 from datetime import timedelta, datetime
 
 
+
 class ProductionConfigs(object):
     # Things
     SECRET_KEY = token_hex(16)

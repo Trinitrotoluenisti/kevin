@@ -12,15 +12,19 @@ from .passwords import hash_password
 # Not Protected
 @app.route('/login', methods=['POST'])
 def login():
-    # Fetch request's body
+    """
+    Generates a new pair of tokens for the user.
+    """
+
+    # Fetches request's body
     username, password = get_from_body({'username': 240, 'password': 250})
 
-    # Check credentials
+    # Checks credentials
     user = User.query.filter_by(username=username).first()
     if not user or not user.password == hash_password(password):
         raise APIErrors[220]
 
-    # Generate tokens
+    # Generates new tokens
     access = create_access_token(identity=user.id)
     refresh = create_refresh_token(identity=user.id)
 
@@ -28,14 +32,18 @@ def login():
 
 @app.route('/register', methods=['POST'])
 def register():
-    # Fetch request's body
+    """
+    Creates a new user and saves it in the database.
+    """
+
+    # Fetches request's body
     username, password, email, name, surname = get_from_body({'username': 240, 'password': 250, 'email': 260, 'name': 270, 'surname': 280})
 
-    # Check if user is valid
+    # Checks if user is valid
     user = User(username=username, email=email, password=password, name=name, surname=surname, public_email=False, perms=0, bio='')
     user.check()
 
-    # Try to add it in the database
+    # Tries to save it in the database
     try:
         user.password = hash_password(password)
         user.save()
@@ -43,7 +51,7 @@ def register():
         db.session.rollback()
         raise APIErrors[230]
 
-    # Generate the tokens
+    # Generates new tokens
     access = create_access_token(identity=user.id)
     refresh = create_refresh_token(identity=user.id)
 
@@ -52,6 +60,13 @@ def register():
 @app.route('/users/<string:username>')
 @jwt_optional
 def view_user(username):
+    """
+    Gets informations about an user.
+
+    - username (str): user's username
+    """
+
+    # Checks if user exists
     target_user = User.query.filter_by(username=username).first()
     logged_user = User.query.filter_by(id=get_jwt_identity()).first()
 
@@ -60,7 +75,7 @@ def view_user(username):
 
     target_user = target_user.json()
 
-    # Keep the mail only if the user is logged in or the email is public
+    # Removes the email from the user if it isn't logged in and isEmailPublic is set to false
     if (not logged_user or not target_user == logged_user.json()) and not target_user["isEmailPublic"]:
         del target_user["email"]
 
@@ -69,38 +84,45 @@ def view_user(username):
 @app.route('/communities')
 @jwt_optional
 def list_communities():
-    # Get the list of communities
+    """
+    Gets the list of communities.
+    """
+
+    # Fetches the list of communities
     communities = list(map(lambda c: c.json(), Community.query.all()))
 
-    # If there is an authentication
+    # If there is an authentication, it checks also if the user is following that community
     user_id = get_jwt_identity()
     if user_id:
-        # Check if the user is following that community
         for community in communities:
             follows = Follow.query.filter_by(follower_id=user_id, community_id=community['id']).first()
             community['following'] = bool(follows)
-
 
     return {'communities': communities}
 
 @app.route('/communities/<string:name>')
 @jwt_optional
 def get_communities(name):
-    # Try to get the community
+    """
+    Returns a specific community.
+
+    - name (str): community's name
+    """
+
+    # Tries to get the community
     community = Community.query.filter_by(name=name).first()
 
-    # Return an error if it doesn't exists
+    # Returns an error if it doesn't exist
     if not community:
         raise APIErrors[300]
 
     community = community.json()
 
-    # If there is an authentication check if the user is following it
+    # If there is an authentication, it checks if the user is following it
     user_id = get_jwt_identity()
     if user_id:
         follow = Follow.query.filter_by(follower_id=user_id, community_id=community['id']).first()
         community['following'] = bool(follow)
-
 
     return community
 
@@ -109,58 +131,66 @@ def get_communities(name):
 @app.route('/token', methods=['PUT'])
 @jwt_refresh_token_required
 def refresh_token():
-    # Fetch data
-    user_id = get_jwt_identity()
+    """
+    Generates a new access token from a refresh token.
+    """
 
-    # Return an ok message
-    return {'accessToken': create_access_token(identity=user_id)}
+    return {'accessToken': create_access_token(identity=get_jwt_identity())}
 
 @app.route('/token')
 @jwt_required
 def get_token():
+    """
+    Returns the username of the logged-in user.
+    """
+
     logged_user = User.query.filter_by(id=get_jwt_identity()).first()
     return {'username': logged_user.username}
 
 @app.route('/token/access', methods=['DELETE'])
 @jwt_required
 def revoke_access_token():
-    # Fetch data
-    jti = get_raw_jwt()['jti']
-    exp = get_raw_jwt()['exp']
+    """
+    Revokes the access token
+    """
 
-    # Revoke token
-    RevokedTokens(jti=jti, exp=exp).save()
+    token = get_raw_jwt()
+    RevokedTokens(jti=token['jti'], exp=token['exp']).save()
 
-    # Return an ok message
     return {}, 204
 
 @app.route('/token/refresh', methods=['DELETE'])
 @jwt_refresh_token_required
 def revoke_refresh_token():
-    # Fetch data
-    jti = get_raw_jwt()['jti']
+    """
+    Revokes the refresh token
+    """
 
-    # Revoke token
-    RevokedTokens(jti=jti).save()
+    RevokedTokens(jti=get_raw_jwt()['jti']).save()
 
-    # Return an ok message
     return {}, 204
 
 @app.route('/users/<string:username>', methods=['DELETE'])
 @jwt_required
 def delete_user(username):
+    """
+    Removes the user from the database
+
+    - username (str): user's username
+    """
+
+    # Checks if the user exists
     target_user = User.query.filter_by(username=username).first()
     logged_user = User.query.filter_by(id=get_jwt_identity()).first()
 
-    # If a username is specified, check if exists
     if not target_user:
         raise APIErrors[200]
 
-    # Raise an error if the user isn't logged in and there aren't enough perms
+    # Raises an error if the user isn't logged in or there aren't enough perms
     if not target_user == logged_user and logged_user.perms < 2:
         raise APIErrors[210]
 
-    # Get the user from the database and delete him
+    # Deletes the user
     db.session.delete(target_user)
     db.session.commit()
 
@@ -169,26 +199,33 @@ def delete_user(username):
 @app.route('/users/<string:username>/<string:field>', methods=['PUT'])
 @jwt_required
 def edit_user(username, field):
+    """
+    Edit the user's infos.
+
+    - username (str): user's username
+    - field (str): the field to edit
+    """
+
+    # Checks if the user exists
     target_user = User.query.filter_by(username=username).first()
     logged_user = User.query.filter_by(id=get_jwt_identity()).first()
 
-    # If a username is specified, check if exists
     if not target_user:
         raise APIErrors[200]
 
-    # Check if field is valid
+    # Checks if field is valid
     elif not field in ('username', 'password', 'email', 'name', 'surname', 'bio', 'isEmailPublic'):
         raise APIErrors[100]
 
-    # Raise an error if the user isn't logged in
+    # Raises an error if the user isn't logged in
     elif not target_user == logged_user:
         raise APIErrors[211]
 
-    # Get user and new value
+    # Gets new value and fetches user from the database
     error_codes = {'username': 240, 'password': 250, 'email': 260, 'isEmailPublic': 262, 'name': 270, 'surname': 280, 'bio': 290}
     value = get_from_body({'value': error_codes[field]})[0]
 
-    # Set new value
+    # Sets new value
     if field == 'username':
         target_user.username = value
     elif field == 'password':
@@ -204,14 +241,14 @@ def edit_user(username, field):
     elif field == 'isEmailPublic':
         target_user.public_email = value
 
-    # Check if changes are valid
+    # Checks if changes are valid
     target_user.check(password=(field=='password'))
 
-    # Hash password
+    # Hashes password
     if field == 'password':
         target_user.password = hash_password(value)
 
-    # Try to save changes
+    # Tries to save changes
     try:
         target_user.save()
     except IntegrityError:
@@ -223,18 +260,22 @@ def edit_user(username, field):
 @app.route('/communities', methods=['POST'])
 @jwt_required
 def create_community():
-    # Fetch the user from the dat
+    """
+    Create a new community and saves it in the database.
+    """
+
+    # Fetches the user from the database
     user = User.query.filter_by(id=get_jwt_identity()).first()
 
-    # Assert that the user is an admin
+    # Asserts that the user is an admin
     if user.perms < 2:
         raise APIErrors[310]
 
-    # Check if the community is valid
+    # Checks if the community is valid
     community = Community(name=get_from_body({'name': 330})[0])
     community.check()
 
-    # Try to save the community
+    # Tries to save the community
     try:
         community.save()
     except IntegrityError:
