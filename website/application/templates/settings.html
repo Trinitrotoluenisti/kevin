@@ -11,17 +11,16 @@
 {% endblock %}
 
 {% block content %}
-    <div id="header">Settings</div>
-    <br>
+    <div id="header">Settings</div> <br>
 
     <div id="settings">
-        <div class="section-title">Change pass:</div>
+        <div class="section-title">Change password: </div>
         <form method="POST" class="section-content" onsubmit="return check_passwords(this)" action="/user/settings/change-pw">
-            <input type="password" name="opassword" placeholder="Old password" minlenght="8" maxlenght="35" required><br>
+            <input type="password" name="opassword" placeholder="Old password" minlenght="8" maxlenght="35" required> <br>
 
-            <input type="password" name="password" placeholder="New password" minlenght="8" maxlenght="35" required><br>
+            <input type="password" name="password" placeholder="New password" minlenght="8" maxlenght="35" required> <br>
 
-            <input type="password" name="cpassword" placeholder="Confirm Password" minlenght="8" maxlenght="35" required><br>
+            <input type="password" name="cpassword" placeholder="Confirm Password" minlenght="8" maxlenght="35" required> <br>
 
             <input type="submit" value="Submit changes" class="push-btn">
         </form>

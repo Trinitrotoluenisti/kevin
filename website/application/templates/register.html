@@ -3,31 +3,36 @@
 
 
 {% block css %}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/login.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/login.css') }}" >
 {% endblock %}
 
 {% block js %}
-	<script src="{{ url_for('static', filename='script/password_matching.js') }}"></script>
+    <script src="{{ url_for('static', filename='script/password_matching.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-	<h1 id="title">Register</h1>
-	<form method="POST" action="/register" name="mainform" onsubmit="return check_passwords(this)">
-		<input type="text" name="name" placeholder="Name" minlength="2" maxlenght="15" required>
-		<input type="text" name="surname" placeholder="Surname" minlength="2" maxlenght="15" required>
-		<input type="text" name="username" placeholder="Username" minlength="5" maxlength="20" required>
-		<input type="email" name="email" placeholder="Email" required>
-		<input type="password" name="password" placeholder="Password" minlength="8" maxlenght="35" required>
-		<input type="password" name="cpassword" placeholder="Confim Password" minlength="8" maxlenght="35" required>
-		<span class="center cbox">
-			<input type="checkbox" name="keep_logged" id="checkbox">
-			<label for="checkbox">Keep me logged in</label>
-		</span>
-		<input type="submit" value="Register!" class="push-btn fbtn center">
-	</form>
-	<br>
-	<div class="redirect">
-		<div class="center">Already a member?</div>
-		<button onclick="window.location.href='/login'" class="push-btn fbtn">Login now!</button>
-	</div>
+    <h1 id="title">Register</h1>
+
+    <form method="POST" action="/register" name="mainform" onsubmit="return check_passwords(this)">
+        <input type="text" name="name" placeholder="Name" minlength="2" maxlenght="15" required>
+        <input type="text" name="surname" placeholder="Surname" minlength="2" maxlenght="15" required>
+        <input type="text" name="username" placeholder="Username" minlength="5" maxlength="20" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" minlength="8" maxlenght="35" required>
+        <input type="password" name="cpassword" placeholder="Confim Password" minlength="8" maxlenght="35" required>
+
+        <span class="center cbox">
+            <input type="checkbox" name="keep_logged" id="checkbox">
+            <label for="checkbox">Keep me logged in</label>
+        </span>
+
+        <input type="submit" value="Register!" class="push-btn fbtn center">
+    </form>
+
+    <br>
+
+    <div class="redirect">
+        <div class="center">Already a member?</div>
+        <button onclick="window.location.href='/login'" class="push-btn fbtn">Login now!</button>
+    </div>
 {% endblock %}

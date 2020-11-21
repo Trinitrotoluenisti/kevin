@@ -1,6 +1,6 @@
 main {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 #header {
@@ -36,11 +36,11 @@ textarea:focus {
 }
 
 .center {
-	align-self: center;
+    align-self: center;
 }
 
 .cbox {
-	margin: 10px;
+    margin: 10px;
 }
 
 .option-label {

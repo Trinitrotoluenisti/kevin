@@ -13,6 +13,7 @@ main {
     margin: 10vh 2vh 20vh 2vh;
 }
 
+
 /* Navbar */
 .logo {
     height: 5vh;
@@ -28,6 +29,10 @@ main {
 
 .menu:hover, .navbtn:hover {
     background-color: #3B8AC4;
+}
+
+.logged_buttons, .unlogged_buttons {
+    display: none;
 }
 
 

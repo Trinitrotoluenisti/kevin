@@ -1,11 +1,11 @@
 #user {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	margin: 4vh 20% 4vh 20%;
-	border-bottom: 1px solid #bdbdbd;
-	padding-bottom: 6vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 4vh 20% 4vh 20%;
+    border-bottom: 1px solid #bdbdbd;
+    padding-bottom: 6vh;
 }
 
 #propic {
@@ -16,38 +16,38 @@
 }
 
 #infos {
-	display: flex;
-	flex-direction: column;
-	min-width: 20vw;
+    display: flex;
+    flex-direction: column;
+    min-width: 20vw;
 }
 
 #username {
-	display: inline-flex;
-	align-items: center;
+    display: inline-flex;
+    align-items: center;
 }
 
 #username-text {
-	font-size: 2em;
+    font-size: 2em;
     margin-right: 0.5vw;
 }
 
 .username-flag {
-	height: min-content;
-	border-radius: 3px;
-	padding: 5px 8px 5px 8px;
-	color: white;
+    height: min-content;
+    border-radius: 3px;
+    padding: 5px 8px 5px 8px;
+    color: white;
 }
 
 #mod {
-	background-color: #e38d30;
+    background-color: #e38d30;
 }
 
 #admin {
-	background-color: #0499cf;
+    background-color: #0499cf;
 }
 
 #dev {
-	background-color: #DF6E00;
+    background-color: #DF6E00;
 }
 
 #num-info {

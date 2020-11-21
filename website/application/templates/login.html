@@ -3,23 +3,28 @@
 
 
 {% block css %}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/login.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/login.css') }}" >
 {% endblock %}
 
 {% block content %}
-	<h1 id="title">Login</h1>
-	<form method="POST" action="/login">
-		<input type="text" name="username" placeholder="Username" required>
-		<input type="password" name="password" placeholder="Password" required>
-		<span class="center cbox">
-			<input type="checkbox" name="keep_logged" id="checkbox">
-			<label for="checkbox">Keep me logged in</label>
-		</span>
-		<input type="submit" value="Login!" class="push-btn center">
-	</form>
-	<br>
-	<div class="redirect">
-		<div class="center">Not a member?</div>
-		<button onclick="window.location.href='/register'" class="push-btn">Register now!</button>
-	</div>
+    <h1 id="title">Login</h1>
+
+    <form method="POST" action="/login">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+
+        <span class="center cbox">
+            <input type="checkbox" name="keep_logged" id="checkbox">
+            <label for="checkbox">Keep me logged in</label>
+        </span>
+        
+        <input type="submit" value="Login!" class="push-btn center">
+    </form>
+
+    <br>
+
+    <div class="redirect">
+        <div class="center">Not a member?</div>
+        <button onclick="window.location.href='/register'" class="push-btn">Register now!</button>
+    </div>
 {% endblock %}

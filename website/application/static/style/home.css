@@ -3,44 +3,44 @@ main {
     justify-content: center;
 }
 
-/* Post */
 
+/* Post */
 .post-container {
-	max-width: 100%;
-	background-color: #ddeced;
-	border-radius: 8px;
+    max-width: 100%;
+    background-color: #ddeced;
+    border-radius: 8px;
     padding: 1vw;
-	text-align: justify;
+    text-align: justify;
 }
 
 .post-section {
-	line-height: 1.4;
+    line-height: 1.4;
 }
 
 #post-title {
-	color: #0499cf;
-	font-family: 'Lato', sans-serif;
-	font-size: 1.5em;
+    color: #0499cf;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.5em;
 }
 
 #post-body {
-	margin-top: 1.5vh;
-	font-family: 'Lato', sans-serif;
-	font-size: 1.25em;
+    margin-top: 1.5vh;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.25em;
 }
 
 #post-author {
-	margin-top: 0.5vh;
-	font-size: 1em;
-	font-style: italic;
-	color: gray;
+    margin-top: 0.5vh;
+    font-size: 1em;
+    font-style: italic;
+    color: gray;
 }
 
 .link {
-	text-decoration: none;
-	color: gray;
+    text-decoration: none;
+    color: gray;
 }
 
 .link:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }

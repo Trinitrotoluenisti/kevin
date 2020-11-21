@@ -10,7 +10,7 @@ class APIError(Exception):
 
     def __init__(self, id, error, description, status):
         """
-        Initialize a new APIError.
+        Initializes a new APIError.
 
         - id (int): the unique id for that error
         - error (str): a short title
@@ -26,18 +26,18 @@ class APIError(Exception):
 
     def json(self):
         """
-        Return the error as a dictionary
+        Returns the error as a dictionary.
         """
 
         return {"error": self.error, "description": self.description, "id": self.id, "status": self.status}
 
 
-# Load APIErrors from errors.json
+# Loads APIErrors from errors.json
 with open('errors.json') as f:
     APIErrors = dict(map(lambda e: (e['id'], APIError(**e)), load(f).values()))
 
 
-# Register them
+# Registers them
 handle_apierror = lambda e: (e.json(), e.status)
 app.errorhandler(APIError)(handle_apierror)
 app.errorhandler(404)(lambda *args: handle_apierror(APIErrors[100]))

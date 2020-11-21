@@ -1,17 +1,23 @@
-from . import app, tokens_age
-from .api import api, check_token, APIError
-from flask import render_template, request, make_response, redirect
+from flask import render_template as flask_render_template, request, make_response, redirect
+
+from . import app
+from .api import api, get_credentials, APIError
 
 
-# Others
-app.errorhandler(404)(lambda *args: (render_template('/404.html', username=check_token()[1]), 404))
+
+# Error handlers
+app.errorhandler(404)(lambda *args: (render_template('404.html'), 404))
 app.errorhandler(405)(lambda *args: (redirect('/'), 405))
+
+
+def render_template(filename, *args, **kwargs):
+    return flask_render_template(filename, *args, **kwargs, username=get_credentials()[1])
 
 
 # Home
 @app.route('/')
 def home():
-    return render_template('home.html', username=check_token()[1])
+    return render_template('home.html')
 
 
 # Login / Register / Logout
@@ -33,7 +39,7 @@ def login():
 
         # set access token's cookie
         response = make_response(redirect("/", code=302))
-        response.set_cookie('accessToken', r["accessToken"], max_age=tokens_age)
+        response.set_cookie('accessToken', r["accessToken"], max_age=2700)
 
         # If "keep me logged in" was enabled, set the refresh token's expiration
         # for one month, otherwise it will expire once the session is closed
@@ -69,7 +75,7 @@ def register():
 
         # set access token's cookie
         response = make_response(redirect("/", code=302))
-        response.set_cookie('accessToken', r["accessToken"], max_age=tokens_age)
+        response.set_cookie('accessToken', r["accessToken"], max_age=2700)
 
         # If "keep me logged in" was enabled, set the refresh token's expiration
         # for one month, otherwise it will expire once the session is closed
@@ -110,7 +116,7 @@ def logout():
 # User
 @app.route('/users/<string:username>')
 def view_user(username=''):
-    accessToken, logged_username, response = check_token(required=False)
+    accessToken, logged_username, response = get_credentials()
 
     # Fetch the user from the api
     if accessToken:
@@ -119,25 +125,25 @@ def view_user(username=''):
         user = api("get", "/users/" + username)
 
     # Create and return the response
-    response.data = render_template('/user.html', username=logged_username, user=user, owner=(username == logged_username))
+    response.data = render_template('/user.html', user=user, owner=(username == logged_username))
     return response
 
 # Posts
 @app.route('/post')
 def view_post():
-    return render_template('post.html', username=check_token()[1])
+    return render_template('home.html')
 
 @app.route('/create-post')
 def create_post():
     if request.method == 'GET':
         # Check if the client is logged in
-        accessToken, username, response = check_token()
+        accessToken, username, response = get_credentials()
 
         # (if tokens are not valid redirect to the index page and delete them)
         if not accessToken:
             return response
 
-        response.data = render_template('create_post.html', username=username)
+        response.data = render_template('create_post.html')
 
         # Return create_post.html
         return response
@@ -148,13 +154,13 @@ def create_post():
 @app.route('/user/settings')
 def settings():
     # Check if the client is logged in
-    accessToken, username, response = check_token()
+    accessToken, username, response = get_credentials()
 
     # (if tokens are not valid redirect to the index page and delete them)
     if not accessToken:
         return response
 
-    response.data = render_template('settings.html', username=username)
+    response.data = render_template('settings.html')
 
     # Return settings.html
     return response
@@ -162,7 +168,7 @@ def settings():
 @app.route('/user/settings/change-pw', methods=['POST'])
 def change_pw():
     # Check if the client is logged in
-    accessToken, username, response = check_token()
+    accessToken, username, response = get_credentials()
 
     # (if tokens are not valid redirect to the index page and delete them)
     if not accessToken:
@@ -177,16 +183,16 @@ def change_pw():
     try:
         api('post', '/login', data={'username': username, 'password': oldPassword})
     except APIError:
-        return render_template("settings.html", alert='Wrong old password', username=username), 400
+        return render_template("settings.html", alert='Wrong old password'), 400
 
     api('put', f'/users/{username}/password', data={'value': newPassword}, auth=accessToken)
 
-    return render_template("settings.html", username=username)
+    return render_template("settings.html")
 
 @app.route('/user/settings/edit-profile', methods=['GET', 'POST'])
 def edit_profile():
     # Check if the client is logged in
-    accessToken, username, response = check_token()
+    accessToken, username, response = get_credentials()
 
     # (if tokens are not valid redirect to the index page and delete them)
     if not accessToken:
@@ -195,7 +201,7 @@ def edit_profile():
     if request.method == 'GET':
         user = api('get', '/users/' + username, auth=accessToken)
 
-        response.data = render_template('edit_profile.html', username=username, user=user)
+        response.data = render_template('edit_profile.html', user=user)
 
         # Return edit_profile.html
         return response
@@ -221,7 +227,7 @@ def edit_profile():
 @app.route('/admin')
 def admin():
     # Check if the client is logged in
-    accessToken, username, response = check_token()
+    accessToken, username, response = get_credentials()
 
     # (if tokens are not valid redirect to the index page and delete them)
     if not accessToken:
@@ -230,6 +236,6 @@ def admin():
     user = api("get", f"/users/{username}", auth=accessToken)
 
     if user["perms"] >= 2:
-        return render_template('admin/admin.html', username=username, user=user)
+        return render_template('admin/admin.html', user=user)
     else:
-        return render_template('/home.html', username=username), 403
+        return render_template('/home.html'), 403

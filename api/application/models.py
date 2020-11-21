@@ -199,7 +199,7 @@ class Like(db.Model):
 
     def json(self):
         """
-        Return the like as a dict.
+        Returns the like as a dict.
         """
 
         return {"value": self.value, "userId": self.user_id, "postId": self.post_id}

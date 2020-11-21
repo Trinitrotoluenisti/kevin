@@ -10,7 +10,7 @@ from .models import RevokedTokens
 def check_if_token_in_blacklist(token):
     """
     Returns true if the token has been revoked
-    
+
     - token (dict): the decripted token
     """
 
@@ -22,6 +22,8 @@ def get_from_body(parameters):
 
     - parameters (dict): a dict whose keys are fields' names and the values are
                          the codes of the errors to be raised if that field is not found
+
+    It returns a list.
     """
 
     # Fetches the request's body
